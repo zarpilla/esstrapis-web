@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Hores anuals</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: report layout helpers (shared by all A-Informe-* pages) */
+.report-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; color: var(--a-muted); font-size: 13px; }
+.filter b { font-weight: 800; }
+.btn-link { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: var(--a-accent); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+/* collapsible group rows in report tables */
+table.table tr.group td:first-child { white-space: nowrap; }
+table.table tr.group .gt { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 0; font: inherit; font-weight: 800; color: var(--a-fg); cursor: pointer; }
+table.table tr.group .gt svg { width: 16px; height: 16px; color: var(--a-muted); }
+table.table tr.group .gt[aria-expanded="false"] svg { transform: rotate(-90deg); }
+table.table tr.group .count { font-weight: 600; color: var(--a-muted); margin-left: 4px; }
+table.table tr.more td { color: var(--a-muted); font-size: 13px; }
+table.table td.indent { padding-left: 40px; }
+table.table th.num, table.table td.num { text-align: right; }
+.hb { min-width: 180px; display: flex; flex-direction: column; gap: 5px; }
+.hb .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; white-space: nowrap; }
+.hb .top b { font-weight: 800; }
+.hb .top span { color: var(--a-muted); font-size: 13px; }
+.hb .top span.over { color: var(--a-over); font-weight: 700; }
+table.table td .of { display: block; color: var(--a-muted); font-size: 12.5px; font-weight: 600; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.calc { display: grid; grid-template-columns: minmax(0,1fr) auto auto; gap: 10px 24px; margin: 0; align-items: baseline; font-variant-numeric: tabular-nums; }
+.calc dt { color: var(--a-fg-2); }
+.calc dd { margin: 0; text-align: right; font-weight: 700; white-space: nowrap; }
+.calc .rule { grid-column: 1 / -1; border-top: 1px solid var(--a-line); }
+.calc .strong { font-weight: 800; color: var(--a-fg); }
+</style>
+</head>
+<body>
+<!-- Proposal A · Hores anuals. Static mockup; figures are real values from the anonymized demo database (projectes_v5_manual). -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="true"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="nav-sub">
+          <a class="nav-item" href="A-Informe-Projectes.html">Panell de projectes</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-grafic.html">Dedicació (gràfic)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-taula.html">Dedicació (taula)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-real.html">% Dedicació real</a>
+          <a class="nav-item" href="A-Informe-Previsio-dedicacio.html">Previsió dedicació</a>
+          <a class="nav-item" href="A-Informe-Prev-real.html">Prev./Real dedicació</a>
+          <a class="nav-item" href="A-Informe-Ingressos-despeses.html">Ingressos/Despeses</a>
+          <a class="nav-item" href="A-Informe-Preu-hora.html">Preu hora</a>
+          <a class="nav-item" href="A-Informe-Previsio-economica.html">Previsió econòmica</a>
+          <a class="nav-item" href="A-Informe-Estrategies.html">Estratègies</a>
+          <a class="nav-item" href="A-Informe-Intercooperacio.html">Intercooperació</a>
+          <a class="nav-item" href="A-Informe-Saldo-hores.html">Saldo hores</a>
+          <a class="nav-item is-active" aria-current="page" href="A-Informe-Hores-anuals.html">Hores anuals</a>
+          <a class="nav-item" href="A-Justificacions.html">Justificacions</a>
+          <a class="nav-item" href="A-Subvencions.html">Subvencions</a>
+        </div>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="#">Informes</a><span aria-hidden="true">/</span><span>Hores anuals</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Hores anuals</h1>
+        <div class="sub">Resum anual d'una persona: jornada, festius, vacances i lliure elecció, i el saldo respecte del conveni.</div>
+      </div>
+      <div class="actions"><button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exporta .ods</button></div>
+    </header>
+    <div class="toolbar">
+      <button type="button" class="filter"><span>Persona</span><b>Marc Serra</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div style="display:inline-flex;align-items:center;gap:4px"><button type="button" class="btn btn-icon btn-sm" aria-label="Any anterior"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><b style="min-width:56px;text-align:center;font-size:15px">2025</b><button type="button" class="btn btn-icon btn-sm" aria-label="Any següent"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
+    </div>
+    <div class="notice danger"><span><b>Lliure elecció: 6 dies gastats d'1 disponible.</b> Revisa'n el registre a Persones o el màxim d'aquest any a Taules auxiliars.</span><a href="#">Revisa els dies</a></div>
+    <section class="kpis" aria-label="Resum">
+      <div class="kpi"><span class="label">Saldo anual</span><span class="value neg">−8,00&nbsp;h</span><span class="foot">laborables − màxim del conveni (−1 dia)</span></div>
+      <div class="kpi"><span class="label">Hores laborables</span><span class="value">1.752,00&nbsp;h</span><span class="foot">219 dies</span></div>
+      <div class="kpi"><span class="label">Màxim del conveni</span><span class="value">1.760,00&nbsp;h</span><span class="foot">220 dies</span></div>
+      <div class="kpi"><span class="label">Jornada</span><span class="value">8,00&nbsp;h/dia</span><span class="foot">100,0&nbsp;% d'una jornada completa</span></div>
+    </section>
+    <div class="cols">
+      <section class="card wide">
+        <div class="card-head"><h2>Festius, vacances i lliure elecció</h2><span class="sub">dies gastats / màxim</span></div>
+        <div class="table-wrap"><table class="table">
+          <thead><tr><th>Tipus</th><th class="num">Dies</th><th><span class="sr-only">Ús</span></th><th class="num">Hores</th><th>Estat</th></tr></thead>
+          <tbody><tr><td><b>Festiu Estatal</b></td><td class="num">8 <span class="muted">/ 8</span></td><td style="min-width:140px"><div class="bar" aria-hidden="true"><span class="" style="width:100%"></span></div></td><td class="num">64,00&nbsp;h</td><td><span class="tag">Complet</span></td></tr><tr><td><b>Festiu Catalunya</b></td><td class="num">4 <span class="muted">/ 4</span></td><td style="min-width:140px"><div class="bar" aria-hidden="true"><span class="" style="width:100%"></span></div></td><td class="num">32,00&nbsp;h</td><td><span class="tag">Complet</span></td></tr><tr><td><b>Festiu Local</b></td><td class="num">2 <span class="muted">/ 2</span></td><td style="min-width:140px"><div class="bar" aria-hidden="true"><span class="" style="width:100%"></span></div></td><td class="num">16,00&nbsp;h</td><td><span class="tag">Complet</span></td></tr><tr><td><b>Vacances</b></td><td class="num">16 <span class="muted">/ 23</span></td><td style="min-width:140px"><div class="bar" aria-hidden="true"><span class="" style="width:70%"></span></div></td><td class="num">128,00&nbsp;h</td><td><span class="tag ok">Queden 7 dies</span></td></tr><tr><td><b>Lliure Elecció</b></td><td class="num">6 <span class="muted">/ 1</span></td><td style="min-width:140px"><div class="bar" aria-hidden="true"><span class="over" style="width:100%"></span></div></td><td class="num">48,00&nbsp;h</td><td><span class="tag bad">↑ 5 dies per sobre del màxim</span></td></tr><tr><td><b>Vacances any anterior</b></td><td class="num">0</td><td></td><td class="num">0,00&nbsp;h</td><td><span class="muted">sense màxim</span></td></tr></tbody>
+        </table></div>
+        <div class="card-foot"><span>Any tancat: tots els dies ja són gastats. En l'any en curs s'hi afegeix la columna «Gastats a avui».</span></div>
+      </section>
+      <div class="narrow">
+        <section class="card">
+          <div class="card-head"><h2>Com es calcula</h2></div>
+          <div class="card-pad">
+            <dl class="calc">
+              <dt>Dies feiners amb jornada</dt><dd>226 dies</dd><dd>1.808,00&nbsp;h</dd>
+              <dt>− Vacances que falten per gastar (23 − 16)</dt><dd>−7 dies</dd><dd>−56,00&nbsp;h</dd>
+              <dt class="strong">Laborables</dt><dd class="strong">219 dies</dd><dd class="strong">1.752,00&nbsp;h</dd>
+              <dt>− Màxim del conveni</dt><dd>220 dies</dd><dd>1.760,00&nbsp;h</dd>
+              <span class="rule"></span>
+              <dt class="strong">Saldo anual</dt><dd class="strong neg">−1 dia</dd><dd class="strong neg">−8,00&nbsp;h</dd>
+              <span class="rule"></span>
+              <dt>Hores treballades (registrades)</dt><dd>235 dies</dd><dd>1.876,00&nbsp;h</dd>
+            </dl>
+          </div>
+        </section>
+      </div>
+    </div>
+    <section class="card">
+      <div class="card-head"><h2>Dies de vacances i lliure elecció</h2><div class="legend" style="display:flex;gap:12px"><span class="tag accent">Vacances</span><span class="tag warn">Lliure elecció</span></div></div>
+      <div class="table-wrap"><table class="table compact">
+        <thead><tr><th>Mes</th><th>Dies</th><th class="num">Vacances</th><th class="num">Lliure elecció</th></tr></thead>
+        <tbody><tr><td><b>Gener</b></td><td><div class="tags"><span class="tag warn">02</span><span class="tag warn">03</span></div></td><td class="num">0</td><td class="num">2</td></tr><tr><td><b>Març</b></td><td><div class="tags"><span class="tag warn">20</span><span class="tag warn">21</span><span class="tag warn">24</span></div></td><td class="num">0</td><td class="num">3</td></tr><tr><td><b>Abril</b></td><td><div class="tags"><span class="tag warn">17</span><span class="tag accent">22</span></div></td><td class="num">1</td><td class="num">1</td></tr><tr><td><b>Agost</b></td><td><div class="tags"><span class="tag accent">04</span><span class="tag accent">05</span><span class="tag accent">06</span><span class="tag accent">07</span><span class="tag accent">08</span><span class="tag accent">11</span><span class="tag accent">12</span><span class="tag accent">13</span><span class="tag accent">14</span><span class="tag accent">18</span><span class="tag accent">19</span><span class="tag accent">20</span><span class="tag accent">21</span><span class="tag accent">22</span></div></td><td class="num">14</td><td class="num">0</td></tr><tr><td><b>Octubre</b></td><td><div class="tags"><span class="tag accent">27</span></div></td><td class="num">1</td><td class="num">0</td></tr></tbody>
+        <tfoot><tr><td>Total 2025</td><td></td><td class="num">16</td><td class="num">6</td></tr></tfoot>
+      </table></div>
+    </section>
+    <div class="notice info"><span>Aquí el balanç es fa amb el màxim d'hores del conveni. El saldo dia a dia entre hores registrades i jornada (+68,00&nbsp;h el 2025) és a <a href="A-Informe-Saldo-hores.html">Saldo hores</a>.</span></div>
+  </main>
+</div>
+</body>
+</html>

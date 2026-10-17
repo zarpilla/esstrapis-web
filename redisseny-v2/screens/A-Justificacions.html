@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Justificacions</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* page-specific: dense month pivot */
+table.table.pivot { font-size: 13px; }
+table.table.pivot td, table.table.pivot th { padding-left: 8px; padding-right: 8px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="true"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="nav-sub">
+          <a class="nav-item" href="A-Informe-Projectes.html">Panell de projectes</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-grafic.html">Dedicació (gràfic)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-taula.html">Dedicació (taula)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-real.html">% Dedicació real</a>
+          <a class="nav-item" href="A-Informe-Previsio-dedicacio.html">Previsió dedicació</a>
+          <a class="nav-item" href="A-Informe-Prev-real.html">Prev./Real dedicació</a>
+          <a class="nav-item" href="A-Informe-Ingressos-despeses.html">Ingressos/Despeses</a>
+          <a class="nav-item" href="A-Informe-Preu-hora.html">Preu hora</a>
+          <a class="nav-item" href="A-Informe-Previsio-economica.html">Previsió econòmica</a>
+          <a class="nav-item" href="A-Informe-Estrategies.html">Estratègies</a>
+          <a class="nav-item" href="A-Informe-Intercooperacio.html">Intercooperació</a>
+          <a class="nav-item" href="A-Informe-Saldo-hores.html">Saldo hores</a>
+          <a class="nav-item" href="A-Informe-Hores-anuals.html">Hores anuals</a>
+          <a class="nav-item is-active" aria-current="page" href="A-Justificacions.html">Justificacions</a>
+          <a class="nav-item" href="A-Subvencions.html">Subvencions</a>
+        </div>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><span>Informes</span><span aria-hidden="true">/</span><span>Justificacions</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Justificacions</h1>
+        <div class="sub">Projectes subvencionables · 2025 · hores reals valorades al cost/hora de cada persona</div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Exporta</button>
+        <a class="btn btn-primary" href="#bestretes"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix bestreta manual</a>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <button type="button" class="filter"><span>Any</span> 2025 <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Estat projecte</span> Actiu <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="seg" role="group" aria-label="Hores"><button type="button">Manuals previstes</button><button type="button">Previstes</button><button type="button" class="is-on" aria-pressed="true">Reals</button></div>
+      <div class="seg" role="group" aria-label="Visualització"><button type="button" class="is-on" aria-pressed="true">Bestretes</button><button type="button">Factures</button></div>
+    </div>
+
+    <section class="kpis" aria-label="Resum">
+      <div class="kpi"><span class="label">Import justificat</span><span class="value num">48.385,20 €</span><span class="foot">2.846,8 h reals en 9 projectes</span></div>
+      <div class="kpi"><span class="label">Import a justificar</span><span class="value zero">—</span><span class="foot">Cap projecte en té per al 2025</span></div>
+      <div class="kpi"><span class="label">Pendent</span><span class="value zero">—</span><span class="foot">Cal l'import a justificar</span></div>
+      <div class="kpi"><span class="label">Projectes</span><span class="value">9 <span class="muted" style="font-size: 16px">de 13</span></span><span class="foot">Actius amb hores el 2025</span></div>
+    </section>
+
+    <div class="notice" role="status">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2zM12 10v4M12 17.5v.5"/></svg>
+      <span><b>Cap dels 9 projectes té import a justificar per al 2025</b>, així que no es pot calcular el pendent ni el percentatge. Es defineix a la fitxa del projecte, a «Subvencions», per a cada any.</span>
+      <a href="A-Subvencions.html">Obre Subvencions</a>
+    </div>
+
+    <section class="card" style="overflow: hidden" aria-labelledby="t-tot">
+      <div class="card-head"><h2 id="t-tot">Totals per projecte</h2><span class="sub">Bestretes · hores reals</span></div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th style="min-width: 240px">Projecte</th><th class="num">Hores</th><th class="num">Import a justificar</th><th class="num sorted">Import justificat</th><th class="num">Pendent</th><th class="num">%</th></tr></thead>
+          <tbody>
+<tr><td><a class="title" href="A-Fitxa.html">Assessorament en educació ambiental Santa Mostra</a></td><td class="num">966,8 h</td><td class="num"><span class="tag warn">Sense import</span></td><td class="num">15.810,39 €</td><td class="num zero">—</td><td class="num zero">—</td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Campanya d'agroecologia Montprova</a></td><td class="num">221,5 h</td><td class="num"><span class="tag warn">Sense import</span></td><td class="num">3.960,66 €</td><td class="num zero">—</td><td class="num zero">—</td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Dinamització de cooperació internacional Sant Fictici de Mar</a></td><td class="num">9,5 h</td><td class="num"><span class="tag warn">Sense import</span></td><td class="num">198,27 €</td><td class="num zero">—</td><td class="num zero">—</td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Dinamització de sobirania alimentària Rocafictícia</a></td><td class="num">11,0 h</td><td class="num"><span class="tag warn">Sense import</span></td><td class="num">207,94 €</td><td class="num zero">—</td><td class="num zero">—</td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Formació en finances ètiques Montprova</a></td><td class="num">138,3 h</td><td class="num"><span class="tag warn">Sense import</span></td><td class="num">2.121,18 €</td><td class="num zero">—</td><td class="num zero">—</td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Jornades de consum responsable Riudemostra</a></td><td class="num">502,4 h</td><td class="num"><span class="tag warn">Sense import</span></td><td class="num">8.840,30 €</td><td class="num zero">—</td><td class="num zero">—</td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Pla de finances ètiques Pobla de Proves</a></td><td class="num">980,3 h</td><td class="num"><span class="tag warn">Sense import</span></td><td class="num">16.950,85 €</td><td class="num zero">—</td><td class="num zero">—</td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Taller d'educació ambiental Les Planes de Mentida</a></td><td class="num">2,0 h</td><td class="num"><span class="tag warn">Sense import</span></td><td class="num">29,60 €</td><td class="num zero">—</td><td class="num zero">—</td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Taller de cooperació internacional Torredemo</a></td><td class="num">15,0 h</td><td class="num"><span class="tag warn">Sense import</span></td><td class="num">266,01 €</td><td class="num zero">—</td><td class="num zero">—</td></tr>          </tbody>
+          <tfoot><tr><td>Total · 9 projectes</td><td class="num">2.846,8 h</td><td class="num zero">—</td><td class="num">48.385,20 €</td><td class="num zero">—</td><td class="num zero">—</td></tr></tfoot>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" style="overflow: hidden" aria-labelledby="t-piv">
+      <div class="card-head">
+        <h2 id="t-piv">Detall mensual · import justificat (€)</h2>
+        <div class="seg sm" role="group" aria-label="Agrupa per"><button type="button" class="is-on" aria-pressed="true">Projecte</button><button type="button">Persona</button><button type="button">Projecte i persona</button></div>
+      </div>
+      <div class="table-wrap">
+        <table class="table compact pivot">
+<thead><tr><th style="min-width: 240px">Projecte</th><th class="num">gen.</th><th class="num">febr.</th><th class="num">març</th><th class="num">abr.</th><th class="num">maig</th><th class="num">juny</th><th class="num">jul.</th><th class="num">ag.</th><th class="num">set.</th><th class="num">oct.</th><th class="num">nov.</th><th class="num">des.</th><th class="num">Total</th></tr></thead>
+<tbody>
+<tr><td><span class="title">Assessorament en educació ambiental Santa Mostra</span></td><td class="num">676,31</td><td class="num">757,02</td><td class="num">1.513,28</td><td class="num">1.442,43</td><td class="num">1.492,52</td><td class="num">2.393,69</td><td class="num">1.654,19</td><td class="num">310,81</td><td class="num">1.420,23</td><td class="num">876,96</td><td class="num">1.787,84</td><td class="num">1.485,12</td><td class="num">15.810,39</td></tr>
+<tr><td><span class="title">Campanya d'agroecologia Montprova</span></td><td class="num">1.972,00</td><td class="num">12,13</td><td class="num">159,25</td><td class="num">196,17</td><td class="num">94,10</td><td class="num">18,78</td><td class="num">80,20</td><td class="num">241,76</td><td class="num">1.067,22</td><td class="num">102,89</td><td class="num">16,17</td><td class="num zero">—</td><td class="num">3.960,66</td></tr>
+<tr><td><span class="title">Dinamització de cooperació internacional Sant Fictici de Mar</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">52,18</td><td class="num">73,05</td><td class="num">73,05</td><td class="num">198,27</td></tr>
+<tr><td><span class="title">Dinamització de sobirania alimentària Rocafictícia</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">207,94</td><td class="num">207,94</td></tr>
+<tr><td><span class="title">Formació en finances ètiques Montprova</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">64,23</td><td class="num zero">—</td><td class="num">48,10</td><td class="num">300,20</td><td class="num zero">—</td><td class="num">344,38</td><td class="num">459,64</td><td class="num">466,76</td><td class="num">437,88</td><td class="num">2.121,18</td></tr>
+<tr><td><span class="title">Jornades de consum responsable Riudemostra</span></td><td class="num">270,69</td><td class="num">110,94</td><td class="num">106,50</td><td class="num">1.085,40</td><td class="num">1.033,16</td><td class="num">617,87</td><td class="num">1.096,64</td><td class="num">107,16</td><td class="num">862,15</td><td class="num">955,22</td><td class="num">1.394,80</td><td class="num">1.199,79</td><td class="num">8.840,30</td></tr>
+<tr><td><span class="title">Pla de finances ètiques Pobla de Proves</span></td><td class="num">915,43</td><td class="num">1.271,42</td><td class="num">1.340,59</td><td class="num">1.498,12</td><td class="num">2.829,82</td><td class="num">1.320,79</td><td class="num">958,79</td><td class="num">104,44</td><td class="num">651,38</td><td class="num">1.635,73</td><td class="num">2.947,37</td><td class="num">1.477,00</td><td class="num">16.950,85</td></tr>
+<tr><td><span class="title">Taller d'educació ambiental Les Planes de Mentida</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num">14,80</td><td class="num">14,80</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">29,60</td></tr>
+<tr><td><span class="title">Taller de cooperació internacional Torredemo</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">143,53</td><td class="num zero">—</td><td class="num">14,80</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">7,40</td><td class="num">40,70</td><td class="num">59,58</td><td class="num">266,01</td></tr>
+</tbody>
+<tfoot><tr><td>Total</td><td class="num">3.834,43</td><td class="num">2.151,51</td><td class="num">3.134,42</td><td class="num">4.444,68</td><td class="num">5.449,60</td><td class="num">4.414,03</td><td class="num">4.090,02</td><td class="num">764,17</td><td class="num">4.345,36</td><td class="num">4.090,02</td><td class="num">6.726,69</td><td class="num">4.940,36</td><td class="num">48.385,20</td></tr></tfoot>        </table>
+      </div>
+    </section>
+
+    <section class="card" id="bestretes" aria-labelledby="t-man">
+      <div class="card-head"><h2 id="t-man">Bestretes manuals</h2><span class="sub">Hores imputades a mà a un projecte, per persona i mes</span></div>
+      <div class="empty" style="padding: 24px">
+        <b>No hi ha bestretes manuals el 2025</b>
+        <span>Afegeix-ne una quan calgui justificar hores que no surten del registre d'hores.</span>
+      </div>
+      <div class="card-pad" style="border-top: 1px solid var(--a-line)">
+        <div class="grid-form" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); align-items: end">
+          <div class="field"><label for="b-any">Any</label><select id="b-any" class="select"><option>2025</option></select></div>
+          <div class="field"><label for="b-mes">Mes</label><select id="b-mes" class="select"><option>Tria un mes</option></select></div>
+          <div class="field"><label for="b-per">Persona</label><input id="b-per" class="input" type="text" placeholder="Escriu el nom…"></div>
+          <div class="field" style="grid-column: span 2"><label for="b-pro">Projecte</label><input id="b-pro" class="input" type="text" placeholder="Escriu el nom del projecte…"></div>
+          <div class="field">
+            <label for="b-q">Quantitat</label>
+            <div class="affix"><input id="b-q" class="input num" type="text" placeholder="0"><select class="select" aria-label="Unitat" style="border: 0; border-left: 1px solid var(--a-input); border-radius: 0; width: 64px"><option>€</option><option>h</option><option>%</option></select></div>
+          </div>
+          <div class="field"><button type="button" class="btn" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix</button></div>
+        </div>
+        <p class="help muted" style="margin: 10px 0 0; font-size: 12px">En hores o en % de la bestreta, es converteix a euros amb el cost/hora o la bestreta de la persona aquell mes.</p>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

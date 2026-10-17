@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Cobraments i pagaments</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+.mov td:first-child { white-space: nowrap; font-weight: 700; }
+.mov .doc { font-weight: 700; white-space: nowrap; }
+.mov .btn svg { width: 16px; height: 16px; }
+.mov tfoot td { border-top: 1px solid var(--a-line); }
+.mov tfoot .lbl { text-align: right; color: var(--a-fg-2); }
+.mov { min-width: 720px; }
+.card.clip { overflow: hidden; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item is-active" aria-current="page" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="A-Llistat.html">Projectes</a><span aria-hidden="true">/</span><span>Fitxa</span></nav>
+    <header class="page-head" style="align-items: flex-start">
+      <div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+          <h1>Assessorament en igualtat de gènere Santa Mostra</h1>
+          <span class="tag" style="font-weight: 800">Tancat</span>
+        </div>
+        <div class="meta">
+          <span><span>Àmbit</span> <b>Lakue</b></span>
+          <span><span>Coordina</span> <b>Laia Serra</b></span>
+          <span><span>Dates</span> <b>1 gen. 2024 – 31 des. 2026</b></span>
+          <span><span>Dedicació</span> <b>H3 aliances, prospecció i capacitats</b></span>
+        </div>
+      </div>
+      <div class="actions"><button type="button" class="btn">Duplica</button><a class="btn btn-primary" href="A-Edicio.html">Edita les dades</a></div>
+    </header>
+
+    <div class="notice" role="status">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><path d="M12 3l10 18H2zM12 10v4M12 17.5v.5"/></svg>
+      <span><b>1 línia no té data</b> (Ingrés · 2024 · Recerca de camp). Surt com a «Sense data» a la previsió, la periodificació i la tresoreria.</span>
+      <a href="A-Fitxa-Pressupost.html#fase-2024">Posa-hi data</a>
+    </div>
+
+    <nav class="tabs" aria-label="Seccions del projecte">
+      <a href="A-Fitxa.html">Resum</a><a href="A-Edicio.html">Dades</a><a href="A-Fitxa-Pressupost.html">Pressupost i fases</a><a href="A-Fitxa-Periodificacio.html">Periodificació</a><a class="is-active" aria-current="page" href="A-Fitxa-Moviments.html">Cobraments i pagaments</a><a href="A-Fitxa-Planificacio.html">Planificació</a><a href="A-Tasques.html">Tasques</a>
+    </nav>
+
+    <section class="kpis" aria-label="Tresoreria del projecte">
+      <div class="kpi"><span class="label">Cobrat</span><span class="value pos">27.697,37 €</span><span class="foot">3 cobraments</span></div>
+      <div class="kpi"><span class="label">Pendent de cobrar</span><span class="value">7.994,45 €</span><span class="foot">4 cobraments esperats, 2 de 0,00 €</span></div>
+      <div class="kpi"><span class="label">Pagat</span><span class="value neg">−11.185,57 €</span><span class="foot">34 pagaments</span></div>
+      <div class="kpi"><span class="label">Pendent de pagar</span><span class="value zero">0,00 €</span><span class="foot">Saldo realitzat: <b class="pos">16.511,80 €</b></span></div>
+    </section>
+
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Tipus">
+        <button type="button" class="is-on" aria-pressed="true">Tots · 41</button>
+        <button type="button">Cobraments · 7</button>
+        <button type="button">Pagaments · 34</button>
+      </div>
+      <div class="seg" role="group" aria-label="Estat">
+        <button type="button" class="is-on" aria-pressed="true">Tots</button>
+        <button type="button">Fets</button>
+        <button type="button">Pendents</button>
+      </div>
+      <button type="button" class="filter"><span>Any</span><b>Tots</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <span class="spacer"></span>
+      <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Exporta</button>
+    </div>
+
+    <section class="card clip">
+      <div class="card-head">
+        <h2>Moviments de cobraments i pagaments</h2>
+        <span class="sub">Un moviment per línia del pressupost d'execució · per data de previsió de pagament</span>
+      </div>
+      <div class="table-wrap">
+        <table class="table compact mov">
+          <thead>
+            <tr><th class="sorted">Data ↑</th><th>Moviment</th><th>Concepte</th><th>Document</th><th class="num">Import</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>05/02/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Sessions formatives</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-017</a></td>
+              <td class="num"><span class="neg">−1.556,86 €</span></td>
+            </tr>
+            <tr>
+              <td>20/02/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Material fungible</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-037</a></td>
+              <td class="num"><span class="neg">−619,88 €</span></td>
+            </tr>
+            <tr>
+              <td>25/02/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Servei de càtering</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-020</a></td>
+              <td class="num"><span class="neg">−163,13 €</span></td>
+            </tr>
+            <tr>
+              <td>12/03/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Impressió</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-049</a></td>
+              <td class="num"><span class="neg">−469,80 €</span></td>
+            </tr>
+            <tr>
+              <td>22/03/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Dinamització</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-096</a></td>
+              <td class="num"><span class="neg">−113,10 €</span></td>
+            </tr>
+            <tr>
+              <td>11/04/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Desplaçaments</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-124</a></td>
+              <td class="num"><span class="neg">−1.555,51 €</span></td>
+            </tr>
+            <tr>
+              <td>15/04/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Assessorament</span><span class="subline">Fase Disseny de materials</span></td>
+              <td><a href="#" class="doc">D 2024-025</a></td>
+              <td class="num"><span class="neg">−217,50 €</span></td>
+            </tr>
+            <tr>
+              <td>15/04/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Comunicació i difusió</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-131</a></td>
+              <td class="num"><span class="neg">−52,20 €</span></td>
+            </tr>
+            <tr>
+              <td>19/04/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Lloguer d'espai</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-127</a></td>
+              <td class="num"><span class="neg">−130,50 €</span></td>
+            </tr>
+            <tr>
+              <td>08/05/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Assessorament</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-159</a></td>
+              <td class="num"><span class="neg">−406,84 €</span></td>
+            </tr>
+            <tr>
+              <td>10/05/2024</td>
+              <td><span class="tag ok">Cobrament</span></td>
+              <td><span class="title">Altres - Lloguer d'espai</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">D 2024-022</a></td>
+              <td class="num"><span class="pos">696,00 €</span></td>
+            </tr>
+            <tr>
+              <td>30/05/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Redacció d'informe</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-157</a></td>
+              <td class="num"><span class="neg">−734,06 €</span></td>
+            </tr>
+            <tr>
+              <td>19/06/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Disseny gràfic</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-205</a></td>
+              <td class="num"><span class="neg">−450,23 €</span></td>
+            </tr>
+            <tr>
+              <td>30/06/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Gestió administrativa</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-190</a></td>
+              <td class="num"><span class="neg">−391,50 €</span></td>
+            </tr>
+            <tr>
+              <td>01/07/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Recerca de camp</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-200</a></td>
+              <td class="num"><span class="neg">−1.575,54 €</span></td>
+            </tr>
+            <tr>
+              <td>11/07/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Disseny de materials</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-236</a></td>
+              <td class="num"><span class="neg">−241,45 €</span></td>
+            </tr>
+            <tr>
+              <td>12/07/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Desplaçaments - Coordinació</span><span class="subline">Fase 2024</span></td>
+              <td><a href="#" class="doc">F 2024-519</a></td>
+              <td class="num"><span class="neg">−53,15 €</span></td>
+            </tr>
+            <tr>
+              <td>30/07/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Coordinació</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-217</a></td>
+              <td class="num"><span class="neg">−81,56 €</span></td>
+            </tr>
+            <tr>
+              <td>02/08/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Desplaçaments - Gestió administrativa</span><span class="subline">Fase 2024</span></td>
+              <td><a href="#" class="doc">F 2024-517</a></td>
+              <td class="num"><span class="neg">−46,09 €</span></td>
+            </tr>
+            <tr>
+              <td>05/08/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Servei de càtering</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-237</a></td>
+              <td class="num"><span class="neg">−87,00 €</span></td>
+            </tr>
+            <tr>
+              <td>06/09/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Quotes - Servei de càtering</span><span class="subline">Fase 2024</span></td>
+              <td><a href="#" class="doc">D 2024-044</a></td>
+              <td class="num"><span class="neg">−17,40 €</span></td>
+            </tr>
+            <tr>
+              <td>09/09/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Sessions formatives</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-246</a></td>
+              <td class="num"><span class="neg">−163,13 €</span></td>
+            </tr>
+            <tr>
+              <td>12/09/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Comunicació i difusió</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-344</a></td>
+              <td class="num"><span class="neg">−108,70 €</span></td>
+            </tr>
+            <tr>
+              <td>03/10/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Dinamització</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-280</a></td>
+              <td class="num"><span class="neg">−81,56 €</span></td>
+            </tr>
+            <tr>
+              <td>21/10/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Quotes - Recerca de camp</span><span class="subline">Fase Disseny de materials</span></td>
+              <td><a href="#" class="doc">F 2024-297</a></td>
+              <td class="num"><span class="neg">−87,00 €</span></td>
+            </tr>
+            <tr>
+              <td>30/10/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Desplaçaments</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-311</a></td>
+              <td class="num"><span class="neg">−195,75 €</span></td>
+            </tr>
+            <tr>
+              <td>30/10/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Lloguer d'espai</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-312</a></td>
+              <td class="num"><span class="neg">−81,56 €</span></td>
+            </tr>
+            <tr>
+              <td>04/11/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Redacció d'informe</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">D 2024-083</a></td>
+              <td class="num"><span class="neg">−59,59 €</span></td>
+            </tr>
+            <tr>
+              <td>16/12/2024</td>
+              <td><span class="tag ok">Cobrament</span></td>
+              <td><span class="title">Subvenció pública - Avaluació</span><span class="subline">Fase Lloguer d'espai</span></td>
+              <td><a href="#" class="doc">D 2024-044</a></td>
+              <td class="num"><span class="pos">22.651,37 €</span></td>
+            </tr>
+            <tr>
+              <td>24/12/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Dietes - Disseny gràfic</span><span class="subline">Fase Sessions formatives</span></td>
+              <td><a href="#" class="doc">F 2024-531</a></td>
+              <td class="num"><span class="neg">−199,35 €</span></td>
+            </tr>
+            <tr>
+              <td>31/12/2024</td>
+              <td><span class="tag warn">Cobrament esperat</span></td>
+              <td><span class="title">Desplaçaments</span><span class="subline">Fase Disseny de materials</span></td>
+              <td><span class="muted">—</span></td>
+              <td class="num"><span class="zero">0,00 €</span></td>
+            </tr>
+            <tr>
+              <td>31/12/2024</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Avaluació</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-125</a> <span class="tag warn" title="L'import del document no coincideix amb el de la línia">imports diferents</span></td>
+              <td class="num"><span class="zero">0,00 €</span></td>
+            </tr>
+            <tr>
+              <td>31/12/2024</td>
+              <td><span class="tag ok">Cobrament</span></td>
+              <td><span class="title">Subvenció pública - Comunicació i difusió</span><span class="subline">Fase Lloguer d'espai</span></td>
+              <td><a href="#" class="doc">D 2024-030</a></td>
+              <td class="num"><span class="pos">4.350,00 €</span></td>
+            </tr>
+            <tr>
+              <td>31/12/2024</td>
+              <td><span class="tag warn">Cobrament esperat</span></td>
+              <td><span class="title">Factura serveis 21% - Impressió</span><span class="subline">Fase Lloguer d'espai</span></td>
+              <td><button type="button" class="btn btn-sm"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg>Assigna document</button></td>
+              <td class="num"><span class="pos">2.331,60 €</span></td>
+            </tr>
+            <tr>
+              <td>24/01/2025</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Material fungible - Avaluació</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-562</a> <span class="tag warn" title="L'import del document no coincideix amb el de la línia">imports diferents</span></td>
+              <td class="num"><span class="neg">−3,09 €</span></td>
+            </tr>
+            <tr>
+              <td>31/01/2025</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Impressió</span><span class="subline">Fase Coordinació</span></td>
+              <td><a href="#" class="doc">F 2024-503</a></td>
+              <td class="num"><span class="neg">−204,23 €</span></td>
+            </tr>
+            <tr>
+              <td>31/01/2025</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Desplaçaments - Material fungible</span><span class="subline">Fase 2024</span></td>
+              <td><a href="#" class="doc">F 2024-505</a></td>
+              <td class="num"><span class="neg">−28,76 €</span></td>
+            </tr>
+            <tr>
+              <td>31/01/2025</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Material fungible - Disseny de materials</span><span class="subline">Fase 2024</span></td>
+              <td><a href="#" class="doc">F 2024-588</a></td>
+              <td class="num"><span class="neg">−764,86 €</span></td>
+            </tr>
+            <tr>
+              <td>31/01/2025</td>
+              <td><span class="tag">Pagament</span></td>
+              <td><span class="title">Serveis Externs 21% - Material fungible</span><span class="subline">Fase Formació</span></td>
+              <td><a href="#" class="doc">F 2024-480</a></td>
+              <td class="num"><span class="neg">−244,69 €</span></td>
+            </tr>
+            <tr>
+              <td>31/12/2026</td>
+              <td><span class="tag warn">Cobrament esperat</span></td>
+              <td><span class="title">Subvenció pública - Redacció d'informe</span><span class="subline">Fase Lloguer d'espai</span></td>
+              <td><button type="button" class="btn btn-sm"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg>Assigna document</button></td>
+              <td class="num"><span class="pos">5.662,85 €</span></td>
+            </tr>
+            <tr>
+              <td><span class="tag bad">Sense data</span></td>
+              <td><span class="tag warn">Cobrament esperat</span></td>
+              <td><span class="title">Recerca de camp</span><span class="subline">Fase 2024</span></td>
+              <td><span class="muted">—</span></td>
+              <td class="num"><span class="zero">0,00 €</span></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="4" class="lbl">Realitzat (cobrat − pagat)</td><td class="num pos">16.511,80 €</td></tr>
+            <tr><td colspan="4" class="lbl">Pendent (cobraments i pagaments esperats)</td><td class="num">+7.994,45 €</td></tr>
+            <tr><td colspan="4" class="lbl">Total previst</td><td class="num pos">24.506,25 €</td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Documents sense assignar</h2>
+        <span class="sub">Factures, ingressos i despeses del projecte que no estan lligats a cap línia</span>
+      </div>
+      <div class="empty">
+        <b>Tots els documents estan assignats</b>
+        <span>Quan n'arribi un de nou, apareixerà aquí amb el botó «Assigna a una línia». També pots canviar el document d'una línia des de <a href="A-Fitxa-Pressupost.html">Pressupost i fases</a>.</span>
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

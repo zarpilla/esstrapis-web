@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Factura rebuda</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: document totals box (base, VAT per rate, IRPF, total) */
+.totals { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 24px; font-variant-numeric: tabular-nums; }
+.totals dt { color: var(--a-fg-2); }
+.totals dt small { color: var(--a-muted); font-size: 12px; margin-left: 4px; }
+.totals dd { margin: 0; text-align: right; font-weight: 700; white-space: nowrap; }
+.totals .sep { grid-column: 1 / -1; border-top: 1px solid var(--a-line); margin: 4px 0; }
+.totals .grand { font-size: 20px; font-weight: 800; color: var(--a-fg); }
+.doc-foot { display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; align-items: flex-start; padding: 18px 20px; border-top: 1px solid var(--a-line); }
+.doc-foot .totals { flex: 0 1 360px; margin-left: auto; }
+/* candidate for a.css: read-only value inside a .field (locked data, instead of a disabled input) */
+.field .value { min-height: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font-weight: 700; }
+.field .value .muted { font-weight: 600; }
+.lock { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--a-muted); }
+/* candidate for a.css: dashed drop zone for attachments */
+.dropzone { border: 2px dashed var(--a-input); border-radius: 10px; padding: 18px; text-align: center; color: var(--a-muted); }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.pair { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pair .input { flex: 1 1 140px; }
+/* candidate for a.css: attached file row */
+.file-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--a-line); border-radius: var(--a-radius); }
+.file-row .name { flex: 1; min-width: 0; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+table.table.editable td.calc { padding-right: 12px; font-weight: 700; }
+table.table td.row-actions { white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item is-active" aria-current="page" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="A-Despeses.html">Despeses</a><span aria-hidden="true">/</span><a href="A-Despeses.html">Factures rebudes</a><span aria-hidden="true">/</span><span>2023-239</span></nav>
+    <header class="page-head">
+      <div>
+        <div class="pair"><h1>Factura rebuda 2023-239</h1><span class="tag ok">Pagada</span></div>
+        <div class="meta">
+          <span><span>Proveïdora</span> <b>Ateneu Teixit</b></span>
+          <span><span>Núm. proveïdora</span> <b>shop/14562 . FRA 061</b></span>
+          <span><span>Emesa</span> <b>01/12/2023</b></span>
+          <span><span>Total</span> <b class="num">24,70 €</b></span>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn" href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12l-8.5 8.5a5 5 0 0 1-7-7L13 5a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L14 8"/></svg>Obre l'adjunt</a>
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M12 11v6M9 14l3 3 3-3"/></svg>PDF</button>
+      </div>
+    </header>
+
+    <div class="cols">
+      <div class="wide stack">
+        <section class="card form-section" aria-labelledby="s-doc">
+          <h2 id="s-doc">Document</h2>
+          <p>Els camps amb * són obligatoris.</p>
+          <div class="grid-form">
+            <div class="field full">
+              <label for="f-prov">Proveïdora *</label>
+              <div class="pair">
+                <input id="f-prov" class="input" type="text" value="Ateneu Teixit" style="flex: 1 1 240px">
+                <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nou contacte</button>
+              </div>
+              <span class="help">G00000383 · Carrer Major, 24 · 08000 Prats de Mostra</span>
+            </div>
+            <div class="field">
+              <label for="f-cin">Número factura proveïdora</label>
+              <input id="f-cin" class="input" type="text" value="shop/14562 . FRA 061" placeholder="Referència de factura de la proveïdora">
+            </div>
+            <div class="field">
+              <label for="f-serie">Sèrie *</label>
+              <select id="f-serie" class="select"><option>2023</option></select>
+            </div>
+            <div class="field">
+              <span class="label">Número</span>
+              <div class="value">2023-239 <button type="button" class="btn btn-sm btn-ghost">Canvia</button></div>
+            </div>
+            <div class="field">
+              <label for="f-em">Emissió *</label>
+              <input id="f-em" class="input" type="text" value="01/12/2023">
+            </div>
+            <div class="field">
+              <label for="f-ven">Venciment</label>
+              <input id="f-ven" class="input" type="text" value="01/12/2023">
+            </div>
+            <div class="field">
+              <label for="f-concept">Concepte del document</label>
+              <input id="f-concept" class="input" type="text" placeholder="Concepte intern del document">
+            </div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="s-lines">
+          <div class="card-head"><h2 id="s-lines">Línies</h2><span class="sub">3 línies · IVA 0 %, 10 % i 21 %</span></div>
+          <div class="table-wrap">
+            <table class="table editable">
+              <thead><tr><th style="min-width: 200px">Concepte</th><th class="num" style="width: 90px">Quantitat</th><th class="num" style="width: 110px">Preu</th><th class="num" style="width: 80px">Dte. %</th><th class="num" style="width: 80px">IVA %</th><th class="num" style="width: 80px">IRPF %</th><th class="num">Import</th><th style="width: 84px" aria-label="Accions"></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><input class="input" type="text" value="Comunicació i difusió" aria-label="Concepte"></td>
+                  <td><input class="input num" type="text" value="1" aria-label="Quantitat"></td>
+                  <td><input class="input num" type="text" value="2,51" aria-label="Preu"></td>
+                  <td><input class="input num" type="text" value="0" aria-label="Descompte %"></td>
+                  <td><input class="input num" type="text" value="21" aria-label="IVA %"></td>
+                  <td><input class="input num" type="text" value="0" aria-label="IRPF %"></td>
+                  <td class="num calc">2,51 €</td>
+                  <td class="row-actions"><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Comentari de la línia"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg></button><button type="button" class="btn btn-sm btn-ghost btn-icon btn-danger" aria-label="Esborra la línia"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg></button></td>
+                </tr>
+                <tr>
+                  <td><input class="input" type="text" value="Impressió" aria-label="Concepte"></td>
+                  <td><input class="input num" type="text" value="1" aria-label="Quantitat"></td>
+                  <td><input class="input num" type="text" value="16,32" aria-label="Preu"></td>
+                  <td><input class="input num" type="text" value="0" aria-label="Descompte %"></td>
+                  <td><input class="input num" type="text" value="10" aria-label="IVA %"></td>
+                  <td><input class="input num" type="text" value="0" aria-label="IRPF %"></td>
+                  <td class="num calc">16,32 €</td>
+                  <td class="row-actions"><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Comentari de la línia"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg></button><button type="button" class="btn btn-sm btn-ghost btn-icon btn-danger" aria-label="Esborra la línia"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg></button></td>
+                </tr>
+                <tr>
+                  <td><input class="input" type="text" value="Avaluació" aria-label="Concepte"></td>
+                  <td><input class="input num" type="text" value="1" aria-label="Quantitat"></td>
+                  <td><input class="input num" type="text" value="3,71" aria-label="Preu"></td>
+                  <td><input class="input num" type="text" value="0" aria-label="Descompte %"></td>
+                  <td><input class="input num" type="text" value="0" aria-label="IVA %"></td>
+                  <td><input class="input num" type="text" value="0" aria-label="IRPF %"></td>
+                  <td class="num calc">3,71 €</td>
+                  <td class="row-actions"><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Comentari de la línia"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg></button><button type="button" class="btn btn-sm btn-ghost btn-icon btn-danger" aria-label="Esborra la línia"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13"/></svg></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="doc-foot">
+            <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix línia</button>
+            <dl class="totals" aria-label="Totals de la factura">
+              <dt>Base imposable</dt><dd>22,54 €</dd>
+              <dt>IVA 0 % <small>sobre 3,71 €</small></dt><dd>0,00 €</dd>
+              <dt>IVA 10 % <small>sobre 16,32 €</small></dt><dd>1,63 €</dd>
+              <dt>IVA 21 % <small>sobre 2,51 €</small></dt><dd>0,53 €</dd>
+              <span class="sep" aria-hidden="true"></span>
+              <dt class="grand">Total</dt><dd class="grand">24,70 €</dd>
+            </dl>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="s-proj">
+          <div class="card-head">
+            <h2 id="s-proj">Assignació a projectes</h2>
+            <span class="tag ok">Tota la base assignada</span>
+          </div>
+          <div class="card-pad">
+            <div class="field">
+              <label for="f-proj">Projectes *</label>
+              <div class="chips">
+                <span class="chip">Diagnosi de transició energètica Torredemo<button type="button" aria-label="Treu el projecte">×</button></span>
+                <input id="f-proj" type="text" placeholder="Afegeix un projecte…" style="flex: 1 1 140px; border: 0; height: 30px; font: inherit; outline: none">
+              </div>
+              <span class="help">Cada import de la factura ha d'anar a una línia de despesa d'una fase. Si no hi és, crea-la o desdobla'n una des d'«Assigna una altra línia».</span>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table compact">
+              <thead><tr><th style="min-width: 190px">Línia de despesa</th><th class="num">Q.</th><th class="num">Preu</th><th class="num">Import</th><th>Prev. fac.</th><th>Prev. pag.</th><th aria-label="Accions"></th></tr></thead>
+              <tbody>
+                <tr><td><span class="title">Avaluació</span><span class="subline">Impressió · Dietes · IVA 10 %</span></td><td class="num">1</td><td class="num">2,51 €</td><td class="num">2,51 €</td><td>01/12/2023</td><td>01/12/2023</td><td><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Desassigna la línia" title="Desassigna"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></td></tr>
+                <tr><td><span class="title">Redacció d'informe</span><span class="subline">Impressió · Dietes · IVA 10 %</span></td><td class="num">1</td><td class="num">16,32 €</td><td class="num">16,32 €</td><td>01/12/2023</td><td>01/12/2023</td><td><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Desassigna la línia" title="Desassigna"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></td></tr>
+                <tr><td><span class="title">Assessorament</span><span class="subline">Impressió · Dietes · IVA 10 %</span></td><td class="num">1</td><td class="num">3,71 €</td><td class="num">3,71 €</td><td>01/12/2023</td><td>01/12/2023</td><td><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Desassigna la línia" title="Desassigna"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></td></tr>
+              </tbody>
+              <tfoot><tr><td colspan="3">Assignat · base de la factura 22,54 €</td><td class="num">22,54 €</td><td colspan="3"></td></tr></tfoot>
+            </table>
+          </div>
+          <div class="card-foot">
+            <a href="#">Mostra totes les despeses del projecte (4 fases · 118 línies)</a>
+            <span class="actions">
+              <button type="button" class="btn btn-sm"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Assigna una altra línia</button>
+            </span>
+          </div>
+        </section>
+      </div>
+
+      <div class="narrow">
+        <section class="card form-section" aria-labelledby="s-pag">
+          <h2 id="s-pag">Pagament</h2>
+          <div class="field">
+            <label class="check" for="f-paid"><input id="f-paid" type="checkbox" checked> <b>Pagada</b></label>
+            <input class="input" type="text" value="01/12/2023" aria-label="Data de pagament">
+          </div>
+          <div class="field">
+            <label for="f-pm">Mètode de pagament</label>
+            <select id="f-pm" class="select"><option>Transferència Cajamar</option></select>
+          </div>
+          <label class="switch" for="f-upd"><input id="f-upd" type="checkbox" role="switch" checked><span><b>Modificable</b><span>Permet canviar-ne les dades.</span></span></label>
+        </section>
+
+        <section class="card card-pad stack" style="gap: 12px" aria-labelledby="s-att">
+          <h2 id="s-att" style="font-size: 16px; font-weight: 800">Adjunts</h2>
+          <div class="file-row">
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5"/></svg>
+            <span class="name">document-148.pdf</span><span class="muted">60 kB</span>
+            <a class="btn btn-sm btn-ghost btn-icon" href="#" aria-label="Obre l'adjunt"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/></svg></a>
+            <button type="button" class="btn btn-sm btn-ghost btn-icon btn-danger" aria-label="Treu l'adjunt"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+          </div>
+          <div class="dropzone">Arrossega més arxius aquí o <a href="#">tria'ls</a></div>
+        </section>
+
+        <section class="card card-pad stack" style="gap: 12px" aria-labelledby="s-notes">
+          <h2 id="s-notes" style="font-size: 16px; font-weight: 800">Notes</h2>
+          <div class="field">
+            <label for="f-com">Notes del document <span class="help">visibles a la factura</span></label>
+            <textarea id="f-com" class="textarea" placeholder="Notes" maxlength="1000"></textarea>
+          </div>
+          <div class="field">
+            <label for="f-int">Notes internes <span class="help">no visibles</span></label>
+            <textarea id="f-int" class="textarea" placeholder="Notes internes" maxlength="1000"></textarea>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="savebar">
+      <span class="muted">Sense canvis</span>
+      <div class="actions">
+        <button type="button" class="btn">Desa i surt</button>
+        <button type="button" class="btn btn-primary">Desa</button>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

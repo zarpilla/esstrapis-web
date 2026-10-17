@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Clau oblidada</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: logged-out pages (login, forgotten and new password) share this shell.
+   Same measures as A-Login.html (which uses inline styles). */
+.auth { min-height: 900px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 72px 16px 32px; font-size: 15px; }
+.auth-main { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 28px; }
+.auth-main.wide { max-width: 848px; }
+.auth-logo { display: flex; justify-content: center; }
+.auth-logo .logo { font-size: 30px; padding: 0; }
+.auth-logo .logo b { padding: 4px 6px 3px; }
+.auth-cards { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; align-items: flex-start; }
+.auth-cards > div { flex: 1 1 340px; max-width: 400px; display: flex; flex-direction: column; gap: 8px; }
+.auth-card { background: var(--a-surface); border: 1px solid var(--a-line); border-radius: var(--a-radius-lg); padding: 32px; display: flex; flex-direction: column; gap: 20px; box-shadow: var(--a-shadow); }
+.auth-card h1 { font-size: 24px; font-weight: 800; }
+.auth-card .lead { margin: 4px 0 0; color: var(--a-muted); }
+.auth-card .input { height: 44px; }
+.auth-card .btn { height: 44px; font-size: 16px; }
+.auth-back { margin: 0; text-align: center; color: var(--a-muted); font-size: 14px; }
+.auth-back a { font-weight: 600; }
+.auth a:not(.btn) { text-decoration: none; }
+.auth-foot { width: 100%; max-width: 720px; display: flex; flex-direction: column; align-items: center; gap: 12px; padding-top: 48px; }
+.auth-foot > span { font-size: 13px; color: var(--a-muted); font-weight: 600; }
+.auth-foot div { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.auth-foot i { width: 120px; height: 40px; border: 1px dashed var(--a-input); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-style: normal; color: var(--a-muted); }
+.sent-icon { width: 48px; height: 48px; border-radius: 50%; background: var(--a-accent-soft); color: var(--a-accent); display: flex; align-items: center; justify-content: center; }
+.sent-icon svg.i { width: 24px; height: 24px; }
+/* mockup only: names the state each card shows */
+.state-cap { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--a-muted); padding-left: 4px; }
+@media (max-width: 720px) { .auth { padding-top: 40px; } .auth-card { padding: 24px 20px; } }
+</style>
+</head>
+<body>
+<div class="auth">
+  <main class="auth-main wide">
+    <div class="auth-logo"><span class="logo"><b>ESS</b><span>TRAPIS</span></span></div>
+    <div class="auth-cards">
+      <div>
+        <span class="state-cap">Abans d'enviar</span>
+        <form class="auth-card">
+          <div>
+            <h1>Recupera la clau de pas</h1>
+            <p class="lead">Escriu el correu amb què entres i t'enviarem un enllaç per triar-ne una de nova.</p>
+          </div>
+          <div class="field">
+            <label for="f-email">Correu electrònic</label>
+            <input id="f-email" class="input" type="email" autocomplete="email" value="persona15@exemple.coop">
+          </div>
+          <button type="submit" class="btn btn-primary">Envia l'enllaç</button>
+        </form>
+        <p class="auth-back"><a href="A-Login.html">← Torna a l'inici de sessió</a></p>
+      </div>
+
+      <div>
+        <span class="state-cap">Correu enviat</span>
+        <section class="auth-card" aria-live="polite">
+          <span class="sent-icon"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v12H3zM3 7l9 6 9-6"/></svg></span>
+          <div>
+            <h1>Revisa el correu</h1>
+            <p class="lead">T'hem enviat un enllaç per canviar la clau de pas a <b style="color: var(--a-fg)">persona15@exemple.coop</b>. Pot trigar uns minuts; si no el veus, mira la carpeta de correu brossa.</p>
+          </div>
+          <a class="btn btn-primary" href="A-Login.html">Torna a l'inici de sessió</a>
+          <p style="margin: 0; color: var(--a-muted); font-size: 14px">No t'ha arribat? <a href="#" style="font-weight: 700">Torna-ho a enviar</a> o <a href="#" style="font-weight: 700">canvia el correu</a>.</p>
+        </section>
+        <span class="state-cap" style="margin-top: 16px">Si falla l'enviament (es mostra sota el formulari)</span>
+        <div class="notice danger" style="font-size: 14px"><span>No hem pogut enviar el correu. Torna-ho a provar d'aquí a una estona o <a href="#">contacta amb l'equip</a>.</span></div>
+      </div>
+    </div>
+  </main>
+  <footer class="auth-foot">
+    <span>Amb el suport de</span>
+    <div><i>[Logo 1]</i><i>[Logo 2]</i><i>[Logo 3]</i></div>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<title>C · Llistat de projectes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B4F}a:hover{color:#164F3A}
+</style>
+</helmet>
+<div style="min-height: 1100px; background: #F6F4EE; color: #1E2321; font-family: 'Figtree', system-ui, sans-serif; font-size: 14px; display: flex; flex-wrap: wrap; align-items: stretch">
+
+  <nav aria-label="Menú principal" style="flex: 0 0 92px; background: #FFFFFF; border-right: 1px solid #E4E0D6; padding: 18px 8px; box-sizing: border-box; display: flex; flex-direction: column; align-items: stretch; gap: 6px">
+    <div style="display: flex; justify-content: center; padding-bottom: 14px">
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 16px; background: #00B89C; color: #FFFFFF; padding: 4px 6px 3px; border-radius: 6px; letter-spacing: 0.02em">ESS</span>
+    </div>
+    <sc-for list="{{rail}}" as="it" hint-placeholder-count="6">
+      <a href="#" style="{{it.style}}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{it.d}}"></path></svg>
+        <span>{{it.label}}</span>
+      </a>
+    </sc-for>
+    <span style="margin-top: auto; align-self: center; width: 40px; height: 40px; border-radius: 50%; background: #E2EFE8; color: #1F6B4F; font-weight: 700; display: flex; align-items: center; justify-content: center">LP</span>
+  </nav>
+
+  <main style="flex: 999 1 560px; min-width: 0; padding: 32px 36px 48px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px">
+    <header style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+      <div>
+        <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 1.05; letter-spacing: -0.02em">Projectes</h1>
+        <p style="margin: 6px 0 0; color: #5E6460; font-size: 16px">76 projectes actius · ordenats per hores fetes</p>
+      </div>
+      <div style="display: flex; gap: 10px">
+        <button type="button" style="height: 44px; padding: 0 16px; border: 1.5px solid #D9D4C7; border-radius: 12px; background: #FFFFFF; font: inherit; font-weight: 600; color: #1E2321">Exporta</button>
+        <button type="button" style="height: 44px; padding: 0 18px; border: 0; border-radius: 12px; background: #1F6B4F; color: #FFFFFF; font: inherit; font-weight: 700">+ Nou projecte</button>
+      </div>
+    </header>
+
+    <section aria-label="Resum" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px">
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px">
+        <span style="color: #5E6460; font-weight: 600">Hores fetes</span>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px">15.848 h <span style="font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 500; color: #5E6460">de 26.613 previstes</span></span>
+        <div style="height: 8px; border-radius: 4px; background: #EEEAE0"><div style="width: 60%; height: 8px; border-radius: 4px; background: #1F6B4F"></div></div>
+      </div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px">
+        <span style="color: #5E6460; font-weight: 600">Resultat executat</span>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px; color: #1F6B4F">+118.104,62 €</span>
+        <span style="color: #5E6460">Previst: +292.276,41 €</span>
+      </div>
+      <div style="background: #FFFFFF; border-radius: 16px; padding: 18px 20px; display: flex; flex-direction: column; gap: 8px">
+        <span style="color: #5E6460; font-weight: 600">Necessiten atenció</span>
+        <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px; color: #8F5410">39 projectes</span>
+        <span style="color: #5E6460">Més hores que les previstes o resultat negatiu</span>
+      </div>
+    </section>
+
+    <section aria-label="Filtres" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+      <input type="search" aria-label="Cerca" placeholder="Cerca un projecte…" style="flex: 1 1 240px; max-width: 320px; height: 44px; box-sizing: border-box; border: 1.5px solid #D9D4C7; border-radius: 12px; padding: 0 14px; font: inherit; background: #FFFFFF">
+      <button type="button" aria-pressed="true" style="height: 40px; padding: 0 16px; border: 0; border-radius: 20px; background: #1E2321; color: #FFFFFF; font: inherit; font-weight: 600">Tots els àmbits</button>
+      <sc-for list="{{scopes}}" as="s" hint-placeholder-count="4">
+        <button type="button" aria-pressed="false" style="height: 40px; padding: 0 14px; border: 1.5px solid #E4E0D6; border-radius: 20px; background: #FFFFFF; font: inherit; font-weight: 600; color: #1E2321; display: flex; align-items: center; gap: 8px"><span style="{{s.dot}}"></span>{{s.name}}</button>
+      </sc-for>
+      <label style="margin-left: auto; display: flex; align-items: center; gap: 8px; font-weight: 600"><input type="checkbox" style="width: 18px; height: 18px; accent-color: #1F6B4F">Només els que coordino</label>
+    </section>
+
+    <section style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px">
+      <sc-for list="{{cards}}" as="c" hint-placeholder-count="9">
+        <a href="#" style="background: #FFFFFF; border: 1px solid #ECE8DE; border-radius: 16px; padding: 18px; display: flex; flex-direction: column; gap: 12px; text-decoration: none; color: #1E2321">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px">
+            <span style="display: flex; align-items: center; gap: 6px; font-weight: 600; color: #4A504C"><span style="{{c.dot}}"></span>{{c.scope}}</span>
+            <span style="color: #5E6460">fins {{c.end}}</span>
+          </div>
+          <h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; line-height: 1.2; min-height: 46px">{{c.name}}</h2>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <div style="display: flex; justify-content: space-between; font-size: 13px"><span style="color: #4A504C">{{c.hLabel}}</span><b style="{{c.pctStyle}}">{{c.pct}}</b></div>
+            <div style="height: 8px; border-radius: 4px; background: #EEEAE0; overflow: hidden"><div style="{{c.bar}}"></div></div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid #F0ECE3">
+            <span style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #4A504C"><span style="width: 26px; height: 26px; border-radius: 50%; background: #F0ECE3; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; color: #1E2321">{{c.ini}}</span>{{c.lead}}</span>
+            <span style="{{c.resStyle}}">{{c.res}}</span>
+          </div>
+        </a>
+      </sc-for>
+    </section>
+    <button type="button" style="align-self: center; height: 44px; padding: 0 22px; border: 1.5px solid #D9D4C7; border-radius: 12px; background: #FFFFFF; font: inherit; font-weight: 600; color: #1E2321">Mostra'n 9 més (de 76)</button>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1100}}'>
+class Component extends DCLogic {
+renderVals() {
+const railItem = (label, d, on) => ({ label, d, style: 'display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 4px; border-radius: 12px; text-decoration: none; font-size: 12px; font-weight: ' + (on ? '700; background: #E2EFE8; color: #1F6B4F' : '600; color: #4A504C') });
+const rail = [
+  railItem('Projectes', 'M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z', true),
+  railItem('Hores', 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2'),
+  railItem('Persones', 'M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5'),
+  railItem('Contactes', 'M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3'),
+  railItem('Diners', 'M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18'),
+  railItem('Informes', 'M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-6')
+];
+const scopeColor = { Iltir: '#2F6FB0', Urtur: '#8A4FB8', Lakue: '#C2601F', Balkar: '#2E8A5C' };
+const dot = (s) => 'width: 10px; height: 10px; border-radius: 50%; background: ' + scopeColor[s];
+const scopes = ['Balkar', 'Urtur', 'Iltir', 'Lakue'].map((name) => ({ name, dot: dot(name) }));
+const fmt = (n, d) => { const neg = n < 0; let [i, f] = Math.abs(n).toFixed(d).split('.'); i = i.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); return (neg ? '−' : '+') + i + (d ? ',' + f : ''); };
+const fmtH = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const data = [
+  ['Formació en emprenedoria col·lectiva', 'Laia Puig', 'Iltir', 2442.5, 624.4, -15354.84, '12/2030'],
+  ['Pla de finances ètiques Pobla de Proves', 'Marc Serra', 'Iltir', 2212.4, 3574.3, 70973.75, '11/2028'],
+  ['Assessorament en educació ambiental Santa Mostra', 'Laia Puig', 'Urtur', 1901.3, 2954.5, 44418.25, '10/2027'],
+  ["Jornades d'habitatge cooperatiu Vilanova de l'Exemple", 'Marc Serra', 'Lakue', 1668.0, 2164.8, -35244.68, '12/2026'],
+  ['Jornades de consum responsable Riudemostra', 'Laia Puig', 'Urtur', 1299.9, 3631.2, 81623.77, '12/2026'],
+  ["Campanya d'habitatge cooperatiu Sant Simulat", 'Pau Puig', 'Lakue', 884.2, 0, -18066.25, '12/2026'],
+  ['Acompanyament en cultura popular Bellmodel', 'Laia Serra', 'Lakue', 464.7, 0, -8516.32, '12/2026'],
+  ['Recerca en sobirania alimentària Riudemostra', 'Marc Serra', 'Lakue', 451.2, 0, -6969.77, '12/2030'],
+  ['Recerca en consum responsable Bellmodel', 'Jordi Puig', 'Balkar', 372.0, 335.4, -6807.54, '12/2026']
+];
+const cards = data.map(([name, lead, scope, h, eh, res, end]) => {
+  const p = eh ? Math.round((h / eh) * 100) : null;
+  const over = p !== null && p > 100;
+  return {
+    name, lead, scope, end, dot: dot(scope),
+    ini: lead.split(' ').map((w) => w[0]).join(''),
+    hLabel: eh ? fmtH(h) + ' h de ' + fmtH(eh) + ' h' : fmtH(h) + ' h · sense previsió',
+    pct: p === null ? '' : p + ' %',
+    pctStyle: 'font-weight: 700; color: ' + (over ? '#8F5410' : '#1E2321'),
+    bar: 'height: 8px; border-radius: 4px; width: ' + (p === null ? 0 : Math.min(100, p)) + '%; background: ' + (over ? '#D08A2E' : '#1F6B4F'),
+    res: fmt(res, 2) + ' €',
+    resStyle: "font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 17px; color: " + (res < 0 ? '#A23A1E' : '#1F6B4F')
+  };
+});
+return { rail, scopes, cards };
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<title>A · Edició de dades del projecte</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#0B7A6C}a:hover{color:#075E53}
+</style>
+</helmet>
+<div style="min-height: 1500px; background: #F5F7F7; color: #1A2426; font-family: 'Nunito', system-ui, sans-serif; font-size: 14px; display: flex; flex-wrap: wrap; align-items: stretch">
+
+  <aside style="flex: 1 1 232px; max-width: 248px; min-width: 220px; background: #FFFFFF; border-right: 1px solid #DFE6E7; padding: 20px 12px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+    <div style="display: flex; align-items: center; font-weight: 800; font-size: 20px; letter-spacing: 0.02em; line-height: 1; padding: 0 8px">
+      <span style="background: #00B89C; color: #FFFFFF; padding: 3px 5px 2px; border-radius: 4px">ESS</span><span style="padding-left: 3px">TRAPIS</span>
+    </div>
+    <nav aria-label="Menú principal" style="display: flex; flex-direction: column; gap: 18px">
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #56676A; padding: 0 10px 6px">Projectes</span>
+        <sc-for list="{{navProj}}" as="it" hint-placeholder-count="6">
+          <a href="#" style="{{it.style}}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{it.d}}"></path></svg>
+            <span>{{it.label}}</span>
+          </a>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #56676A; padding: 0 10px 6px">Diners</span>
+        <sc-for list="{{navDiners}}" as="it" hint-placeholder-count="6">
+          <a href="#" style="{{it.style}}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{it.d}}"></path></svg>
+            <span>{{it.label}}</span>
+          </a>
+        </sc-for>
+      </div>
+      <button type="button" aria-expanded="false" style="display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 36px; padding: 0 10px; border: 0; background: transparent; border-radius: 8px; font: inherit; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #56676A; cursor: pointer">
+        <span>Informes · 12</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+      </button>
+    </nav>
+    <div style="margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 10px; border-top: 1px solid #DFE6E7">
+      <span style="width: 32px; height: 32px; border-radius: 50%; background: #E3F4F1; color: #0B7A6C; font-weight: 800; display: flex; align-items: center; justify-content: center">LP</span>
+      <span style="display: flex; flex-direction: column; line-height: 1.2"><b style="font-weight: 700">Laia Puig</b><span style="color: #56676A; font-size: 12px">Administració</span></span>
+    </div>
+  </aside>
+
+  <main style="flex: 999 1 560px; min-width: 0; padding: 24px 32px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+    <nav aria-label="Ruta" style="display: flex; gap: 8px; color: #56676A; font-weight: 600"><a href="#" style="text-decoration: none">Projectes</a><span aria-hidden="true">/</span><span>Fitxa</span></nav>
+    <header style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+      <h1 style="margin: 0; font-size: 28px; font-weight: 800; line-height: 1.15">Assessorament en igualtat de gènere Santa Mostra</h1>
+      <span style="padding: 3px 10px; border-radius: 999px; background: #EEF2F3; color: #3E4E51; font-weight: 800; font-size: 12px">Tancat</span>
+    </header>
+
+    <nav aria-label="Seccions del projecte" style="display: flex; gap: 4px; border-bottom: 1px solid #DFE6E7; overflow-x: auto">
+      <a href="#" style="padding: 10px 14px; font-weight: 700; color: #3E4E51; text-decoration: none; white-space: nowrap">Resum</a>
+      <a href="#" aria-current="page" style="padding: 10px 14px; font-weight: 800; color: #0B7A6C; text-decoration: none; border-bottom: 3px solid #0B7A6C; white-space: nowrap">Dades · editant</a>
+      <a href="#" style="padding: 10px 14px; font-weight: 700; color: #3E4E51; text-decoration: none; white-space: nowrap">Pressupost i fases</a>
+      <a href="#" style="padding: 10px 14px; font-weight: 700; color: #3E4E51; text-decoration: none; white-space: nowrap">Periodificació</a>
+      <a href="#" style="padding: 10px 14px; font-weight: 700; color: #3E4E51; text-decoration: none; white-space: nowrap">Cobraments i pagaments</a>
+      <a href="#" style="padding: 10px 14px; font-weight: 700; color: #3E4E51; text-decoration: none; white-space: nowrap">Planificació</a>
+      <a href="#" style="padding: 10px 14px; font-weight: 700; color: #3E4E51; text-decoration: none; white-space: nowrap">Tasques</a>
+    </nav>
+
+    <form style="display: flex; flex-direction: column; gap: 16px; max-width: 1040px">
+      <section style="background: #FFFFFF; border: 1px solid #DFE6E7; border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+        <div>
+          <h2 style="margin: 0; font-size: 17px; font-weight: 800">Identificació</h2>
+          <p style="margin: 2px 0 0; color: #56676A">Els camps amb * són obligatoris.</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px 20px">
+          <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px">
+            <label for="a-codi" style="font-weight: 700">Codi *</label>
+            <input id="a-codi" type="text" value="Assessorament en igualtat de gènere Santa Mostra" style="height: 40px; box-sizing: border-box; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 12px; font: inherit; color: #1A2426">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-estat" style="font-weight: 700; display: flex; align-items: center; gap: 6px">Estat * <span style="font-size: 11px; font-weight: 800; color: #0B7A6C; background: #E3F4F1; padding: 1px 6px; border-radius: 4px">modificat</span></label>
+            <select id="a-estat" style="height: 40px; border: 2px solid #0B7A6C; border-radius: 8px; padding: 0 10px; font: inherit; color: #1A2426; background: #FFFFFF"><option>Actiu</option></select>
+            <span style="font-size: 12px; color: #56676A">Abans: Tancat</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-ambit" style="font-weight: 700">Àmbit *</label>
+            <select id="a-ambit" style="height: 40px; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 10px; font: inherit; color: #1A2426; background: #FFFFFF"><option>Lakue</option></select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-coord" style="font-weight: 700">Coordina *</label>
+            <select id="a-coord" style="height: 40px; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 10px; font: inherit; color: #1A2426; background: #FFFFFF"><option>Laia Serra</option></select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-tipus" style="font-weight: 700">Tipus</label>
+            <select id="a-tipus" style="height: 40px; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 10px; font: inherit; color: #56676A; background: #FFFFFF"><option>Tria un tipus</option></select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-inici" style="font-weight: 700">Inici *</label>
+            <input id="a-inici" type="text" value="01/01/2024" style="height: 40px; box-sizing: border-box; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 12px; font: inherit; color: #1A2426">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-final" style="font-weight: 700; display: flex; align-items: center; gap: 6px">Final * <span style="font-size: 11px; font-weight: 800; color: #0B7A6C; background: #E3F4F1; padding: 1px 6px; border-radius: 4px">modificat</span></label>
+            <input id="a-final" type="text" value="30/06/2027" style="height: 40px; box-sizing: border-box; border: 2px solid #0B7A6C; border-radius: 8px; padding: 0 12px; font: inherit; color: #1A2426">
+            <span style="font-size: 12px; color: #56676A">Abans: 31/12/2026</span>
+          </div>
+          <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px">
+            <label for="a-cli" style="font-weight: 700">Clientes</label>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap">
+              <input id="a-cli" type="text" placeholder="Escriu el nom de la clienta…" style="flex: 1 1 280px; height: 40px; box-sizing: border-box; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 12px; font: inherit">
+              <button type="button" style="height: 40px; padding: 0 14px; border: 1px solid #C9D3D4; background: #FFFFFF; border-radius: 8px; font: inherit; font-weight: 700; color: #1A2426">+ Nou contacte</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style="background: #FFFFFF; border: 1px solid #DFE6E7; border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 800">Descripció</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px 20px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-desc" style="font-weight: 700">Descripció</label>
+            <textarea id="a-desc" rows="4" placeholder="Descripció o notes sobre el projecte" style="border: 1px solid #C9D3D4; border-radius: 8px; padding: 10px 12px; font: inherit; resize: vertical"></textarea>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-prop" style="font-weight: 700">Propòsit</label>
+            <textarea id="a-prop" rows="4" placeholder="Propòsit del projecte" style="border: 1px solid #C9D3D4; border-radius: 8px; padding: 10px 12px; font: inherit; resize: vertical"></textarea>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-notes" style="font-weight: 700">Notes internes</label>
+            <textarea id="a-notes" rows="4" placeholder="Només les veu l'equip" style="border: 1px solid #C9D3D4; border-radius: 8px; padding: 10px 12px; font: inherit; resize: vertical"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section style="background: #FFFFFF; border: 1px solid #DFE6E7; border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 16px">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 800">Classificació</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px 20px">
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-terr" style="font-weight: 700">Àmbit territorial</label>
+            <select id="a-terr" style="height: 40px; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 10px; font: inherit; background: #FFFFFF"><option>Comarcal</option></select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-prob" style="font-weight: 700">Probabilitat</label>
+            <select id="a-prob" style="height: 40px; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 10px; font: inherit; background: #FFFFFF"><option>Segura</option></select>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-ded" style="font-weight: 700">Tipus de dedicació</label>
+            <select id="a-ded" style="height: 40px; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 10px; font: inherit; background: #FFFFFF"><option>H3 aliances, prospecció i capacitats</option></select>
+          </div>
+          <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 6px">
+            <label for="a-estr" style="font-weight: 700">Estratègies</label>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 40px; box-sizing: border-box; border: 1px solid #C9D3D4; border-radius: 8px; padding: 4px 8px">
+              <span style="display: inline-flex; align-items: center; gap: 6px; padding: 3px 4px 3px 10px; border-radius: 6px; background: #EEF2F3; font-weight: 700">Optimitzar i nodrir l'enxarxament de la cooperativa<button type="button" aria-label="Treu l'estratègia" style="width: 22px; height: 22px; border: 0; background: transparent; color: #56676A; font: inherit">×</button></span>
+              <input id="a-estr" type="text" placeholder="Afegeix…" style="flex: 1 1 120px; border: 0; height: 30px; font: inherit; outline: none">
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-inter" style="font-weight: 700">Intercooperació</label>
+            <input id="a-inter" type="text" placeholder="Escriu el nom…" style="height: 40px; box-sizing: border-box; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 12px; font: inherit">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-func" style="font-weight: 700">Funcions</label>
+            <input id="a-func" type="text" placeholder="Escriu el nom de la funció…" style="height: 40px; box-sizing: border-box; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 12px; font: inherit">
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px">
+            <label for="a-mare" style="font-weight: 700">Projecte mare</label>
+            <input id="a-mare" type="text" placeholder="Per agrupar projectes interanuals" style="height: 40px; box-sizing: border-box; border: 1px solid #C9D3D4; border-radius: 8px; padding: 0 12px; font: inherit">
+          </div>
+        </div>
+      </section>
+
+      <section style="background: #FFFFFF; border: 1px solid #DFE6E7; border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 4px">
+        <h2 style="margin: 0 0 8px; font-size: 17px; font-weight: 800">Gestió econòmica</h2>
+        <sc-for list="{{toggles}}" as="t" hint-placeholder-count="3">
+          <label style="display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-top: 1px solid #EDF1F2; cursor: pointer">
+            <input type="checkbox" role="switch" checked="{{t.on}}" style="width: 40px; height: 22px; margin: 2px 0 0; accent-color: #0B7A6C">
+            <span style="display: flex; flex-direction: column; gap: 2px"><b style="font-weight: 700">{{t.label}}</b><span style="color: #56676A">{{t.help}}</span></span>
+          </label>
+        </sc-for>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px 0 0 54px; border-top: 1px solid #EDF1F2">
+          <label for="a-ind" style="font-weight: 700">Despesa indirecta</label>
+          <span style="display: flex; align-items: center; border: 1px solid #C9D3D4; border-radius: 8px; overflow: hidden"><input id="a-ind" type="text" value="0" style="width: 72px; height: 38px; border: 0; padding: 0 10px; font: inherit; text-align: right"><span style="padding: 0 10px; color: #56676A; background: #F5F7F7; line-height: 38px">%</span></span>
+        </div>
+      </section>
+
+      <section style="background: #FFFFFF; border: 1px solid #DFE6E7; border-radius: 12px; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 800">Documents</h2>
+        <div style="border: 2px dashed #C9D3D4; border-radius: 10px; padding: 24px; text-align: center; color: #56676A">Arrossega arxius aquí o <a href="#" style="font-weight: 700">tria'ls</a> · p. ex. pressupost total o document de concessió</div>
+      </section>
+    </form>
+
+    <div style="position: sticky; bottom: 0; margin: 4px -32px 0; padding: 14px 32px; background: #FFFFFF; border-top: 1px solid #DFE6E7; box-shadow: 0 -6px 16px rgba(16,32,30,0.06); display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+      <span style="display: flex; align-items: center; gap: 8px; font-weight: 700"><span style="width: 8px; height: 8px; border-radius: 50%; background: #C2561F"></span>2 canvis sense desar</span>
+      <div style="margin-left: auto; display: flex; gap: 8px">
+        <button type="button" style="height: 40px; padding: 0 16px; border: 1px solid #C9D3D4; background: #FFFFFF; border-radius: 8px; font: inherit; font-weight: 700; color: #1A2426">Descarta</button>
+        <button type="button" style="height: 40px; padding: 0 20px; border: 0; background: #0B7A6C; color: #FFFFFF; border-radius: 8px; font: inherit; font-weight: 700">Desa</button>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+renderVals() {
+const item = (label, d, on) => ({ label, d, style: 'display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 10px; border-radius: 8px; text-decoration: none; font-weight: ' + (on ? '800; background: #E3F4F1; color: #0B7A6C' : '600; color: #3E4E51') });
+const navProj = [
+  item('Projectes', 'M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z', true),
+  item('Contactes', 'M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3'),
+  item('Hores dedicades', 'M3 6h18v15H3zM3 10h18M8 3v4M16 3v4'),
+  item('Registre jornades', 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2'),
+  item('Persones', 'M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5'),
+  item('Tasques', 'M4 4h16v16H4zM8 8v6M12 8v3M16 8v8')
+];
+const navDiners = [
+  item('Ingressos', 'M12 3v12M7 10l5 5 5-5M4 21h16'),
+  item('Despeses', 'M12 15V3M7 8l5-5 5 5M4 21h16'),
+  item('Bestretes', 'M3 6h18v14H3zM3 10h18M16 15h2'),
+  item('IVA', 'M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z'),
+  item('Tresoreria', 'M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18'),
+  item('Pressupostos', 'M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5')
+];
+const toggles = [
+  { label: "Projecte d'estructura", help: "Si és un projecte estructural de l'organització.", on: true },
+  { label: "Periodificació d'ingressos i despeses", help: 'Per repartir a mà ingressos i despeses entre anys.', on: true },
+  { label: 'Subvencions', help: "Activa-ho si cal justificar-la: apareixeran l'expedient, els imports i les dates.", on: false }
+];
+return { navProj, navDiners, toggles };
+}
+}
+</script>
+</body>
+</html>

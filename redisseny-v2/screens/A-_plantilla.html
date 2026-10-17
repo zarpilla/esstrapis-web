@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Plantilla</title>
+<link rel="stylesheet" href="../assets/a.css">
+</head>
+<body>
+<!--
+  Template for proposal A screens. Copy this file to A-<Screen>.html and:
+  - set <title> to "A · <screen name>";
+  - mark the current menu item with class="nav-item is-active" (and aria-current="page");
+  - for a report (Informes), open the group: give .nav-toggle aria-expanded="true" and keep .nav-sub visible;
+    otherwise delete the .nav-sub block, as here it is shown open only as a reference;
+  - keep the Administració group only on admin screens (users with the admin permission see it everywhere).
+  Components and tokens: ../assets/a.css. Icons: inline stroke SVG with class="i" (24×24 viewBox).
+-->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="true"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="nav-sub">
+          <a class="nav-item" href="A-Informe-Projectes.html">Panell de projectes</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-grafic.html">Dedicació (gràfic)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-taula.html">Dedicació (taula)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-real.html">% Dedicació real</a>
+          <a class="nav-item" href="A-Informe-Previsio-dedicacio.html">Previsió dedicació</a>
+          <a class="nav-item" href="A-Informe-Prev-real.html">Prev./Real dedicació</a>
+          <a class="nav-item" href="A-Informe-Ingressos-despeses.html">Ingressos/Despeses</a>
+          <a class="nav-item" href="A-Informe-Preu-hora.html">Preu hora</a>
+          <a class="nav-item" href="A-Informe-Previsio-economica.html">Previsió econòmica</a>
+          <a class="nav-item" href="A-Informe-Estrategies.html">Estratègies</a>
+          <a class="nav-item" href="A-Informe-Intercooperacio.html">Intercooperació</a>
+          <a class="nav-item" href="A-Informe-Saldo-hores.html">Saldo hores</a>
+          <a class="nav-item" href="A-Informe-Hores-anuals.html">Hores anuals</a>
+          <a class="nav-item" href="A-Justificacions.html">Justificacions</a>
+          <a class="nav-item" href="A-Subvencions.html">Subvencions</a>
+        </div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Administració</span>
+        <a class="nav-item" href="A-Admin-Configuracio.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>Configuració</a>
+        <a class="nav-item" href="A-Admin-Usuaris.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5"/></svg>Usuaris</a>
+        <a class="nav-item" href="A-Admin-Verifactu.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM9 14l2 2 4-4"/></svg>Verifactu i FACe</a>
+        <a class="nav-item" href="A-Admin-Taules.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 10h18M3 15h18M9 4v16"/></svg>Taules auxiliars</a>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="#">Secció</a><span aria-hidden="true">/</span><span>Pantalla</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Títol de la pantalla</h1>
+        <div class="sub">Una línia de context (recompte, període…)</div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn">Acció secundària</button>
+        <button type="button" class="btn btn-primary">Acció principal</button>
+      </div>
+    </header>
+    <section class="card">
+      <div class="card-head"><h2>Contingut</h2></div>
+      <div class="card-pad">…</div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

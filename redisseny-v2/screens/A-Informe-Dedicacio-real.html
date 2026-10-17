@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · % Dedicació real</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: report layout helpers (shared by all A-Informe-* pages) */
+.report-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; color: var(--a-muted); font-size: 13px; }
+.filter b { font-weight: 800; }
+.btn-link { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: var(--a-accent); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+/* collapsible group rows in report tables */
+table.table tr.group td:first-child { white-space: nowrap; }
+table.table tr.group .gt { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 0; font: inherit; font-weight: 800; color: var(--a-fg); cursor: pointer; }
+table.table tr.group .gt svg { width: 16px; height: 16px; color: var(--a-muted); }
+table.table tr.group .gt[aria-expanded="false"] svg { transform: rotate(-90deg); }
+table.table tr.group .count { font-weight: 600; color: var(--a-muted); margin-left: 4px; }
+table.table tr.more td { color: var(--a-muted); font-size: 13px; }
+table.table td.indent { padding-left: 40px; }
+table.table th.num, table.table td.num { text-align: right; }
+.hb { min-width: 180px; display: flex; flex-direction: column; gap: 5px; }
+.hb .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; white-space: nowrap; }
+.hb .top b { font-weight: 800; }
+.hb .top span { color: var(--a-muted); font-size: 13px; }
+.hb .top span.over { color: var(--a-over); font-weight: 700; }
+table.table td .of { display: block; color: var(--a-muted); font-size: 12.5px; font-weight: 600; }
+
+/* candidate for a.css: occupancy heat table (person x period). Colour classes differ in lightness
+   and add an arrow for the out-of-range states, so the meaning survives without colour. */
+.heat { min-width: 1080px; }
+.heat th, .heat td { font-size: 13px; }
+.heat th:first-child, .heat td:first-child { position: sticky; left: 0; z-index: 1; background: var(--a-surface); border-right: 1px solid var(--a-line); white-space: nowrap; }
+.heat thead th:first-child { background: var(--a-thead); }
+.heat th.c { text-align: center; }
+.heat td.c { text-align: center; padding: 5px 3px; border: 2px solid var(--a-surface); line-height: 1.2; min-width: 64px; }
+.heat td.c b { display: block; font-weight: 800; }
+.heat td.c span { font-size: 12px; font-weight: 700; }
+.heat td.lo { background: #FFF1C9; color: #5C4200; }
+.heat td.mid { background: #D9E8F8; color: #1D4E89; }
+.heat td.ok { background: #BFE5DB; color: #064C43; }
+.heat td.hi { background: #F2B48C; color: #5E2306; }
+.heat td.na { background: repeating-linear-gradient(135deg, #F5F7F7 0 6px, #E6ECED 6px 8px); color: var(--a-fg-2); }
+.heat td.none { color: #A6B3B5; }
+.heat td.is-selected { outline: 3px solid var(--a-fg); outline-offset: -3px; }
+.heat td.t { text-align: right; font-weight: 800; border-left: 1px solid var(--a-line); background: var(--a-thead); white-space: nowrap; }
+.heat-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 13px; color: var(--a-fg-2); }
+.heat-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.heat-legend i { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 18px; border-radius: 4px; font-style: normal; font-size: 11px; font-weight: 800; }
+.heat-legend i.lo { background: #FFF1C9; color: #5C4200; } .heat-legend i.mid { background: #D9E8F8; color: #1D4E89; }
+.heat-legend i.ok { background: #BFE5DB; color: #064C43; } .heat-legend i.hi { background: #F2B48C; color: #5E2306; }
+.heat-legend i.na { background: repeating-linear-gradient(135deg, #F5F7F7 0 4px, #E6ECED 4px 6px); }
+.detail { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px 32px; }
+.detail .dl { align-self: start; }
+.yearnav { display: inline-flex; align-items: center; gap: 4px; }
+.yearnav b { min-width: 56px; text-align: center; font-size: 15px; }
+</style>
+</head>
+<body>
+<!-- Proposal A · % Dedicació real. Static mockup; figures are real values from the anonymized demo database (projectes_v5_manual). -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="true"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="nav-sub">
+          <a class="nav-item" href="A-Informe-Projectes.html">Panell de projectes</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-grafic.html">Dedicació (gràfic)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-taula.html">Dedicació (taula)</a>
+          <a class="nav-item is-active" aria-current="page" href="A-Informe-Dedicacio-real.html">% Dedicació real</a>
+          <a class="nav-item" href="A-Informe-Previsio-dedicacio.html">Previsió dedicació</a>
+          <a class="nav-item" href="A-Informe-Prev-real.html">Prev./Real dedicació</a>
+          <a class="nav-item" href="A-Informe-Ingressos-despeses.html">Ingressos/Despeses</a>
+          <a class="nav-item" href="A-Informe-Preu-hora.html">Preu hora</a>
+          <a class="nav-item" href="A-Informe-Previsio-economica.html">Previsió econòmica</a>
+          <a class="nav-item" href="A-Informe-Estrategies.html">Estratègies</a>
+          <a class="nav-item" href="A-Informe-Intercooperacio.html">Intercooperació</a>
+          <a class="nav-item" href="A-Informe-Saldo-hores.html">Saldo hores</a>
+          <a class="nav-item" href="A-Informe-Hores-anuals.html">Hores anuals</a>
+          <a class="nav-item" href="A-Justificacions.html">Justificacions</a>
+          <a class="nav-item" href="A-Subvencions.html">Subvencions</a>
+        </div>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="#">Informes</a><span aria-hidden="true">/</span><span>% Dedicació real</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>% Dedicació real</h1>
+        <div class="sub">Hores fetes per cada persona i mes, comparades amb la seva jornada.</div>
+      </div>
+      <div class="actions"><button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exporta .ods</button></div>
+    </header>
+    <div class="toolbar">
+      <div class="yearnav"><button type="button" class="btn btn-icon btn-sm" aria-label="Any anterior"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><b>2025</b><button type="button" class="btn btn-icon btn-sm" aria-label="Any següent"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
+      <div class="seg " role="group" aria-label="Vista"><button type="button" class="is-on" aria-pressed="true">Mensual</button><button type="button">Setmanal</button></div>
+      <button type="button" class="filter"><span>Estat projecte</span><b>Tots (7)</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    </div>
+    <section class="card">
+      <div class="card-head"><h2>Hores fetes i ocupació per persona · 2025</h2><span class="sub">13 persones · 15.983,4&nbsp;h</span></div>
+      <div class="card-pad" style="padding-bottom:8px"><div class="heat-legend" aria-label="Llegenda">
+<span><i class="lo">↓</i>Menys del 85&nbsp;%</span><span><i class="mid"></i>Del 85 al 95&nbsp;%</span><span><i class="ok"></i>Del 95 al 105&nbsp;%</span><span><i class="hi">↑</i>Més del 105&nbsp;%</span>
+<span><i class="na"></i>s/j: sense jornada definida</span><span><i style="color:#A6B3B5">—</i>Sense hores</span></div></div>
+      <div class="table-wrap"><table class="table heat">
+<thead><tr><th>Persona</th><th class="c">gen</th><th class="c">febr</th><th class="c">març</th><th class="c">abr</th><th class="c">maig</th><th class="c">juny</th><th class="c">jul</th><th class="c">ag</th><th class="c">set</th><th class="c">oct</th><th class="c">nov</th><th class="c">des</th><th class="num">Total</th></tr></thead>
+<tbody><tr><td><b>Laia Puig</b></td><td class="c hi" title="Laia Puig, gen: 89,2 h de 84,0 h (106 %)"><b>89,2</b><span>↑ 106&nbsp;%</span></td><td class="c hi" title="Laia Puig, febr: 126,8 h de 80,0 h (158 %)"><b>126,8</b><span>↑ 158&nbsp;%</span></td><td class="c hi" title="Laia Puig, març: 143,0 h de 84,0 h (170 %)"><b>143,0</b><span>↑ 170&nbsp;%</span></td><td class="c hi" title="Laia Puig, abr: 132,2 h de 120,0 h (110 %)"><b>132,2</b><span>↑ 110&nbsp;%</span></td><td class="c ok" title="Laia Puig, maig: 128,5 h de 126,0 h (102 %)"><b>128,5</b><span>102&nbsp;%</span></td><td class="c hi" title="Laia Puig, juny: 193,0 h de 120,0 h (161 %)"><b>193,0</b><span>↑ 161&nbsp;%</span></td><td class="c ok" title="Laia Puig, jul: 142,5 h de 138,0 h (103 %)"><b>142,5</b><span>103&nbsp;%</span></td><td class="c lo" title="Laia Puig, ag: 33,0 h de 120,0 h (28 %)"><b>33,0</b><span>↓ 28&nbsp;%</span></td><td class="c hi" title="Laia Puig, set: 146,2 h de 126,0 h (116 %)"><b>146,2</b><span>↑ 116&nbsp;%</span></td><td class="c ok" title="Laia Puig, oct: 143,5 h de 138,0 h (104 %)"><b>143,5</b><span>104&nbsp;%</span></td><td class="c hi" title="Laia Puig, nov: 153,5 h de 120,0 h (128 %)"><b>153,5</b><span>↑ 128&nbsp;%</span></td><td class="c hi" title="Laia Puig, des: 134,0 h de 120,0 h (112 %)"><b>134,0</b><span>↑ 112&nbsp;%</span></td><td class="t">1.565,4&nbsp;h</td></tr><tr><td><b>Pau Puig</b></td><td class="c hi" title="Pau Puig, gen: 238,0 h de 168,0 h (142 %)"><b>238,0</b><span>↑ 142&nbsp;%</span></td><td class="c hi" title="Pau Puig, febr: 216,2 h de 160,0 h (135 %)"><b>216,2</b><span>↑ 135&nbsp;%</span></td><td class="c hi" title="Pau Puig, març: 182,8 h de 168,0 h (109 %)"><b>182,8</b><span>↑ 109&nbsp;%</span></td><td class="c ok" title="Pau Puig, abr: 163,5 h de 160,0 h (102 %)"><b>163,5</b><span>102&nbsp;%</span></td><td class="c hi" title="Pau Puig, maig: 238,0 h de 168,0 h (142 %)"><b>238,0</b><span>↑ 142&nbsp;%</span></td><td class="c hi" title="Pau Puig, juny: 178,5 h de 160,0 h (112 %)"><b>178,5</b><span>↑ 112&nbsp;%</span></td><td class="c lo" title="Pau Puig, jul: 151,5 h de 184,0 h (82 %)"><b>151,5</b><span>↓ 82&nbsp;%</span></td><td class="c lo" title="Pau Puig, ag: 85,2 h de 160,0 h (53 %)"><b>85,2</b><span>↓ 53&nbsp;%</span></td><td class="c none">—</td><td class="c lo" title="Pau Puig, oct: 17,0 h de 184,0 h (9 %)"><b>17,0</b><span>↓ 9&nbsp;%</span></td><td class="c none">—</td><td class="c none">—</td><td class="t">1.470,8&nbsp;h</td></tr><tr><td><b>Núria Puig</b></td><td class="c hi" title="Núria Puig, gen: 225,8 h de 168,0 h (134 %)"><b>225,8</b><span>↑ 134&nbsp;%</span></td><td class="c hi" title="Núria Puig, febr: 222,2 h de 160,0 h (139 %)"><b>222,2</b><span>↑ 139&nbsp;%</span></td><td class="c hi" title="Núria Puig, març: 199,5 h de 168,0 h (119 %)"><b>199,5</b><span>↑ 119&nbsp;%</span></td><td class="c hi" title="Núria Puig, abr: 185,8 h de 160,0 h (116 %)"><b>185,8</b><span>↑ 116&nbsp;%</span></td><td class="c hi" title="Núria Puig, maig: 259,0 h de 168,0 h (154 %)"><b>259,0</b><span>↑ 154&nbsp;%</span></td><td class="c hi" title="Núria Puig, juny: 215,2 h de 160,0 h (135 %)"><b>215,2</b><span>↑ 135&nbsp;%</span></td><td class="c hi" title="Núria Puig, jul: 219,8 h de 184,0 h (119 %)"><b>219,8</b><span>↑ 119&nbsp;%</span></td><td class="c lo" title="Núria Puig, ag: 41,5 h de 160,0 h (26 %)"><b>41,5</b><span>↓ 26&nbsp;%</span></td><td class="c none">—</td><td class="c hi" title="Núria Puig, oct: 300,8 h de 184,0 h (163 %)"><b>300,8</b><span>↑ 163&nbsp;%</span></td><td class="c lo" title="Núria Puig, nov: 113,8 h de 160,0 h (71 %)"><b>113,8</b><span>↓ 71&nbsp;%</span></td><td class="c hi" title="Núria Puig, des: 229,8 h de 160,0 h (144 %)"><b>229,8</b><span>↑ 144&nbsp;%</span></td><td class="t">2.213,0&nbsp;h</td></tr><tr><td><b>Clara Puig</b></td><td class="c hi" title="Clara Puig, gen: 191,5 h de 168,0 h (114 %)"><b>191,5</b><span>↑ 114&nbsp;%</span></td><td class="c hi" title="Clara Puig, febr: 179,5 h de 160,0 h (112 %)"><b>179,5</b><span>↑ 112&nbsp;%</span></td><td class="c mid" title="Clara Puig, març: 149,0 h de 168,0 h (89 %)"><b>149,0</b><span>89&nbsp;%</span></td><td class="c hi" title="Clara Puig, abr: 175,8 h de 160,0 h (110 %)"><b>175,8</b><span>↑ 110&nbsp;%</span></td><td class="c hi" title="Clara Puig, maig: 193,2 h de 168,0 h (115 %)"><b>193,2</b><span>↑ 115&nbsp;%</span></td><td class="c hi" title="Clara Puig, juny: 237,8 h de 160,0 h (149 %)"><b>237,8</b><span>↑ 149&nbsp;%</span></td><td class="c hi" title="Clara Puig, jul: 201,2 h de 184,0 h (109 %)"><b>201,2</b><span>↑ 109&nbsp;%</span></td><td class="c hi" title="Clara Puig, ag: 60,2 h de 56,0 h (108 %)"><b>60,2</b><span>↑ 108&nbsp;%</span></td><td class="c hi is-selected" title="Clara Puig, set: 285,0 h de 168,0 h (170 %)"><b>285,0</b><span>↑ 170&nbsp;%</span></td><td class="c hi" title="Clara Puig, oct: 252,0 h de 184,0 h (137 %)"><b>252,0</b><span>↑ 137&nbsp;%</span></td><td class="c hi" title="Clara Puig, nov: 176,0 h de 160,0 h (110 %)"><b>176,0</b><span>↑ 110&nbsp;%</span></td><td class="c hi" title="Clara Puig, des: 178,0 h de 160,0 h (111 %)"><b>178,0</b><span>↑ 111&nbsp;%</span></td><td class="t">2.279,2&nbsp;h</td></tr><tr><td><b>Aina Puig</b></td><td class="c ok" title="Aina Puig, gen: 154,0 h de 152,0 h (101 %)"><b>154,0</b><span>101&nbsp;%</span></td><td class="c hi" title="Aina Puig, febr: 189,0 h de 160,0 h (118 %)"><b>189,0</b><span>↑ 118&nbsp;%</span></td><td class="c lo" title="Aina Puig, març: 45,0 h de 168,0 h (27 %)"><b>45,0</b><span>↓ 27&nbsp;%</span></td><td class="c lo" title="Aina Puig, abr: 8,0 h de 160,0 h (5 %)"><b>8,0</b><span>↓ 5&nbsp;%</span></td><td class="c lo" title="Aina Puig, maig: 14,0 h de 168,0 h (8 %)"><b>14,0</b><span>↓ 8&nbsp;%</span></td><td class="c lo" title="Aina Puig, juny: 3,0 h de 160,0 h (2 %)"><b>3,0</b><span>↓ 2&nbsp;%</span></td><td class="c lo" title="Aina Puig, jul: 10,0 h de 184,0 h (5 %)"><b>10,0</b><span>↓ 5&nbsp;%</span></td><td class="c lo" title="Aina Puig, ag: 30,0 h de 160,0 h (19 %)"><b>30,0</b><span>↓ 19&nbsp;%</span></td><td class="c lo" title="Aina Puig, set: 8,0 h de 168,0 h (5 %)"><b>8,0</b><span>↓ 5&nbsp;%</span></td><td class="c lo" title="Aina Puig, oct: 7,0 h de 184,0 h (4 %)"><b>7,0</b><span>↓ 4&nbsp;%</span></td><td class="c none">—</td><td class="c none">—</td><td class="t">468,0&nbsp;h</td></tr><tr><td><b>Marc Serra</b></td><td class="c ok" title="Marc Serra, gen: 153,8 h de 152,0 h (101 %)"><b>153,8</b><span>101&nbsp;%</span></td><td class="c hi" title="Marc Serra, febr: 186,5 h de 160,0 h (117 %)"><b>186,5</b><span>↑ 117&nbsp;%</span></td><td class="c lo" title="Marc Serra, març: 120,8 h de 144,0 h (84 %)"><b>120,8</b><span>↓ 84&nbsp;%</span></td><td class="c ok" title="Marc Serra, abr: 142,2 h de 144,0 h (99 %)"><b>142,2</b><span>99&nbsp;%</span></td><td class="c ok" title="Marc Serra, maig: 164,8 h de 168,0 h (98 %)"><b>164,8</b><span>98&nbsp;%</span></td><td class="c ok" title="Marc Serra, juny: 161,8 h de 160,0 h (101 %)"><b>161,8</b><span>101&nbsp;%</span></td><td class="c ok" title="Marc Serra, jul: 189,0 h de 184,0 h (103 %)"><b>189,0</b><span>103&nbsp;%</span></td><td class="c ok" title="Marc Serra, ag: 45,8 h de 48,0 h (95 %)"><b>45,8</b><span>95&nbsp;%</span></td><td class="c hi" title="Marc Serra, set: 171,8 h de 152,0 h (113 %)"><b>171,8</b><span>↑ 113&nbsp;%</span></td><td class="c hi" title="Marc Serra, oct: 186,2 h de 176,0 h (106 %)"><b>186,2</b><span>↑ 106&nbsp;%</span></td><td class="c hi" title="Marc Serra, nov: 180,5 h de 160,0 h (113 %)"><b>180,5</b><span>↑ 113&nbsp;%</span></td><td class="c hi" title="Marc Serra, des: 173,0 h de 160,0 h (108 %)"><b>173,0</b><span>↑ 108&nbsp;%</span></td><td class="t">1.876,0&nbsp;h</td></tr><tr><td><b>Laia Serra</b></td><td class="c ok" title="Laia Serra, gen: 132,0 h de 134,4 h (98 %)"><b>132,0</b><span>98&nbsp;%</span></td><td class="c ok" title="Laia Serra, febr: 128,8 h de 128,0 h (101 %)"><b>128,8</b><span>101&nbsp;%</span></td><td class="c mid" title="Laia Serra, març: 116,2 h de 134,4 h (86 %)"><b>116,2</b><span>86&nbsp;%</span></td><td class="c mid" title="Laia Serra, abr: 109,5 h de 128,0 h (86 %)"><b>109,5</b><span>86&nbsp;%</span></td><td class="c ok" title="Laia Serra, maig: 133,8 h de 134,4 h (100 %)"><b>133,8</b><span>100&nbsp;%</span></td><td class="c ok" title="Laia Serra, juny: 131,0 h de 128,0 h (102 %)"><b>131,0</b><span>102&nbsp;%</span></td><td class="c hi" title="Laia Serra, jul: 155,0 h de 147,2 h (105 %)"><b>155,0</b><span>↑ 105&nbsp;%</span></td><td class="c ok" title="Laia Serra, ag: 126,5 h de 128,0 h (99 %)"><b>126,5</b><span>99&nbsp;%</span></td><td class="c mid" title="Laia Serra, set: 123,5 h de 134,4 h (92 %)"><b>123,5</b><span>92&nbsp;%</span></td><td class="c hi" title="Laia Serra, oct: 103,4 h de 92,0 h (112 %)"><b>103,4</b><span>↑ 112&nbsp;%</span></td><td class="c ok" title="Laia Serra, nov: 81,8 h de 80,0 h (102 %)"><b>81,8</b><span>102&nbsp;%</span></td><td class="c hi" title="Laia Serra, des: 82,8 h de 76,0 h (109 %)"><b>82,8</b><span>↑ 109&nbsp;%</span></td><td class="t">1.424,2&nbsp;h</td></tr><tr><td><b>Jordi Serra</b></td><td class="c lo" title="Jordi Serra, gen: 97,4 h de 168,0 h (58 %)"><b>97,4</b><span>↓ 58&nbsp;%</span></td><td class="c mid" title="Jordi Serra, febr: 143,6 h de 160,0 h (90 %)"><b>143,6</b><span>90&nbsp;%</span></td><td class="c mid" title="Jordi Serra, març: 152,0 h de 168,0 h (90 %)"><b>152,0</b><span>90&nbsp;%</span></td><td class="c ok" title="Jordi Serra, abr: 153,2 h de 160,0 h (96 %)"><b>153,2</b><span>96&nbsp;%</span></td><td class="c ok" title="Jordi Serra, maig: 162,8 h de 168,0 h (97 %)"><b>162,8</b><span>97&nbsp;%</span></td><td class="c hi" title="Jordi Serra, juny: 181,8 h de 160,0 h (114 %)"><b>181,8</b><span>↑ 114&nbsp;%</span></td><td class="c mid" title="Jordi Serra, jul: 169,0 h de 184,0 h (92 %)"><b>169,0</b><span>92&nbsp;%</span></td><td class="c lo" title="Jordi Serra, ag: 53,8 h de 72,0 h (75 %)"><b>53,8</b><span>↓ 75&nbsp;%</span></td><td class="c hi" title="Jordi Serra, set: 191,0 h de 152,0 h (126 %)"><b>191,0</b><span>↑ 126&nbsp;%</span></td><td class="c hi" title="Jordi Serra, oct: 196,5 h de 184,0 h (107 %)"><b>196,5</b><span>↑ 107&nbsp;%</span></td><td class="c hi" title="Jordi Serra, nov: 192,0 h de 160,0 h (120 %)"><b>192,0</b><span>↑ 120&nbsp;%</span></td><td class="c mid" title="Jordi Serra, des: 87,8 h de 96,0 h (91 %)"><b>87,8</b><span>91&nbsp;%</span></td><td class="t">1.780,8&nbsp;h</td></tr><tr><td><b>Marta Serra</b></td><td class="c none">—</td><td class="c none">—</td><td class="c ok" title="Marta Serra, març: 45,8 h de 44,0 h (104 %)"><b>45,8</b><span>104&nbsp;%</span></td><td class="c ok" title="Marta Serra, abr: 79,2 h de 80,0 h (99 %)"><b>79,2</b><span>99&nbsp;%</span></td><td class="c ok" title="Marta Serra, maig: 135,8 h de 134,4 h (101 %)"><b>135,8</b><span>101&nbsp;%</span></td><td class="c ok" title="Marta Serra, juny: 164,5 h de 160,0 h (103 %)"><b>164,5</b><span>103&nbsp;%</span></td><td class="c ok" title="Marta Serra, jul: 177,5 h de 184,0 h (96 %)"><b>177,5</b><span>96&nbsp;%</span></td><td class="c ok" title="Marta Serra, ag: 69,0 h de 72,0 h (96 %)"><b>69,0</b><span>96&nbsp;%</span></td><td class="c ok" title="Marta Serra, set: 165,0 h de 168,0 h (98 %)"><b>165,0</b><span>98&nbsp;%</span></td><td class="c hi" title="Marta Serra, oct: 211,8 h de 184,0 h (115 %)"><b>211,8</b><span>↑ 115&nbsp;%</span></td><td class="c mid" title="Marta Serra, nov: 146,5 h de 160,0 h (92 %)"><b>146,5</b><span>92&nbsp;%</span></td><td class="c mid" title="Marta Serra, des: 115,0 h de 128,0 h (90 %)"><b>115,0</b><span>90&nbsp;%</span></td><td class="t">1.310,0&nbsp;h</td></tr><tr><td><b>Arnau Serra</b></td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c hi" title="Arnau Serra, set: 97,0 h de 76,0 h (128 %)"><b>97,0</b><span>↑ 128&nbsp;%</span></td><td class="c hi" title="Arnau Serra, oct: 135,0 h de 92,0 h (147 %)"><b>135,0</b><span>↑ 147&nbsp;%</span></td><td class="c hi" title="Arnau Serra, nov: 99,0 h de 80,0 h (124 %)"><b>99,0</b><span>↑ 124&nbsp;%</span></td><td class="c ok" title="Arnau Serra, des: 77,0 h de 80,0 h (96 %)"><b>77,0</b><span>96&nbsp;%</span></td><td class="t">408,0&nbsp;h</td></tr><tr><td><b>Clara Serra</b></td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c lo" title="Clara Serra, set: 123,2 h de 152,0 h (81 %)"><b>123,2</b><span>↓ 81&nbsp;%</span></td><td class="c hi" title="Clara Serra, oct: 220,0 h de 184,0 h (120 %)"><b>220,0</b><span>↑ 120&nbsp;%</span></td><td class="c hi" title="Clara Serra, nov: 173,8 h de 160,0 h (109 %)"><b>173,8</b><span>↑ 109&nbsp;%</span></td><td class="c ok" title="Clara Serra, des: 158,8 h de 152,0 h (104 %)"><b>158,8</b><span>104&nbsp;%</span></td><td class="t">675,8&nbsp;h</td></tr><tr><td><b>Mireia Serra</b></td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c ok" title="Mireia Serra, oct: 186,2 h de 184,0 h (101 %)"><b>186,2</b><span>101&nbsp;%</span></td><td class="c ok" title="Mireia Serra, nov: 163,0 h de 160,0 h (102 %)"><b>163,0</b><span>102&nbsp;%</span></td><td class="c ok" title="Mireia Serra, des: 147,0 h de 144,0 h (102 %)"><b>147,0</b><span>102&nbsp;%</span></td><td class="t">496,2&nbsp;h</td></tr><tr><td><b>Roger Serra</b></td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c none">—</td><td class="c lo" title="Roger Serra, nov: 16,0 h de 40,0 h (40 %)"><b>16,0</b><span>↓ 40&nbsp;%</span></td><td class="c none">—</td><td class="t">16,0&nbsp;h</td></tr></tbody></table></div>
+      <div class="card-foot"><span>10 persones sense hores el 2025: Gemma Puig, Oriol Serra, Berta Serra, Quim Serra, Aina Serra, Èric Serra, Gemma Serra, Xavi Serra, Neus Serra, Iu Serra. <button type="button" class="btn-link">Mostra-les</button></span><span>Clica una cel·la per veure'n el detall.</span></div>
+    </section>
+    <section class="card" aria-label="Detall de la cel·la seleccionada">
+      <div class="card-head"><h2>Clara Puig · setembre 2025</h2><div class="toolbar"><span class="muted">Agrupa per</span><div class="seg sm" role="group" aria-label="Agrupació del detall"><button type="button" class="is-on" aria-pressed="true">Projecte</button><button type="button">Tipus de projecte</button><button type="button">Probabilitat</button></div><button type="button" class="btn btn-sm btn-ghost"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>Tanca</button></div></div>
+      <div class="card-pad detail">
+        <dl class="dl">
+          <dt>Hores fetes</dt><dd>285,00&nbsp;h</dd>
+          <dt>Hores de jornada del mes</dt><dd>168,00&nbsp;h</dd>
+          <dt>Festius i vacances</dt><dd>8,00&nbsp;h</dd>
+          <dt>Sobren</dt><dd class="neg">117,00&nbsp;h</dd>
+          <dt>Ocupació</dt><dd>170&nbsp;%</dd>
+        </dl>
+        <div><table class="table compact"><thead><tr><th>Projecte</th><th class="num">Hores</th></tr></thead><tbody><tr><td>Projecte pilot d&#x27;agroecologia Pobla de Proves</td><td class="num">97,00&nbsp;h</td></tr><tr><td>Diagnosi de rehabilitació energètica Torredemo</td><td class="num">55,50&nbsp;h</td></tr><tr><td>Estudi sobre consum responsable Vilafranca de Prova</td><td class="num">29,75&nbsp;h</td></tr><tr><td>Pla de territori rural Pobla de Proves</td><td class="num">14,75&nbsp;h</td></tr><tr><td>Acompanyament en xarxes de suport Riudemostra</td><td class="num">14,50&nbsp;h</td></tr><tr><td>Pla de consum responsable Prats de Mostra</td><td class="num">14,00&nbsp;h</td></tr><tr><td>Jornades de territori rural Masdemo</td><td class="num">11,50&nbsp;h</td></tr><tr><td>Jornades de rehabilitació energètica Vilanova de l&#x27;Exemple</td><td class="num">9,75&nbsp;h</td></tr><tr class="more"><td>9 projectes més</td><td class="num">38,25&nbsp;h</td></tr></tbody><tfoot><tr><td>Total</td><td class="num">285,00&nbsp;h</td></tr></tfoot></table></div>
+      </div>
+    </section>
+    <div class="notice info"><span>L'ocupació és hores fetes ÷ hores de jornada del mes (jornada de la persona, sense caps de setmana, festius ni vacances). Un mes sense hores es mostra «—», encara que hi hagi jornada.</span></div>
+  </main>
+</div>
+</body>
+</html>

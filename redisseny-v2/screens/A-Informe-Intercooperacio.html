@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Informe Intercooperació</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: report toolbar label + chart legend + chart/table alternative */
+/* candidate for a.css: contain .sr-only text inside scrolling tables (otherwise it widens the page) */
+.table-wrap { position: relative; }
+.tb-group { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.chart-scroll { overflow-x: auto; }
+.chart-scroll .chart { min-width: 620px; }
+.toolbar .tb-label { color: var(--a-muted); font-weight: 700; font-size: 13px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; color: var(--a-fg-2); font-size: 13px; font-weight: 600; }
+.legend li { display: inline-flex; align-items: center; gap: 8px; }
+.sw { width: 12px; height: 12px; border-radius: 3px; flex: none; display: inline-block; }
+.sw.dot { border-radius: 50%; width: 10px; height: 10px; }
+.chart { display: block; width: 100%; height: auto; }
+.chart text { font-family: var(--a-font); fill: var(--a-muted); font-size: 12px; }
+.chart .grid { stroke: var(--a-line-soft); }
+.chart .axis { stroke: var(--a-input); }
+.chart .lbl { fill: var(--a-fg); font-weight: 800; }
+.chart .lbl.neg { fill: var(--a-neg); }
+details.alt { border-top: 1px solid var(--a-line); }
+details.alt > summary { padding: 10px 18px; cursor: pointer; font-weight: 700; color: var(--a-accent); }
+/* candidate for a.css: pivot-style table (column groups, nested rows, subtotals) */
+table.table.pivot th.cg { text-align: center; border-left: 1px solid var(--a-line); }
+table.table.pivot .bl { border-left: 1px solid var(--a-line); }
+table.table.pivot td.lvl2 { padding-left: 36px; }
+table.table.pivot tr.group td { border-top: 1px solid var(--a-line); }
+table.table.pivot tr.more td { color: var(--a-muted); font-size: 13px; }
+table.table .tx { font-weight: 600; }
+.btn .i { width: 16px; height: 16px; }
+.foot-note { color: var(--a-muted); font-size: 13px; padding: 10px 18px; border-top: 1px solid var(--a-line); }
+table.table .title { min-width: 240px; }</style>
+</head>
+<body>
+<!-- Proposal A · report "Intercooperació". Static mockup, real figures from the anonymized database (projectes_v5_manual). -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="true"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="nav-sub">
+          <a class="nav-item" href="A-Informe-Projectes.html">Panell de projectes</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-grafic.html">Dedicació (gràfic)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-taula.html">Dedicació (taula)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-real.html">% Dedicació real</a>
+          <a class="nav-item" href="A-Informe-Previsio-dedicacio.html">Previsió dedicació</a>
+          <a class="nav-item" href="A-Informe-Prev-real.html">Prev./Real dedicació</a>
+          <a class="nav-item" href="A-Informe-Ingressos-despeses.html">Ingressos/Despeses</a>
+          <a class="nav-item" href="A-Informe-Preu-hora.html">Preu hora</a>
+          <a class="nav-item" href="A-Informe-Previsio-economica.html">Previsió econòmica</a>
+          <a class="nav-item" href="A-Informe-Estrategies.html">Estratègies</a>
+          <a class="nav-item is-active" href="A-Informe-Intercooperacio.html" aria-current="page">Intercooperació</a>
+          <a class="nav-item" href="A-Informe-Saldo-hores.html">Saldo hores</a>
+          <a class="nav-item" href="A-Informe-Hores-anuals.html">Hores anuals</a>
+          <a class="nav-item" href="A-Justificacions.html">Justificacions</a>
+          <a class="nav-item" href="A-Subvencions.html">Subvencions</a>
+        </div>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><span>Informes</span><span aria-hidden="true">/</span><span>Intercooperació</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Intercooperació</h1>
+        <div class="sub">Amb quines entitats fem projectes i què representen en hores i diners</div>
+      </div>
+      <div class="actions"><button type="button" class="btn" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Exporta .ods</button></div>
+    </header>
+
+    <section class="toolbar" aria-label="Filtres">
+      <button type="button" class="filter"><span>Estat</span><b>Tots</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <span class="tb-group"><span class="tb-label">Files</span><div class="seg" role="group" aria-label="Files"><button type="button" aria-pressed="true" class="is-on">Entitat</button><button type="button" aria-pressed="false">Projecte</button></div></span>
+    </section>
+
+    <section class="card" aria-labelledby="h-ent">
+      <div class="card-head">
+        <div><h2 id="h-ent">Per entitat</h2><span class="sub">Projectes, hores previstes i balanç compartits amb cada entitat</span></div>
+        <button type="button" class="btn btn-sm" disabled><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M9 4v16"/></svg>Configura la taula dinàmica</button>
+      </div>
+      <div class="table-wrap">
+        <table class="table compact">
+          <thead><tr><th>Entitat</th><th class="num">Projectes</th><th class="num">Hores previstes</th><th class="num">Balanç</th></tr></thead>
+        </table>
+      </div>
+      <div class="empty">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:40px;height:40px;color:#A6B3B5"><path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM16 20a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 9.5l2 4"/></svg>
+        <b>Cap projecte té entitats d’intercooperació</b>
+        <span>Afegeix les entitats amb què col·labores al camp «Intercooperació» de la fitxa del projecte.<br>Aquí veuràs, per a cada entitat, quants projectes compartiu, les hores previstes i el balanç.</span>
+        <a class="btn" href="A-Llistat.html">Ves als projectes</a>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="h-flag">
+      <div class="card-head">
+        <div><h2 id="h-flag">Projectes amb intercooperació a la subvenció</h2><span class="sub">7 projectes marcats com a intercooperació a les dades de subvenció, sense cap entitat informada</span></div>
+      </div>
+      <div class="table-wrap">
+        <table class="table compact">
+          <thead><tr><th>Projecte</th><th>Estat</th><th class="num">Hores previstes</th><th class="num">Balanç</th><th>Entitats</th><th><span class="sr-only">Acció</span></th></tr></thead>
+          <tbody>
+<tr><td><a class="title" href="A-Fitxa.html">Campanya de gent gran</a><span class="subline">Entitats, cooperatives i empreses · Clara Puig</span></td><td><span class="tag">Tancat</span></td><td class="num">378 h</td><td class="num">23.268,36 €</td><td><span class="tag warn">Sense entitats</span></td><td class="num"><a class="btn btn-sm" href="A-Edicio.html">Afegeix entitats</a></td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Pla d'emprenedoria col·lectiva Pobla de Proves</a><span class="subline">Iltir · Laia Puig</span></td><td><span class="tag">Tancat</span></td><td class="num">263 h</td><td class="num">7.890,95 €</td><td><span class="tag warn">Sense entitats</span></td><td class="num"><a class="btn btn-sm" href="A-Edicio.html">Afegeix entitats</a></td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Estudi sobre emprenedoria col·lectiva Sant Simulat</a><span class="subline">Balkar · Laia Puig</span></td><td><span class="tag">Tancat</span></td><td class="num">187 h</td><td class="num">4.632,23 €</td><td><span class="tag warn">Sense entitats</span></td><td class="num"><a class="btn btn-sm" href="A-Edicio.html">Afegeix entitats</a></td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Projecte pilot de cultura popular Santa Mostra</a><span class="subline">Urtur (Consultories) · Clara Puig</span></td><td><span class="tag">Tancat</span></td><td class="num">50 h</td><td class="num">1.761,72 €</td><td><span class="tag warn">Sense entitats</span></td><td class="num"><a class="btn btn-sm" href="A-Edicio.html">Afegeix entitats</a></td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Pla d'inserció laboral Santa Mostra</a><span class="subline">Balkar · Laia Puig</span></td><td><span class="tag">Tancat</span></td><td class="num">200 h</td><td class="num">5.103,12 €</td><td><span class="tag warn">Sense entitats</span></td><td class="num"><a class="btn btn-sm" href="A-Edicio.html">Afegeix entitats</a></td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Campanya d'educació ambiental Montprova</a><span class="subline">Balkar · Laia Puig</span></td><td><span class="tag">Tancat</span></td><td class="num">65 h</td><td class="num">8.336,71 €</td><td><span class="tag warn">Sense entitats</span></td><td class="num"><a class="btn btn-sm" href="A-Edicio.html">Afegeix entitats</a></td></tr>
+<tr><td><a class="title" href="A-Fitxa.html">Dinamització de consum responsable Sant Fictici de Mar</a><span class="subline">Iltir · Clara Puig</span></td><td><span class="tag bad">Denegat</span></td><td class="num">260 h</td><td class="num">29.154,00 €</td><td><span class="tag warn">Sense entitats</span></td><td class="num"><a class="btn btn-sm" href="A-Edicio.html">Afegeix entitats</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

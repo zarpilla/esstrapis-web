@@ -1,0 +1,216 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "A-Edicio.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "title": "A · Clar · Edició de dades",
+      "w": 1440,
+      "x": 4560,
+      "y": 1340
+    },
+    "A-Fitxa.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "title": "A · Clar · Fitxa de projecte",
+      "w": 1440,
+      "x": 3040,
+      "y": 1340
+    },
+    "A-Llistat.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "title": "A · Clar · Llistat de projectes",
+      "w": 1440,
+      "x": 1520,
+      "y": 1340
+    },
+    "A-Login.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "A · Clar · Inici de sessió",
+      "w": 1440,
+      "x": 0,
+      "y": 1340
+    },
+    "Actual-Fitxa.dc.html": {
+      "h": 900,
+      "title": "Actual · Fitxa de projecte",
+      "w": 1440,
+      "x": 3040,
+      "y": 0
+    },
+    "Actual-Llistat.dc.html": {
+      "h": 900,
+      "title": "Actual · Llistat de projectes",
+      "w": 1440,
+      "x": 1520,
+      "y": 0
+    },
+    "B-Edicio.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "title": "B · Dens · Edició de dades",
+      "w": 1440,
+      "x": 4560,
+      "y": 3260
+    },
+    "B-Fitxa.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "title": "B · Dens · Fitxa de projecte",
+      "w": 1440,
+      "x": 3040,
+      "y": 3260
+    },
+    "B-Llistat.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "title": "B · Dens · Llistat de projectes",
+      "w": 1440,
+      "x": 1520,
+      "y": 3260
+    },
+    "B-Login.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "B · Dens · Inici de sessió",
+      "w": 1440,
+      "x": 0,
+      "y": 3260
+    },
+    "C-Edicio.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "title": "C · Proper · Edició de dades",
+      "w": 1440,
+      "x": 4560,
+      "y": 5180
+    },
+    "C-Fitxa.dc.html": {
+      "expand": "fill",
+      "h": 1500,
+      "title": "C · Proper · Fitxa de projecte",
+      "w": 1440,
+      "x": 3040,
+      "y": 5180
+    },
+    "C-Llistat.dc.html": {
+      "expand": "fill",
+      "h": 1100,
+      "title": "C · Proper · Llistat de projectes",
+      "w": 1440,
+      "x": 1520,
+      "y": 5180
+    },
+    "C-Login.dc.html": {
+      "expand": "fill",
+      "h": 900,
+      "title": "C · Proper · Inici de sessió",
+      "w": 1440,
+      "x": 0,
+      "y": 5180
+    },
+    "Main.dc.html": {
+      "h": 900,
+      "title": "Actual · Inici de sessió",
+      "w": 1440,
+      "x": 0,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-16T17:30:00+02:00",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "sA": {
+      "fill": "teal",
+      "size": 24,
+      "text": "A · Clar\n\n• Lateral clar agrupat (Projectes · Diners · Informes plegable).\n• Nunito es manté; turquesa fosquejat perquè el text passi contrast.\n• Fitxa en pestanyes: Resum · Dades · Pressupost i fases · Periodificació · Moviments · Planificació · Tasques.\n• Xifres en text, no en inputs desactivats.\n\nRisc: baix. Gairebé tot és tema Bulma (variables CSS) + reordenar ProjectForm en pestanyes.\n\nEdició: pestanya «Dades» en mode formulari, agrupada en blocs, amb barra fixa «Canvis sense desar · Descarta · Desa».",
+      "w": 420,
+      "x": 6080,
+      "y": 1340
+    },
+    "sActual": {
+      "fill": "gray",
+      "size": 24,
+      "text": "Què falla avui\n\n• Login: formulari arraconat a l'esquerra, logos de suport trencats.\n• Llistat: 24 enllaços plans al lateral (dos «Dedicació»), filtres que ocupen mitja pantalla, noms en 4 línies, columnes buides, sense totals ni paginació, «Modificat» tallat.\n• Fitxa: ~10.000 px d'alçada en una sola pàgina, desborda en horitzontal (el resum financer queda tallat), 30 camps desactivats per mostrar xifres, 1163.6000000000022 a la periodificació, botons Guardar repetits.\n• Groc «warning» per a accions secundàries.",
+      "w": 420,
+      "x": 6080,
+      "y": 0
+    },
+    "sB": {
+      "fill": "blue",
+      "size": 24,
+      "text": "B · Dens\n\n• Barra superior de mòduls + subnavegació; més espai per a taules.\n• IBM Plex Sans + xifres tabulars; files compactes, vistes desades.\n• Llistat amb panell lateral de vista prèvia.\n• Fitxa: capçalera amb indicadors + índex de seccions fix a l'esquerra; cada secció s'edita per separat.\n\nRisc: mitjà. Canvia la navegació global i el patró d'edició.\n\nEdició: només la secció que edites passa a formulari, al seu lloc; la resta queda en lectura i els indicadors es veuen sempre.",
+      "w": 420,
+      "x": 6080,
+      "y": 3260
+    },
+    "sC": {
+      "fill": "green",
+      "size": 24,
+      "text": "C · Proper\n\n• Rail d'icones amb etiqueta; tipografia més expressiva (Bricolage + Figtree).\n• Llistat amb barres de progrés d'hores i resultat.\n• Fitxa que explica l'estat en frases («s'han fet 5.588 h de 4.919 h previstes») abans de les taules.\n\nRisc: mitjà-alt. Més components nous; ideal per a persones que hi entren poc.\n\nEdició: panell lateral sobre la fitxa, amb blocs i ajudes en llenguatge planer; la fitxa queda al darrere.",
+      "w": 420,
+      "x": 6080,
+      "y": 5180
+    },
+    "tA": {
+      "kind": "title1",
+      "maxW": 6000,
+      "text": "A · Clar — evolució: mateixa estructura, endreçada",
+      "w": 240,
+      "x": 0,
+      "y": 1060
+    },
+    "tActual": {
+      "kind": "title1",
+      "maxW": 6000,
+      "text": "Actual — Bulma 1 + Buefy, dades anonimitzades",
+      "w": 240,
+      "x": 0,
+      "y": -280
+    },
+    "tB": {
+      "kind": "title1",
+      "maxW": 6000,
+      "text": "B · Dens — espai de treball per a l'ús diari",
+      "w": 240,
+      "x": 0,
+      "y": 2980
+    },
+    "tC": {
+      "kind": "title1",
+      "maxW": 6000,
+      "text": "C · Proper — llenguatge planer i visual",
+      "w": 240,
+      "x": 0,
+      "y": 4900
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Actual-Llistat.dc.html",
+    "Actual-Fitxa.dc.html",
+    "A-Login.dc.html",
+    "A-Llistat.dc.html",
+    "A-Fitxa.dc.html",
+    "B-Login.dc.html",
+    "B-Llistat.dc.html",
+    "B-Fitxa.dc.html",
+    "C-Login.dc.html",
+    "C-Llistat.dc.html",
+    "C-Fitxa.dc.html",
+    "A-Edicio.dc.html",
+    "B-Edicio.dc.html",
+    "C-Edicio.dc.html"
+  ],
+  "pages": [],
+  "title": "Redisseny ESSTrapis v2"
+}

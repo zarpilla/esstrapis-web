@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Persones</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: year timeline inside a table (people x periods) */
+table.persones td.who { width: 250px; min-width: 210px; }
+table.persones .tl { width: auto; min-width: 560px; padding-left: 8px; padding-right: 8px; }
+table.persones th.tl { padding-top: 6px; padding-bottom: 6px; }
+.months { display: grid; grid-template-columns: repeat(12, 1fr); }
+.months span { border-left: 1px solid var(--a-line); padding-left: 4px; }
+.track { position: relative; height: 26px; border-radius: 6px;
+  background: repeating-linear-gradient(90deg, transparent 0 calc(100%/12 - 1px), var(--a-line-soft) calc(100%/12 - 1px) calc(100%/12)); }
+.seg-bar { position: absolute; top: 2px; height: 22px; border-radius: 5px; background: var(--a-accent); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; text-decoration: none; border: 1px solid #fff; overflow: hidden; white-space: nowrap; }
+.seg-bar:hover { background: var(--a-accent-hover); color: #fff; }
+.seg-bar.zero { background: repeating-linear-gradient(135deg, #E9EEEF 0 6px, #DCE3E4 6px 12px); color: var(--a-muted); }
+.seg-bar.cut-l { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.seg-bar.cut-r { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+.track .now { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--a-over); border-radius: 1px; }
+.addperiod { position: absolute; inset: 2px auto 2px 0; display: flex; align-items: center; padding: 0 10px; border: 1px dashed var(--a-input); border-radius: 5px; font-weight: 700; font-size: 13px; text-decoration: none; background: var(--a-surface); }
+.legend { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--a-muted); font-weight: 600; font-size: 13px; }
+.legend .sw { width: 16px; height: 10px; border-radius: 3px; background: var(--a-accent); margin-left: 8px; }
+.legend .sw.zero { background: repeating-linear-gradient(135deg, #E9EEEF 0 4px, #DCE3E4 4px 8px); }
+@media (max-width: 720px) { table.persones td.who { width: 140px; min-width: 140px; } table.persones .tl { min-width: 460px; } }
+.legend .sw.now { width: 3px; height: 14px; background: var(--a-over); }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item is-active" href="A-Persones.html" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <header class="page-head">
+      <div>
+        <h1>Persones</h1>
+        <div class="sub">Jornada laboral, salari i cost hora per períodes · 23 persones, 15 amb jornada activa avui</div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn">Crea les bestretes del 2026</button>
+        <button type="button" class="btn btn-primary"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nou període</button>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Filtres">
+      <label class="search"><span class="sr-only">Cerca</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg><input class="input" type="search" placeholder="Cerca una persona"></label>
+      <div class="seg" role="group" aria-label="Any">
+        <button type="button" aria-pressed="false">2025</button>
+        <button type="button" class="is-on" aria-pressed="true">2026</button>
+        <button type="button" aria-pressed="false">2027</button>
+      </div>
+      <span class="spacer"></span>
+      <span class="legend"><span class="sw"></span>Jornada (hores/dia)<span class="sw zero"></span>Sense jornada (0 h)<span class="sw now"></span>Avui</span>
+    </section>
+
+    <div class="notice"><span><b>Compte:</b> canviar jornades, salaris o costos de períodes passats recalcula el cost de les hores ja dedicades als projectes i pot afectar les bestretes.</span></div>
+
+    <section class="card">
+      <div class="table-wrap">
+        <table class="table compact persones">
+          <thead><tr><th>Persona · jornada actual</th><th class="tl"><div class="months"><span>gen.</span><span>febr.</span><span>març</span><span>abr.</span><span>maig</span><span>juny</span><span>jul.</span><span>ag.</span><span>set.</span><span>oct.</span><span>nov.</span><span>des.</span></div></th><th class="num">Bestretes 2026</th></tr></thead>
+          <tbody>
+            <tr><td class="who"><a class="title" href="#">Aina Puig</a><span class="subline">0 h ara · sense jornada activa</span></td><td class="tl"><div class="track"><a class="seg-bar" href="#" style="left:0.00%;width:8.49%" title="01/01/2026 – 31/01/2026 · 8 h/dia · 18,03 €/h · salari 2.001,00 €">8 h</a><a class="seg-bar zero" href="#" style="left:8.49%;width:91.51%" title="01/02/2026 – 31/12/2026 · 0 h/dia">0 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag warn">1 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Aina Serra</a><span class="subline">0 h ara · sense jornada activa</span></td><td class="tl"><div class="track"><a class="seg-bar zero" href="#" style="left:0.00%;width:14.52%" title="01/01/2026 – 22/02/2026 · 0 h/dia">0 h</a><a class="seg-bar" href="#" style="left:14.52%;width:60.27%" title="23/02/2026 – 30/09/2026 · 8 h/dia · 18,15 €/h · salari 2.001,00 €">8 h</a><a class="seg-bar zero" href="#" style="left:74.79%;width:25.21%" title="01/10/2026 – 31/12/2026 · 0 h/dia">0 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag warn">8 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Arnau Serra</a><span class="subline">0 h ara · sense jornada activa</span></td><td class="tl"><div class="track"><a class="seg-bar" href="#" style="left:0.00%;width:16.16%" title="01/01/2026 – 28/02/2026 · 2 h/dia · 15,77 €/h · salari 1.740,00 €">2 h</a><a class="seg-bar zero" href="#" style="left:16.16%;width:83.84%" title="01/03/2026 – 31/12/2026 · 0 h/dia">0 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag warn">2 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Berta Serra</a><span class="subline">8 h/dia · 21,65 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar zero" href="#" style="left:0.00%;width:18.36%" title="01/01/2026 – 08/03/2026 · 0 h/dia">0 h</a><a class="seg-bar" href="#" style="left:18.36%;width:23.01%" title="09/03/2026 – 31/05/2026 · 6 h/dia · 18,90 €/h · salari 2.088,00 €">6 h</a><a class="seg-bar cut-r" href="#" style="left:41.37%;width:58.63%" title="01/06/2026 – 28/02/2027 · 8 h/dia · 21,65 €/h · salari 2.392,50 €">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag warn">10 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Clara Puig</a><span class="subline">8 h/dia · 21,55 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar cut-r" href="#" style="left:0.00%;width:100.00%" title="01/01/2026 – 31/12/2027 · 8 h/dia · 21,55 €/h · salari 2.392,50 €">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ok">12 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Clara Serra</a><span class="subline">8 h/dia · 21,58 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar cut-r" href="#" style="left:0.00%;width:100.00%" title="01/01/2026 – 30/12/2027 · 8 h/dia · 21,58 €/h · salari 2.392,50 €">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ok">12 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Èric Serra</a><span class="subline">0 h ara · sense jornada activa</span></td><td class="tl"><div class="track"><a class="seg-bar zero" href="#" style="left:0.00%;width:12.33%" title="01/01/2026 – 14/02/2026 · 0 h/dia">0 h</a><a class="seg-bar" href="#" style="left:13.15%;width:14.79%" title="18/02/2026 – 12/04/2026 · 6 h/dia · 15,84 €/h · salari 1.740,00 €">6 h</a><a class="seg-bar zero" href="#" style="left:32.88%;width:66.30%" title="01/05/2026 – 28/12/2026 · 0 h/dia">0 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag warn">2 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Gemma Puig</a><span class="subline">8 h/dia · 21,68 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar cut-r" href="#" style="left:66.58%;width:33.42%" title="01/09/2026 – 31/12/2027 · 8 h/dia · 21,68 €/h · salari 2.392,50 €">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag warn">4 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Gemma Serra</a><span class="subline">4 h/dia · 5,79 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar zero" href="#" style="left:0.00%;width:40.00%" title="01/01/2026 – 26/05/2026 · 0 h/dia">0 h</a><a class="seg-bar" href="#" style="left:40.00%;width:30.14%" title="27/05/2026 – 13/09/2026 · 8 h/dia · 5,79 €/h · salari 785,61 €">8 h</a><a class="seg-bar cut-r" href="#" style="left:70.14%;width:29.86%" title="14/09/2026 – 31/03/2027 · 4 h/dia · 5,79 €/h · salari 785,61 €">4 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag warn">8 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Iu Serra</a><span class="subline">Sense cap període definit</span></td><td class="tl"><div class="track"><a class="addperiod" href="#">+ Defineix la primera jornada</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ">0 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Jordi Serra</a><span class="subline">8 h/dia · 16,56 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar" href="#" style="left:0.00%;width:4.11%" title="01/01/2026 – 15/01/2026 · 8 h/dia · 15,89 €/h · salari 1.753,92 €"></a><a class="seg-bar zero" href="#" style="left:4.11%;width:20.55%" title="16/01/2026 – 31/03/2026 · 0 h/dia">0 h</a><a class="seg-bar" href="#" style="left:24.66%;width:41.92%" title="01/04/2026 – 31/08/2026 · 6 h/dia · 16,56 €/h · salari 1.827,00 €">6 h</a><a class="seg-bar" href="#" style="left:66.58%;width:33.42%" title="01/09/2026 – 31/12/2026 · 8 h/dia · 16,56 €/h · salari 1.827,00 €">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag warn">10 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Laia Puig</a><span class="subline">6 h/dia · 21,65 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar" href="#" style="left:0.00%;width:41.37%" title="01/01/2026 – 31/05/2026 · 6 h/dia · 21,65 €/h · salari 2.392,50 €">6 h</a><a class="seg-bar" href="#" style="left:41.37%;width:25.21%" title="01/06/2026 – 31/08/2026 · 8 h/dia · 21,65 €/h · salari 2.392,50 €">8 h</a><a class="seg-bar cut-r" href="#" style="left:66.58%;width:33.42%" title="01/09/2026 – 31/12/2027 · 6 h/dia · 21,65 €/h · salari 2.392,50 €">6 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ok">12 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Laia Serra</a><span class="subline">4 h/dia · 18,05 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar cut-r" href="#" style="left:0.00%;width:100.00%" title="01/01/2026 – 31/12/2027 · 4 h/dia · 18,05 €/h · salari 2.001,00 €">4 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ok">12 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Marc Serra</a><span class="subline">8 h/dia · 18,81 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar cut-r" href="#" style="left:0.00%;width:100.00%" title="01/01/2026 – 31/12/2027 · 8 h/dia · 18,81 €/h · salari 2.088,00 €">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ok">12 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Marta Serra</a><span class="subline">8 h/dia · 17,27 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar cut-r" href="#" style="left:0.00%;width:100.00%" title="01/01/2026 – 30/12/2027 · 8 h/dia · 17,27 €/h · salari 1.914,00 €">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ok">12 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Mireia Serra</a><span class="subline">Sense jornada activa · fins al 08/01/2026</span></td><td class="tl"><div class="track"><a class="seg-bar" href="#" style="left:0.00%;width:2.19%" title="01/01/2026 – 08/01/2026 · 8 h/dia · 19,71 €/h · salari 2.175,00 €"></a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag warn">1 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Neus Serra</a><span class="subline">Sense cap període definit</span></td><td class="tl"><div class="track"><a class="addperiod" href="#">+ Defineix la primera jornada</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ">0 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Núria Puig</a><span class="subline">8 h/dia · 22,72 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar cut-r" href="#" style="left:0.00%;width:100.00%" title="01/01/2026 – 30/12/2027 · 8 h/dia · 22,72 €/h · salari 2.523,00 €">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ok">12 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Oriol Serra</a><span class="subline">8 h/dia · 14,62 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar" href="#" style="left:0.00%;width:24.66%" title="01/01/2026 – 31/03/2026 · 7 h/dia · 15,27 €/h · salari 1.631,25 €">7 h</a><a class="seg-bar zero" href="#" style="left:24.66%;width:16.71%" title="01/04/2026 – 31/05/2026 · 0 h/dia">0 h</a><a class="seg-bar" href="#" style="left:41.37%;width:58.63%" title="01/06/2026 – 31/12/2026 · 8 h/dia · 14,62 €/h · salari 1.631,25 €">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ok">12 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Pau Puig</a><span class="subline">8 h/dia · 22,72 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar cut-r" href="#" style="left:0.00%;width:100.00%" title="01/01/2026 – 31/12/2027 · 8 h/dia · 22,72 €/h · salari 2.523,00 €">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ok">12 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Quim Serra</a><span class="subline">8 h/dia · 15,69 €/h</span></td><td class="tl"><div class="track"><a class="seg-bar zero" href="#" style="left:0.00%;width:1.10%" title="01/01/2026 – 04/01/2026 · 0 h/dia"></a><a class="seg-bar cut-r" href="#" style="left:1.10%;width:98.90%" title="05/01/2026 – 31/12/2027 · 8 h/dia · 15,69 €/h · salari 1.740,00 €">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag ok">12 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Roger Serra</a><span class="subline">0 h ara · sense jornada activa</span></td><td class="tl"><div class="track"><a class="seg-bar cut-l" href="#" style="left:0.00%;width:49.59%" title="01/11/2025 – 30/06/2026 · 2 h/dia · 7,70 €/h · salari 1.044,00 €">2 h</a><a class="seg-bar zero" href="#" style="left:49.59%;width:50.41%" title="01/07/2026 – 31/12/2026 · 0 h/dia">0 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag warn">6 / 12</span></td></tr>
+<tr><td class="who"><a class="title" href="#">Xavi Serra</a><span class="subline">8 h/dia · cost/hora sense definir</span></td><td class="tl"><div class="track"><a class="seg-bar zero" href="#" style="left:0.00%;width:41.37%" title="01/01/2026 – 31/05/2026 · 0 h/dia">0 h</a><a class="seg-bar" href="#" style="left:41.37%;width:3.29%" title="01/06/2026 – 12/06/2026 · 4 h/dia"></a><a class="seg-bar zero" href="#" style="left:44.66%;width:27.40%" title="13/06/2026 – 20/09/2026 · 0 h/dia">0 h</a><a class="seg-bar cut-r" href="#" style="left:72.05%;width:27.95%" title="21/09/2026 – 31/12/2027 · 8 h/dia">8 h</a><span class="now" style="left:78.90%"></span></div></td><td class="num"><span class="tag warn">1 / 12</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-foot"><span>Clica una barra per editar el període (dates, hores per dia, distribució setmanal, salari, Seguretat Social, IRPF i cost/hora), o arrossega'n les vores per canviar-ne les dates.</span></div>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

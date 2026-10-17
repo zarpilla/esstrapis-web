@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Verifactu i FACe</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* mockup only: separates the three tab panels drawn one after the other */
+.state-cap { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--a-muted); padding-top: 12px; border-top: 1px dashed var(--a-input); }
+.hash { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--a-fg-2); }
+.kpi .value .tag { font-size: 13px; vertical-align: middle; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Administració</span>
+        <a class="nav-item" href="A-Admin-Configuracio.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>Configuració</a>
+        <a class="nav-item" href="A-Admin-Usuaris.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5"/></svg>Usuaris</a>
+        <a class="nav-item is-active" aria-current="page" href="A-Admin-Verifactu.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM9 14l2 2 4-4"/></svg>Verifactu i FACe</a>
+        <a class="nav-item" href="A-Admin-Taules.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 10h18M3 15h18M9 4v16"/></svg>Taules auxiliars</a>
+      </div>
+    </nav>
+    <a class="user" href="A-Perfil.html" title="El meu perfil" style="color: inherit; text-decoration: none"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></a>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><span>Administració</span><span aria-hidden="true">/</span><span>Verifactu i FACe</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Verifactu i FACe</h1>
+        <div class="sub">Enviament de les factures emeses a l'Agència Tributària (Verifactu) i a les administracions públiques (FACe)</div>
+      </div>
+      <div class="actions">
+        <a class="btn" href="#">Declaració responsable</a>
+      </div>
+    </header>
+
+    <div class="kpis">
+      <div class="kpi"><span class="label">Verifactu</span><span class="value">No <span class="tag">Desactivat</span></span><span class="foot">Les factures no s'envien a l'AEAT</span></div>
+      <div class="kpi"><span class="label">FACe</span><span class="value">No <span class="tag">Desactivat</span></span><span class="foot">Format de factura: FacturaE</span></div>
+      <div class="kpi"><span class="label">Certificats</span><span class="value" style="font-size: 18px">Sense configurar</span><span class="foot">Es posen a l'àrea d'administració del servidor</span></div>
+      <div class="kpi"><span class="label">Programari</span><span class="value" style="font-size: 18px">ESSTRAPIS 2025.11.18</span><span class="foot">Declaració responsable del 18/11/2025</span></div>
+    </div>
+
+    <nav class="tabs" aria-label="Seccions">
+      <a href="#conf">Configuració</a>
+      <a href="#reg" class="is-active" aria-current="page">Registre Verifactu<span class="count">0</span></a>
+      <a href="#face">Cua FACe<span class="count">0</span></a>
+    </nav>
+
+    <!-- tab: Registre Verifactu -->
+    <section id="reg" style="display: flex; flex-direction: column; gap: 16px">
+      <div class="notice info"><span>Dades d'exemple: a la còpia de demostració Verifactu està desactivat i el registre és buit. Les factures i els estats són els que fa servir l'aplicació.</span></div>
+      <div class="toolbar">
+        <label class="search"><span class="sr-only">Cerca</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg><input class="input" type="search" placeholder="Cerca per número de factura"></label>
+        <div class="seg" role="group" aria-label="Estat">
+          <button type="button" class="is-on" aria-pressed="true">Tots</button>
+          <button type="button" aria-pressed="false">Pendents</button>
+          <button type="button" aria-pressed="false">Amb errors</button>
+        </div>
+        <div class="seg sm" role="group" aria-label="Mode"><button type="button" class="is-on" aria-pressed="true">Real</button><button type="button" aria-pressed="false">Test</button></div>
+      </div>
+      <section class="card" style="overflow: hidden">
+        <div class="table-wrap" style="position: relative">
+          <table class="table" style="min-width: 760px">
+            <thead><tr><th class="sorted">Data ↓</th><th>Factura</th><th class="num">Total</th><th>Estat</th><th>Acció</th><th>Empremta</th><th aria-label="Detall"></th></tr></thead>
+            <tbody>
+              <tr><td>27/07/2026</td><td><a class="title" href="#">2026-050</a></td><td class="num">1.394,83 €</td><td><span class="tag warn">Pendent</span></td><td>Alta</td><td class="hash">—</td><td style="text-align: right"><a href="#">Detall</a></td></tr>
+              <tr><td>22/07/2026</td><td><a class="title" href="#">2026-049</a></td><td class="num">5.418,78 €</td><td><span class="tag ok">OK</span></td><td>Alta</td><td class="hash">9f3c…a41e</td><td style="text-align: right"><a href="#">Detall</a></td></tr>
+              <tr><td>22/07/2026</td><td><a class="title" href="#">2026-048</a></td><td class="num">221,07 €</td><td><span class="tag info">OK amb errors</span></td><td>Alta</td><td class="hash">51b0…7c92</td><td style="text-align: right"><a href="#">Detall</a></td></tr>
+              <tr><td>21/07/2026</td><td><a class="title" href="#">2026-047</a></td><td class="num">344,17 €</td><td><span class="tag bad">KO</span><span class="subline" style="color: var(--a-danger-fg)">Rebutjada per l'AEAT · cal corregir-la</span></td><td>Alta</td><td class="hash">—</td><td style="text-align: right"><a href="#">Detall</a></td></tr>
+              <tr><td>30/06/2026</td><td><a class="title" href="#">2026-045</a></td><td class="num">504,17 €</td><td><span class="tag ok">OK</span></td><td>Alta</td><td class="hash">e27d…0b5f</td><td style="text-align: right"><a href="#">Detall</a></td></tr>
+              <tr><td>30/06/2026</td><td><a class="title" href="#">2026-044</a></td><td class="num">494,16 €</td><td><span class="tag ok">OK</span></td><td>Alta</td><td class="hash">c80a…19d3</td><td style="text-align: right"><a href="#">Detall</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-foot"><span>Cada registre enllaça amb l'anterior per l'empremta (hash): no es poden esborrar.</span></div>
+      </section>
+    </section>
+
+    <!-- tab: Cua FACe -->
+    <div class="state-cap">Pestanya «Cua FACe» (estat real: buida)</div>
+    <section id="face" class="card">
+      <div class="empty">
+        <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width: 32px; height: 32px"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>
+        <b>Cap factura a la cua de FACe</b>
+        <span>Quan FACe estigui activat, cada factura a una administració pública hi apareixerà amb el seu estat: <span class="tag warn">Pendent</span> <span class="tag info">Registrada</span> <span class="tag ok">Lliurada</span> <span class="tag bad">Rebutjada</span> <span class="tag bad">Error</span>, el número de registre, els intents i l'última comprovació.</span>
+        <a class="btn" href="#conf">Configura FACe</a>
+      </div>
+    </section>
+
+    <!-- tab: Configuració -->
+    <div class="state-cap">Pestanya «Configuració»</div>
+    <form id="conf" style="display: flex; flex-direction: column; gap: 16px">
+      <section class="card form-section">
+        <h2>Verifactu</h2>
+        <p>Amb «Test» les factures s'envien a l'entorn de proves de l'AEAT; amb «Real», al definitiu.</p>
+        <div class="field" style="align-items: flex-start"><span class="label">Mode</span><div class="seg" role="group" aria-label="Mode Verifactu"><button type="button" class="is-on" aria-pressed="true">No</button><button type="button" aria-pressed="false">Test</button><button type="button" aria-pressed="false">Real</button></div></div>
+        <div class="notice info"><span>El certificat i la seva contrasenya s'actualitzen a l'àrea d'administració del servidor (Strapi), per seguretat. Estat: <b>sense configurar</b>.</span></div>
+      </section>
+      <section class="card form-section">
+        <h2>FACe</h2>
+        <div class="grid-form">
+          <div class="field" style="align-items: flex-start"><span class="label">Mode</span><div class="seg" role="group" aria-label="Mode FACe"><button type="button" class="is-on" aria-pressed="true">No</button><button type="button" aria-pressed="false">Test</button><button type="button" aria-pressed="false">Real</button></div></div>
+          <div class="field"><label for="fc-fmt">Format de factura</label><select id="fc-fmt" class="select"><option>FacturaE</option><option>UBL</option></select></div>
+          <div class="field"><label for="fc-t">Adreça del servei (test)</label><input id="fc-t" class="input" placeholder="https://…"></div>
+          <div class="field"><label for="fc-r">Adreça del servei (real)</label><input id="fc-r" class="input" placeholder="https://…"></div>
+        </div>
+        <div class="notice info"><span>El certificat de FACe i la seva contrasenya també es posen a l'àrea d'administració del servidor. Estat: <b>sense configurar</b>.</span></div>
+      </section>
+      <section class="card">
+        <div class="card-head"><h2>Informació del programari</h2><button type="button" class="btn btn-sm">Edita</button></div>
+        <div class="card-pad">
+          <dl class="dl">
+            <dt>Nom desenvolupador</dt><dd>Desenvolupador Demo</dd>
+            <dt>NIF desenvolupador</dt><dd>[NIF del desenvolupador]</dd>
+            <dt>Nom programari</dt><dd>ESSTRAPIS</dd>
+            <dt>ID programari</dt><dd>01</dd>
+            <dt>Versió</dt><dd>2025.11.18</dd>
+            <dt>Número</dt><dd>[NIF de l'entitat]</dd>
+            <dt>Ubicació</dt><dd>[població]</dd>
+            <dt>Adreça</dt><dd>Carrer de l'Exemple, 1</dd>
+            <dt>Data</dt><dd>18 de noviembre de 2025</dd>
+            <dt>Usa només Verifactu</dt><dd>Sí</dd>
+            <dt>Ús múltiple</dt><dd>Sí</dd>
+            <dt>Ús múltiple actual</dt><dd>No</dd>
+          </dl>
+        </div>
+      </section>
+    </form>
+  </main>
+</div>
+</body>
+</html>

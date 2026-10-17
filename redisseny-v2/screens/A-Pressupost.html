@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Pressupost</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: document totals box (base, VAT per rate, IRPF, total) */
+.totals { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 24px; font-variant-numeric: tabular-nums; }
+.totals dt { color: var(--a-fg-2); }
+.totals dt small { color: var(--a-muted); font-size: 12px; margin-left: 4px; }
+.totals dd { margin: 0; text-align: right; font-weight: 700; white-space: nowrap; }
+.totals .sep { grid-column: 1 / -1; border-top: 1px solid var(--a-line); margin: 4px 0; }
+.totals .grand { font-size: 20px; font-weight: 800; color: var(--a-fg); }
+.doc-foot { display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; align-items: flex-start; padding: 18px 20px; border-top: 1px solid var(--a-line); }
+.doc-foot .totals { flex: 0 1 360px; margin-left: auto; }
+/* candidate for a.css: read-only value inside a .field (locked data, instead of a disabled input) */
+.field .value { min-height: 40px; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 8px; font-weight: 700; }
+.field .value .muted { font-weight: 600; }
+.lock { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--a-muted); }
+/* candidate for a.css: dashed drop zone for attachments */
+.dropzone { border: 2px dashed var(--a-input); border-radius: 10px; padding: 18px; text-align: center; color: var(--a-muted); }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.pair { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.pair .input { flex: 1 1 140px; }
+/* page-specific: printed-document preview (what the PDF will look like) */
+.paper { background: #fff; border: 1px solid var(--a-line); border-radius: 4px; box-shadow: var(--a-shadow); padding: 40px 44px; display: flex; flex-direction: column; gap: 28px; font-size: 13px; }
+.paper header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.paper .doc-title { text-align: right; }
+.paper .doc-title b { display: block; font-size: 20px; }
+.paper .parties { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px 32px; }
+.paper .parties h3 { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--a-muted); margin-bottom: 4px; }
+.paper .parties p { margin: 0; line-height: 1.6; }
+.paper .foot { border-top: 1px solid var(--a-line); padding-top: 14px; color: var(--a-fg-2); white-space: pre-line; font-size: 12px; }
+.paper .totals { max-width: 340px; margin-left: auto; width: 100%; }
+@media (max-width: 720px) { .paper { padding: 20px 16px; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item is-active" aria-current="page" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="A-Pressupostos.html">Pressupostos</a><span aria-hidden="true">/</span><span>2023-002</span></nav>
+    <header class="page-head">
+      <div>
+        <div class="pair"><h1>Pressupost 2023-002</h1><span class="tag info">Enviat</span><span class="tag warn">Pendent d'acceptar</span></div>
+        <div class="meta">
+          <span><span>Clienta</span> <b>Associació L'Era</b></span>
+          <span><span>Data</span> <b>01/03/2023</b></span>
+          <span><span>Total</span> <b class="num">10.857,60 €</b></span>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M12 11v6M9 14l3 3 3-3"/></svg>Descarrega PDF</button>
+        <a class="btn" href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4"/></svg>Edita</a>
+        <button type="button" class="btn btn-primary"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Marca com a acceptat</button>
+      </div>
+    </header>
+
+    <div class="notice" role="status">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2zM12 10v4M12 17.5v.5"/></svg>
+      <span><b>No té projecte.</b> Assigna'l perquè compti a la previsió econòmica del projecte quan s'accepti.</span>
+      <a href="#">Assigna un projecte</a>
+    </div>
+
+    <div class="cols">
+      <div class="wide">
+        <article class="paper" aria-label="Vista prèvia del document">
+          <header>
+            <div style="width: 160px; height: 56px; border: 1px dashed var(--a-input); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--a-muted)">[logo]</div>
+            <div class="doc-title"><b>Pressupost 2023-002</b>Data: 01/03/2023</div>
+          </header>
+          <div class="parties">
+            <div>
+              <h3>Proveïdor</h3>
+              <p><b>Cooperativa Demo SCCL</b><br>F00000000<br>Carrer de l'Exemple, 1<br>08000 Vilafranca de Prova<br>930 000 000 · hola@exemple.coop</p>
+            </div>
+            <div>
+              <h3>Client</h3>
+              <p><b>Associació L'Era</b><br>B00000000<br>Carrer Major, 1<br>08000 Les Planes de Mentida</p>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table compact">
+              <thead><tr><th>Concepte</th><th class="num">Preu</th><th class="num">IVA</th><th class="num">Total</th></tr></thead>
+              <tbody>
+                <tr><td>Coordinació</td><td class="num">402,65 €</td><td class="num">84,56 € <span class="muted">(21 %)</span></td><td class="num">487,21 €</td></tr>
+                <tr><td>Disseny de materials</td><td class="num">2.760,99 €</td><td class="num">579,81 € <span class="muted">(21 %)</span></td><td class="num">3.340,80 €</td></tr>
+                <tr><td>Sessions formatives</td><td class="num">2.818,51 €</td><td class="num">591,89 € <span class="muted">(21 %)</span></td><td class="num">3.410,40 €</td></tr>
+                <tr><td>Dinamització</td><td class="num">1.840,66 €</td><td class="num">386,54 € <span class="muted">(21 %)</span></td><td class="num">2.227,20 €</td></tr>
+                <tr><td>Desplaçaments</td><td class="num">1.150,41 €</td><td class="num">241,59 € <span class="muted">(21 %)</span></td><td class="num">1.392,00 €</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <dl class="totals" aria-label="Totals del pressupost">
+            <dt>Total (sense IVA)</dt><dd>8.973,22 €</dd>
+            <dt>IVA 21 %</dt><dd>1.884,38 €</dd>
+            <span class="sep" aria-hidden="true"></span>
+            <dt class="grand">Total</dt><dd class="grand">10.857,60 €</dd>
+          </dl>
+          <div class="foot">Per Transferència / Bank Transfer Details:
+Banc / Bank: [banc]
+IBAN: [IBAN]</div>
+        </article>
+      </div>
+
+      <div class="narrow">
+        <section class="card card-pad" aria-labelledby="s-st">
+          <h2 id="s-st" style="font-size: 16px; font-weight: 800; margin-bottom: 12px">Estat</h2>
+          <dl class="dl">
+            <dt>Enviat</dt><dd>Sí <span class="muted" style="font-weight: 600">· sense data</span></dd>
+            <dt>Acceptat</dt><dd>No</dd>
+            <dt>Factura proforma</dt><dd>No</dd>
+          </dl>
+        </section>
+
+        <section class="card card-pad" aria-labelledby="s-data">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px">
+            <h2 id="s-data" style="font-size: 16px; font-weight: 800">Dades</h2>
+            <a href="#" style="font-weight: 700; text-decoration: none">Edita</a>
+          </div>
+          <dl class="dl">
+            <dt>Clienta</dt><dd><a href="A-Contactes.html">Associació L'Era</a></dd>
+            <dt>Projecte</dt><dd class="muted">Cap</dd>
+            <dt>Sèrie</dt><dd>2023</dd>
+            <dt>Línies</dt><dd>5 · IVA 21 %</dd>
+            <dt>Concepte</dt><dd class="muted">—</dd>
+            <dt>Notes</dt><dd class="muted">Cap</dd>
+          </dl>
+        </section>
+
+        <section class="card card-pad" aria-labelledby="s-lang">
+          <h2 id="s-lang" style="font-size: 16px; font-weight: 800; margin-bottom: 12px">Idioma del document</h2>
+          <div class="seg sm" role="group" aria-label="Idioma"><button type="button" class="is-on" aria-pressed="true">Català</button><button type="button">Castellano</button><button type="button">English</button></div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<title>C · Edició de dades del projecte</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=Figtree:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#1F6B4F}a:hover{color:#164F3A}
+</style>
+</helmet>
+<div style="position: relative; min-height: 1500px; background: #F6F4EE; color: #1E2321; font-family: 'Figtree', system-ui, sans-serif; font-size: 15px; display: flex; flex-wrap: wrap; align-items: stretch; overflow: hidden">
+
+  <nav aria-label="Menú principal" style="flex: 0 0 92px; background: #FFFFFF; border-right: 1px solid #E4E0D6; padding: 18px 8px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px">
+    <div style="display: flex; justify-content: center; padding-bottom: 14px">
+      <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 16px; background: #00B89C; color: #FFFFFF; padding: 4px 6px 3px; border-radius: 6px">ESS</span>
+    </div>
+  </nav>
+  <div aria-hidden="true" style="flex: 999 1 560px; min-width: 0; padding: 28px 36px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px">
+    <span style="font-weight: 600; color: #1F6B4F">← Projectes</span>
+    <h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 1.05; letter-spacing: -0.02em; max-width: 760px">Assessorament en igualtat de gènere Santa Mostra</h1>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px">
+      <div style="flex: 1 1 380px; height: 300px; background: #FFFFFF; border-radius: 18px"></div>
+      <div style="flex: 1.3 1 440px; height: 300px; background: #FFFFFF; border-radius: 18px"></div>
+    </div>
+    <div style="height: 420px; background: #FFFFFF; border-radius: 18px"></div>
+  </div>
+
+  <div aria-hidden="true" style="position: absolute; inset: 0; background: rgba(30,35,33,0.38)"></div>
+
+  <aside role="dialog" aria-modal="true" aria-labelledby="c-edit-title" style="position: absolute; top: 0; right: 0; bottom: 0; width: 600px; max-width: 100%; background: #FFFFFF; box-shadow: -16px 0 40px rgba(30,35,33,0.18); display: flex; flex-direction: column">
+    <div style="padding: 24px 28px 0; display: flex; flex-direction: column; gap: 16px; border-bottom: 1px solid #ECE8DE">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px">
+        <div>
+          <h2 id="c-edit-title" style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 26px">Edita el projecte</h2>
+          <p style="margin: 4px 0 0; color: #5E6460">Els canvis es veuen a la fitxa quan els desis.</p>
+        </div>
+        <button type="button" aria-label="Tanca" style="width: 44px; height: 44px; border: 0; border-radius: 12px; background: #F3F0E8; color: #1E2321; font: inherit; font-size: 20px">×</button>
+      </div>
+      <nav aria-label="Blocs" style="display: flex; gap: 4px; overflow-x: auto">
+        <a href="#" aria-current="page" style="padding: 10px 12px; font-weight: 700; color: #1F6B4F; border-bottom: 3px solid #1F6B4F; text-decoration: none; white-space: nowrap">L'essencial</a>
+        <a href="#" style="padding: 10px 12px; font-weight: 600; color: #4A504C; text-decoration: none; white-space: nowrap">Per a qui i amb qui</a>
+        <a href="#" style="padding: 10px 12px; font-weight: 600; color: #4A504C; text-decoration: none; white-space: nowrap">Com l'expliquem</a>
+        <a href="#" style="padding: 10px 12px; font-weight: 600; color: #4A504C; text-decoration: none; white-space: nowrap">Diners i subvencions</a>
+      </nav>
+    </div>
+
+    <form style="flex: 1; overflow-y: auto; padding: 24px 28px; display: flex; flex-direction: column; gap: 26px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="c-nom" style="font-weight: 700">Nom del projecte</label>
+        <input id="c-nom" type="text" value="Assessorament en igualtat de gènere Santa Mostra" style="height: 48px; box-sizing: border-box; border: 1.5px solid #D9D4C7; border-radius: 12px; padding: 0 14px; font: inherit; background: #FCFBF8; color: #1E2321">
+        <span style="color: #5E6460; font-size: 14px">És el nom que veureu a totes les llistes i informes.</span>
+      </div>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 10px">
+        <legend style="font-weight: 700; padding: 0 0 10px">En quin punt és?</legend>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <sc-for list="{{states}}" as="s" hint-placeholder-count="7">
+            <label style="{{s.style}}"><input type="radio" name="c-estat" checked="{{s.on}}" style="position: absolute; opacity: 0; width: 1px; height: 1px">{{s.name}}</label>
+          </sc-for>
+        </div>
+      </fieldset>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 10px">
+        <legend style="font-weight: 700; padding: 0 0 10px">Àmbit</legend>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <sc-for list="{{scopes}}" as="s" hint-placeholder-count="4">
+            <label style="{{s.style}}"><input type="radio" name="c-ambit" checked="{{s.on}}" style="position: absolute; opacity: 0; width: 1px; height: 1px"><span style="{{s.dot}}"></span>{{s.name}}</label>
+          </sc-for>
+        </div>
+      </fieldset>
+
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <label for="c-coord" style="font-weight: 700">Qui el coordina?</label>
+        <div style="position: relative; display: flex">
+          <span aria-hidden="true" style="position: absolute; left: 10px; top: 10px; width: 28px; height: 28px; border-radius: 50%; background: #F0ECE3; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px">LS</span>
+          <select id="c-coord" style="flex: 1; height: 48px; border: 1.5px solid #D9D4C7; border-radius: 12px; padding: 0 14px 0 48px; font: inherit; background: #FCFBF8; color: #1E2321"><option>Laia Serra</option></select>
+        </div>
+      </div>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px">
+        <legend style="font-weight: 700; padding: 0 0 10px">Quan es fa?</legend>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+          <label style="flex: 1 1 160px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: #4A504C">Comença
+            <input type="text" value="1 gen. 2024" style="height: 48px; box-sizing: border-box; border: 1.5px solid #D9D4C7; border-radius: 12px; padding: 0 14px; font: inherit; font-size: 15px; background: #FCFBF8; color: #1E2321"></label>
+          <span aria-hidden="true" style="padding-top: 22px; color: #5E6460">→</span>
+          <label style="flex: 1 1 160px; display: flex; flex-direction: column; gap: 4px; font-size: 14px; color: #4A504C">Acaba
+            <input type="text" value="31 des. 2026" style="height: 48px; box-sizing: border-box; border: 1.5px solid #D9D4C7; border-radius: 12px; padding: 0 14px; font: inherit; font-size: 15px; background: #FCFBF8; color: #1E2321"></label>
+        </div>
+        <span style="color: #5E6460; font-size: 14px">Dura 3 anys.</span>
+      </fieldset>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 10px">
+        <legend style="font-weight: 700; padding: 0 0 4px">Quin tipus d'hores hi posem?</legend>
+        <span style="color: #5E6460; font-size: 14px; margin-top: -4px">Es proposa per defecte quan algú hi apunta hores.</span>
+        <sc-for list="{{dedication}}" as="d" hint-placeholder-count="3">
+          <label style="{{d.style}}">
+            <input type="radio" name="c-ded" checked="{{d.on}}" style="width: 20px; height: 20px; margin: 0; accent-color: #1F6B4F">
+            <span style="display: flex; flex-direction: column; gap: 2px"><b style="font-weight: 700">{{d.code}}</b><span style="color: #4A504C">{{d.name}}</span></span>
+          </label>
+        </sc-for>
+      </fieldset>
+
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 0">
+        <legend style="font-weight: 700; padding: 0 0 6px">Algunes preguntes</legend>
+        <sc-for list="{{questions}}" as="q" hint-placeholder-count="2">
+          <label style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid #F0ECE3">
+            <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 600">{{q.q}}</span><span style="color: #5E6460; font-size: 14px">{{q.help}}</span></span>
+            <input type="checkbox" role="switch" checked="{{q.on}}" style="flex: none; width: 44px; height: 24px; accent-color: #1F6B4F">
+          </label>
+        </sc-for>
+      </fieldset>
+    </form>
+
+    <div style="padding: 16px 28px; border-top: 1px solid #ECE8DE; display: flex; align-items: center; gap: 10px">
+      <span style="color: #5E6460">Res a desar encara</span>
+      <button type="button" style="margin-left: auto; height: 48px; padding: 0 18px; border: 1.5px solid #D9D4C7; border-radius: 12px; background: #FFFFFF; font: inherit; font-weight: 600; color: #1E2321">Cancel·la</button>
+      <button type="submit" style="height: 48px; padding: 0 22px; border: 0; border-radius: 12px; background: #1F6B4F; color: #FFFFFF; font: inherit; font-weight: 700">Desa els canvis</button>
+    </div>
+  </aside>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+renderVals() {
+const pill = (on) => 'position: relative; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 20px; cursor: pointer; font-weight: 600; ' + (on ? 'background: #1F6B4F; color: #FFFFFF; border: 1.5px solid #1F6B4F' : 'background: #FFFFFF; color: #1E2321; border: 1.5px solid #E4E0D6');
+const states = ['Prospecció', 'Sol·licitat', 'Actiu', 'Tancat', 'Denegat', 'No presentat', 'Renunciat']
+  .map((name) => ({ name, on: name === 'Tancat', style: pill(name === 'Tancat') }));
+const colors = { Balkar: '#2E8A5C', Urtur: '#8A4FB8', Iltir: '#2F6FB0', Lakue: '#C2601F' };
+const scopes = ['Balkar', 'Urtur', 'Iltir', 'Lakue'].map((name) => ({ name, on: name === 'Lakue', style: pill(name === 'Lakue'),
+  dot: 'width: 10px; height: 10px; border-radius: 50%; background: ' + colors[name] + (name === 'Lakue' ? '; box-shadow: 0 0 0 2px #FFFFFF' : '') }));
+const dedication = [
+  ['H1', 'Facturable i implementació'], ['H2', 'Gestió i estructura'], ['H3', 'Aliances, prospecció i capacitats']
+].map(([code, name]) => ({ code, name, on: code === 'H3',
+  style: 'display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; cursor: pointer; ' + (code === 'H3' ? 'border: 2px solid #1F6B4F; background: #F1F8F4' : 'border: 1.5px solid #E4E0D6') }));
+const questions = [
+  { q: "És un projecte d'estructura?", help: 'La feina interna de la cooperativa, no per a una clienta.', on: true },
+  { q: 'Vols repartir a mà els diners entre anys?', help: 'Periodificació d’ingressos i despeses.', on: true },
+  { q: 'Té una subvenció que cal justificar?', help: "Si dius que sí, et demanarem l'expedient i els imports.", on: false }
+];
+return { states, scopes, dedication, questions };
+}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Bestretes</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+  /* candidate for a.css: row actions — one text action + icon buttons, right aligned */
+  .row-actions { display: flex; gap: 6px; justify-content: flex-end; align-items: center; white-space: nowrap; }
+  /* candidate for a.css: single-line truncation inside table cells */
+  table.table .trunc { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nowrap { white-space: nowrap; }
+  /* candidate for a.css: kpi value colours */
+  .kpi .value.neg { color: var(--a-neg); } .kpi .value.pos { color: var(--a-pos); }
+</style>
+</head>
+<body>
+<!-- Proposal A · Bestretes (route /salary, DedicacioSalary.vue). Data: projectes_v5_manual, Clara Puig, 2026, today 16/10/2026. Figures as computed by the current screen (hours from activities, theoretic hours from the working day, salary per month). -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item is-active" aria-current="page" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><span>Diners</span><span aria-hidden="true">/</span><span>Bestretes</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Bestretes</h1>
+        <div class="sub">Nòmina de cada mes segons la jornada laboral i les hores fetes · Clara Puig · 2026</div>
+      </div>
+      <div class="actions">
+        <a class="btn" href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Jornada laboral</a>
+        <button type="button" class="btn btn-primary"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Paga les 3 pendents</button>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Filtres">
+      <button type="button" class="filter"><span>Persona</span><b>Clara Puig</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="seg" role="group" aria-label="Any"><button type="button" aria-pressed="false">2024</button><button type="button" aria-pressed="false">2025</button><button type="button" class="is-on" aria-pressed="true">2026</button><button type="button" aria-pressed="false">2027</button></div>
+    </section>
+
+    <section class="kpis" aria-label="Resum de l'any">
+      <div class="kpi"><span class="label">Hores treballades</span><span class="value">1.354,67 h</span><span class="foot">de 2.008,00 h teòriques a l'any</span></div>
+      <div class="kpi"><span class="label">Saldo a avui</span><span class="value neg">−237,33 h</span><span class="foot">a 16/10/2026 · saldo anual −653,33 h</span></div>
+      <div class="kpi"><span class="label">Salari de l'any</span><span class="value">28.710,00 €</span><span class="foot">12 nòmines · 6 pagades</span></div>
+      <div class="kpi"><span class="label">Per pagar</span><span class="value neg">7.177,50 €</span><span class="foot">3 nòmines de mesos ja tancats</span></div>
+    </section>
+
+    <div class="notice danger" role="status"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2zM12 10v5M12 18h.01"/></svg><span><b>Les nòmines de juliol, agost i setembre encara no estan pagades</b> (7.177,50 € de salari).</span><a href="#">Paga-les</a></div>
+
+    <section class="card" aria-label="Nòmines per mes">
+      <div class="card-head"><h2>Mes a mes</h2><span class="sub">Saldo = hores treballades − teòriques</span></div>
+      <div class="table-wrap">
+        <table class="table" style="min-width:880px">
+          <thead><tr>
+            <th>Mes</th><th class="num">Treballades</th><th class="num">Teòriques</th><th class="num">Saldo</th><th class="num">Saldo acumulat</th><th class="num">Salari</th><th>Nòmina</th><th aria-label="Accions"></th>
+          </tr></thead>
+          <tbody>
+          <tr>
+            <td><b>Gener</b></td>
+            <td class="num">144,00 h</td>
+            <td class="num">160,00 h</td>
+            <td class="num"><span class="neg">−16,00 h</span></td>
+            <td class="num"><span class="neg">−16,00 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">29/01/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de gener" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a gener"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><b>Febrer</b></td>
+            <td class="num">110,50 h</td>
+            <td class="num">160,00 h</td>
+            <td class="num"><span class="neg">−49,50 h</span></td>
+            <td class="num"><span class="neg">−65,50 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">27/02/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de febrer" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a febrer"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><b>Març</b></td>
+            <td class="num">75,75 h</td>
+            <td class="num">176,00 h</td>
+            <td class="num"><span class="neg">−100,25 h</span></td>
+            <td class="num"><span class="neg">−165,75 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">31/03/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de març" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a març"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><b>Abril</b></td>
+            <td class="num">225,17 h</td>
+            <td class="num">160,00 h</td>
+            <td class="num"><span class="pos">+65,17 h</span></td>
+            <td class="num"><span class="neg">−100,58 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">30/04/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de abril" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a abril"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><b>Maig</b></td>
+            <td class="num">204,25 h</td>
+            <td class="num">160,00 h</td>
+            <td class="num"><span class="pos">+44,25 h</span></td>
+            <td class="num"><span class="neg">−56,33 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">29/05/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de maig" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a maig"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><b>Juny</b></td>
+            <td class="num">254,25 h</td>
+            <td class="num">168,00 h</td>
+            <td class="num"><span class="pos">+86,25 h</span></td>
+            <td class="num"><span class="pos">+29,92 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">29/06/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de juny" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a juny"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><b>Juliol</b></td>
+            <td class="num">203,75 h</td>
+            <td class="num">184,00 h</td>
+            <td class="num"><span class="pos">+19,75 h</span></td>
+            <td class="num"><span class="pos">+49,67 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag bad">Per pagar</span><span class="subline nowrap">des del 31/07/2026</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Paga la nòmina de juliol"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de juliol" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a juliol"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><b>Agost</b></td>
+            <td class="num">137,00 h</td>
+            <td class="num">168,00 h</td>
+            <td class="num"><span class="neg">−31,00 h</span></td>
+            <td class="num"><span class="pos">+18,67 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag bad">Per pagar</span><span class="subline nowrap">des del 31/08/2026</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Paga la nòmina de agost"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de agost" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a agost"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><b>Setembre</b></td>
+            <td class="num">0,00 h</td>
+            <td class="num">168,00 h</td>
+            <td class="num"><span class="neg">−168,00 h</span></td>
+            <td class="num"><span class="neg">−149,33 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag bad">Per pagar</span><span class="subline nowrap">des del 30/09/2026</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Paga la nòmina de setembre"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de setembre" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a setembre"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><b>Octubre</b> <span class="tag info">Mes en curs</span></td>
+            <td class="num">0,00 h<span class="subline">fins avui</span></td>
+            <td class="num">168,00 h</td>
+            <td class="num"><span class="neg">−168,00 h</span></td>
+            <td class="num"><span class="neg">−317,33 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag warn">Creada</span><span class="subline nowrap">es paga el 31/10</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Paga la nòmina de octubre"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de octubre" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a octubre"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><b class="muted">Novembre</b></td>
+            <td class="num"><span class="muted">0,00 h</span></td>
+            <td class="num"><span class="muted">168,00 h</span></td>
+            <td class="num"><span class="muted">−168,00 h</span></td>
+            <td class="num"><span class="muted">−485,33 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag warn">Creada</span><span class="subline nowrap">es paga el 30/11</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Paga la nòmina de novembre"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de novembre" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a novembre"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><b class="muted">Desembre</b></td>
+            <td class="num"><span class="muted">0,00 h</span></td>
+            <td class="num"><span class="muted">168,00 h</span></td>
+            <td class="num"><span class="muted">−168,00 h</span></td>
+            <td class="num"><span class="muted">−653,33 h</span></td>
+            <td class="num">2.392,50 €</td>
+            <td><span class="tag warn">Creada</span><span class="subline nowrap">es paga el 31/12</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Paga la nòmina de desembre"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" aria-label="Obre la nòmina de desembre" title="Obre la nòmina"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a desembre"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          </tbody>
+          <tfoot><tr>
+            <td>Total 2026</td><td class="num">1.354,67 h</td><td class="num">2.008,00 h</td><td class="num neg">−653,33 h</td><td></td><td class="num">28.710,00 €</td><td colspan="2">6 de 12 pagades</td>
+          </tr></tfoot>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

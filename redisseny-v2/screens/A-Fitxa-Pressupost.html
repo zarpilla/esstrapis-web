@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Pressupost i fases</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: budget editor (phases → income/expense lines) */
+.budget { min-width: 1080px; table-layout: fixed; }
+.budget col.c-drag { width: 40px; } .budget col.c-type { width: 172px; } .budget col.c-qty { width: 66px; }
+.budget col.c-price { width: 96px; } .budget col.c-total { width: 104px; } .budget col.c-date { width: 118px; }
+.budget col.c-doc { width: 168px; } .budget col.c-menu { width: 48px; }
+.budget td.drag { color: #A6B3B5; cursor: grab; text-align: center; padding-left: 10px; }
+.budget td.drag svg { width: 16px; height: 16px; stroke-width: 3; }
+.budget tbody.phase tr.group td { border-top: 1px solid var(--a-line); padding-top: 8px; padding-bottom: 8px; }
+.budget tbody.phase.is-open tr.group td { background: var(--a-accent-soft); }
+.budget .phase-title { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.budget .phase-title .muted { font-weight: 600; }
+.budget .phase-name { max-width: 260px; font-weight: 800; }
+.budget .phase-sums { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 20px; white-space: nowrap; }
+.budget .phase-sums .muted { font-weight: 600; margin-right: 4px; }
+.budget tr.sec td { font-size: 12px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; color: var(--a-fg-2); padding-top: 12px; border-bottom: 1px solid var(--a-line-soft); }
+.budget tr.sec td.num { text-transform: none; letter-spacing: 0; font-size: 13px; }
+.budget tr.add td { border-bottom: 0; padding-bottom: 10px; }
+.budget tr.add .btn { color: var(--a-accent); }
+.budget .select.is-empty { color: var(--a-muted); }
+.budget tr.is-undated td { background: #FFF8F6; }
+.budget tr.hint-row td { padding-top: 0; border-bottom: 1px solid var(--a-line-soft); background: #FFF8F6; }
+.budget .err { color: var(--a-danger-fg); font-size: 12px; font-weight: 600; }
+.input.is-invalid { border: 2px solid var(--a-neg); }
+.budget tr.details td { background: var(--a-accent-soft); padding: 12px 12px 14px; border-bottom: 1px solid var(--a-line); }
+.details-grid { display: grid; grid-template-columns: 110px 170px 120px minmax(260px, 1fr) auto; gap: 12px 20px; align-items: start; }
+.details-grid .field > label, .details-grid .field > .label { font-size: 13px; }
+.details-close { justify-self: end; align-self: center; }
+.budget td.menu-cell { position: relative; text-align: center; }
+.btn.is-open { background: var(--a-chip); }
+/* candidate for a.css: row action menu (popover) */
+.row-menu { position: absolute; right: 8px; top: calc(100% - 4px); z-index: 10; width: 250px; background: var(--a-surface); border: 1px solid var(--a-line); border-radius: var(--a-radius); box-shadow: var(--a-shadow); padding: 6px; display: flex; flex-direction: column; text-align: left; }
+.row-menu button { border: 0; background: transparent; font: inherit; font-weight: 600; color: var(--a-fg); text-align: left; padding: 8px 10px; border-radius: 6px; cursor: pointer; }
+.row-menu button:hover { background: var(--a-chip); }
+.row-menu button.danger { color: var(--a-danger-fg); }
+.row-menu button[disabled] { color: #A6B3B5; cursor: default; }
+.row-menu button small { display: block; font-size: 12px; font-weight: 600; color: var(--a-muted); }
+.row-menu hr { border: 0; border-top: 1px solid var(--a-line-soft); margin: 4px 0; }
+.budget tfoot td { border-top: 1px solid var(--a-line); }
+.legend { font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item is-active" aria-current="page" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="A-Llistat.html">Projectes</a><span aria-hidden="true">/</span><span>Fitxa</span></nav>
+    <header class="page-head" style="align-items: flex-start">
+      <div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+          <h1>Assessorament en igualtat de gènere Santa Mostra</h1>
+          <span class="tag" style="font-weight: 800">Tancat</span>
+        </div>
+        <div class="meta">
+          <span><span>Àmbit</span> <b>Lakue</b></span>
+          <span><span>Coordina</span> <b>Laia Serra</b></span>
+          <span><span>Dates</span> <b>1 gen. 2024 – 31 des. 2026</b></span>
+          <span><span>Dedicació</span> <b>H3 aliances, prospecció i capacitats</b></span>
+        </div>
+      </div>
+      
+    </header>
+
+    <div class="notice" role="status">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><path d="M12 3l10 18H2zM12 10v4M12 17.5v.5"/></svg>
+      <span><b>1 línia no té data</b> (Ingrés · 2024 · Recerca de camp). Surt com a «Sense data» a la previsió, la periodificació i la tresoreria.</span>
+      <a href="A-Fitxa-Pressupost.html#fase-2024">Posa-hi data</a>
+    </div>
+
+    <nav class="tabs" aria-label="Seccions del projecte">
+      <a href="A-Fitxa.html">Resum</a><a href="A-Edicio.html">Dades</a><a class="is-active" aria-current="page" href="A-Fitxa-Pressupost.html">Pressupost i fases · editant</a><a href="A-Fitxa-Periodificacio.html">Periodificació</a><a href="A-Fitxa-Moviments.html">Cobraments i pagaments</a><a href="A-Fitxa-Planificacio.html">Planificació</a><a href="A-Tasques.html">Tasques</a>
+    </nav>
+
+    <section class="kpis" aria-label="Totals del pressupost d'execució">
+      <div class="kpi"><span class="label">Ingressos previstos</span><span class="value">35.691,82 €</span><span class="foot">7 línies · 2 pendents de cobrar</span></div>
+      <div class="kpi"><span class="label">Despeses previstes</span><span class="value">11.185,57 €</span><span class="foot">34 línies · totes pagades</span></div>
+      <div class="kpi"><span class="label">Cost de les hores</span><span class="value">80.691,33 €</span><span class="foot">4.918,62 h · <a href="A-Fitxa-Planificacio.html">Planificació</a></span></div>
+      <div class="kpi"><span class="label">Resultat previst</span><span class="value neg">−56.185,08 €</span><span class="foot">Original: −99.443,75 €</span></div>
+    </section>
+
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Pressupost">
+        <button type="button">Pressupost original</button>
+        <button type="button" class="is-on" aria-pressed="true">Execució</button>
+      </div>
+      <span class="muted">L'execució es va actualitzant amb documents i pagaments; l'original queda com a referència.</span>
+      <span class="spacer"></span>
+      <button type="button" class="btn">Desplega-ho tot</button>
+      <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nova fase</button>
+    </div>
+
+    <section class="card" aria-label="Fases i línies">
+      <div class="table-wrap">
+        <table class="table editable budget">
+          <colgroup><col class="c-drag"><col class="c-type"><col><col class="c-qty"><col class="c-price"><col class="c-total"><col class="c-date"><col class="c-date"><col class="c-doc"><col class="c-menu"></colgroup>
+          <thead>
+            <tr><th></th><th>Tipus</th><th>Concepte</th><th class="num">Quant.</th><th class="num">Preu</th><th class="num">Total</th><th>Previsió fac.</th><th>Previsió pag.</th><th>Document</th><th aria-label="Accions"></th></tr>
+          </thead>
+        <tbody class="phase">
+          <tr class="group">
+            <td><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="false" aria-label="Desplega la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></td>
+            <td colspan="3"><div class="phase-title"><b>Coordinació</b> <span class="muted">13 línies</span> <span class="tag warn">1 amb imports diferents</span></div></td>
+            <td colspan="5"><div class="phase-sums"><span><span class="muted">Ingressos</span> 0,00 €</span><span><span class="muted">Despeses</span> 2.395,13 €</span><span><span class="muted">Resultat</span> <span class="neg">−2.395,13 €</span></span></div></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la fase" title="Duplica fase i pressupost · Esborra la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+        </tbody>
+        <tbody class="phase">
+          <tr class="group">
+            <td><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="false" aria-label="Desplega la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></td>
+            <td colspan="3"><div class="phase-title"><b>Disseny de materials</b> <span class="muted">3 línies</span> </div></td>
+            <td colspan="5"><div class="phase-sums"><span><span class="muted">Ingressos</span> 0,00 €</span><span><span class="muted">Despeses</span> 304,50 €</span><span><span class="muted">Resultat</span> <span class="neg">−304,50 €</span></span></div></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la fase" title="Duplica fase i pressupost · Esborra la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+        </tbody>
+        <tbody class="phase">
+          <tr class="group">
+            <td><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="false" aria-label="Desplega la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></td>
+            <td colspan="3"><div class="phase-title"><b>Sessions formatives</b> <span class="muted">1 línia</span> </div></td>
+            <td colspan="5"><div class="phase-sums"><span><span class="muted">Ingressos</span> 0,00 €</span><span><span class="muted">Despeses</span> 199,35 €</span><span><span class="muted">Resultat</span> <span class="neg">−199,35 €</span></span></div></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la fase" title="Duplica fase i pressupost · Esborra la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+        </tbody>
+        <tbody class="phase is-open" id="fase-2024">
+          <tr class="group">
+            <td><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="true" aria-label="Plega la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+            <td colspan="3"><div class="phase-title"><input class="input phase-name" value="2024" aria-label="Nom de la fase"> <span class="muted">6 línies</span> <span class="tag bad">1 sense data</span></div></td>
+            <td colspan="5"><div class="phase-sums"><span><span class="muted">Ingressos</span> 0,00 €</span><span><span class="muted">Despeses</span> 910,26 €</span><span><span class="muted">Resultat</span> <span class="neg">−910,26 €</span></span></div></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la fase" title="Duplica fase i pressupost · Esborra la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+          <tr class="sec"><td></td><td colspan="4">Ingressos <span class="muted">· 1</span></td><td class="num">0,00 €</td><td colspan="4"></td></tr>
+          <tr class="is-undated">
+            <td class="drag" title="Arrossega per reordenar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/></svg></td>
+            <td><select class="select is-empty" aria-label="Tipus"><option>Tria un tipus</option></select></td>
+            <td><input class="input" value="Recerca de camp" aria-label="Concepte"></td>
+            <td><input class="input num" value="0" aria-label="Quantitat"></td>
+            <td><input class="input num" value="0" aria-label="Preu"></td>
+            <td class="num">0,00 €</td>
+            <td><input class="input is-invalid" placeholder="dd/mm/aaaa" aria-label="Previsió fac."></td>
+            <td><input class="input is-invalid" placeholder="dd/mm/aaaa" aria-label="Previsió pag."></td>
+            <td><a class="tag info" href="A-Fitxa-Planificacio.html" title="Aquesta línia té les dedicacions previstes">13 dedicacions</a></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la línia" aria-haspopup="menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+          <tr class="hint-row"><td></td><td colspan="9"><span class="err">Falten les dates de previsió: la línia surt com a «Sense data» a la periodificació i la tresoreria.</span></td></tr>
+          <tr class="add"><td></td><td colspan="9"><button type="button" class="btn btn-sm btn-ghost"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix ingrés</button></td></tr>
+          <tr class="sec"><td></td><td colspan="4">Despeses <span class="muted">· 5</span></td><td class="num">910,26 €</td><td colspan="4"></td></tr>
+          <tr>
+            <td class="drag" title="Arrossega per reordenar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/></svg></td>
+            <td><select class="select" aria-label="Tipus"><option>Quotes</option></select></td>
+            <td><input class="input" value="Servei de càtering" aria-label="Concepte"></td>
+            <td><input class="input num" value="1" aria-label="Quantitat"></td>
+            <td><input class="input num" value="17,40" aria-label="Preu"></td>
+            <td class="num">17,40 €</td>
+            <td><input class="input" value="06/09/2024" aria-label="Previsió fac."></td>
+            <td><input class="input" value="06/09/2024" aria-label="Previsió pag."></td>
+            <td><span class="tag ok" title="Pagat">D 2024-044</span></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost is-open" aria-label="Accions de la línia" aria-haspopup="menu" aria-expanded="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button><div class="row-menu" role="menu" aria-label="Accions de la línia">
+              <button type="button" role="menuitem">Detalls (IVA, compte, pagat)</button>
+              <button type="button" role="menuitem">Duplica la línia</button>
+              <button type="button" role="menuitem">Divideix la línia…</button>
+              <button type="button" role="menuitem">Mou a una altra fase…</button>
+              <button type="button" role="menuitem">Canvia el document…</button>
+              <hr>
+              <button type="button" role="menuitem" class="danger" disabled>Esborra la línia<small>Està pagada: treu-ne primer el document</small></button>
+            </div></td>
+          </tr>
+          <tr class="is-selected">
+            <td class="drag" title="Arrossega per reordenar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/></svg></td>
+            <td><select class="select" aria-label="Tipus"><option>Desplaçaments</option></select></td>
+            <td><input class="input" value="Material fungible" aria-label="Concepte"></td>
+            <td><input class="input num" value="1" aria-label="Quantitat"></td>
+            <td><input class="input num" value="28,76" aria-label="Preu"></td>
+            <td class="num">28,76 €</td>
+            <td><input class="input" value="14/11/2024" aria-label="Previsió fac."></td>
+            <td><input class="input" value="31/01/2025" aria-label="Previsió pag."></td>
+            <td><span class="tag ok" title="Pagat">F 2024-505</span></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la línia" aria-haspopup="menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+          <tr class="details">
+            <td></td>
+            <td colspan="9">
+              <div class="details-grid">
+                <div class="field"><label for="d-iva">IVA</label><select id="d-iva" class="select input-sm"><option>0%</option><option>4%</option><option>10%</option><option>21%</option></select></div>
+                <div class="field is-changed"><label for="d-compte">Compte <span class="badge-changed">modificat</span></label><select id="d-compte" class="select input-sm"><option>Triodos</option><option>Cajamar</option><option>Paypal</option></select><span class="help">Abans: cap</span></div>
+                <div class="field"><span class="label">Estat</span><label class="check"><input type="checkbox" checked> Pagada</label></div>
+                <div class="field"><span class="label">Document</span><span><span class="tag ok">F 2024-505</span> <span class="muted">Factura rebuda · 28,76 €</span> · <a href="#">Canvia</a> · <a href="#" class="btn-danger" style="color: var(--a-danger-fg)">Treu</a></span></div>
+                <div class="details-close"><button type="button" class="btn btn-sm">Tanca els detalls</button></div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="drag" title="Arrossega per reordenar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/></svg></td>
+            <td><select class="select" aria-label="Tipus"><option>Desplaçaments</option></select></td>
+            <td><input class="input" value="Gestió administrativa" aria-label="Concepte"></td>
+            <td><input class="input num" value="1" aria-label="Quantitat"></td>
+            <td><input class="input num" value="46,09" aria-label="Preu"></td>
+            <td class="num">46,09 €</td>
+            <td><input class="input" value="02/08/2024" aria-label="Previsió fac."></td>
+            <td><input class="input" value="02/08/2024" aria-label="Previsió pag."></td>
+            <td><span class="tag ok" title="Pagat">F 2024-517</span></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la línia" aria-haspopup="menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+          <tr>
+            <td class="drag" title="Arrossega per reordenar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/></svg></td>
+            <td><select class="select" aria-label="Tipus"><option>Desplaçaments</option></select></td>
+            <td><input class="input" value="Coordinació" aria-label="Concepte"></td>
+            <td><input class="input num" value="1" aria-label="Quantitat"></td>
+            <td><input class="input num" value="53,15" aria-label="Preu"></td>
+            <td class="num">53,15 €</td>
+            <td><input class="input" value="12/07/2024" aria-label="Previsió fac."></td>
+            <td><input class="input" value="12/07/2024" aria-label="Previsió pag."></td>
+            <td><span class="tag ok" title="Pagat">F 2024-519</span></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la línia" aria-haspopup="menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+          <tr>
+            <td class="drag" title="Arrossega per reordenar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/></svg></td>
+            <td><select class="select" aria-label="Tipus"><option>Material fungible</option></select></td>
+            <td><input class="input" value="Disseny de materials" aria-label="Concepte"></td>
+            <td><input class="input num" value="1" aria-label="Quantitat"></td>
+            <td><input class="input num" value="764,86" aria-label="Preu"></td>
+            <td class="num">764,86 €</td>
+            <td><input class="input" value="31/12/2024" aria-label="Previsió fac."></td>
+            <td><input class="input" value="31/01/2025" aria-label="Previsió pag."></td>
+            <td><span class="tag ok" title="Pagat">F 2024-588</span></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la línia" aria-haspopup="menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+          <tr class="add"><td></td><td colspan="9"><button type="button" class="btn btn-sm btn-ghost"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix despesa</button></td></tr>
+        </tbody>
+        <tbody class="phase">
+          <tr class="group">
+            <td><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="false" aria-label="Desplega la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></td>
+            <td colspan="3"><div class="phase-title"><b>Formació</b> <span class="muted">14 línies</span> <span class="tag warn">1 amb imports diferents</span></div></td>
+            <td colspan="5"><div class="phase-sums"><span><span class="muted">Ingressos</span> 696,00 €</span><span><span class="muted">Despeses</span> 7.376,33 €</span><span><span class="muted">Resultat</span> <span class="neg">−6.680,33 €</span></span></div></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la fase" title="Duplica fase i pressupost · Esborra la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+        </tbody>
+        <tbody class="phase is-open">
+          <tr class="group">
+            <td><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="true" aria-label="Plega la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+            <td colspan="3"><div class="phase-title"><input class="input phase-name" value="Lloguer d'espai" aria-label="Nom de la fase"> <span class="muted">4 línies</span> <span class="tag warn">2 pendents</span></div></td>
+            <td colspan="5"><div class="phase-sums"><span><span class="muted">Ingressos</span> 34.995,82 €</span><span><span class="muted">Despeses</span> 0,00 €</span><span><span class="muted">Resultat</span> <span class="pos">34.995,82 €</span></span></div></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la fase" title="Duplica fase i pressupost · Esborra la fase"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+          <tr class="sec"><td></td><td colspan="4">Ingressos <span class="muted">· 4</span></td><td class="num">34.995,82 €</td><td colspan="4"></td></tr>
+          <tr>
+            <td class="drag" title="Arrossega per reordenar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/></svg></td>
+            <td><select class="select" aria-label="Tipus"><option>Subvenció pública</option></select></td>
+            <td><input class="input" value="Comunicació i difusió" aria-label="Concepte"></td>
+            <td><input class="input num" value="1" aria-label="Quantitat"></td>
+            <td><input class="input num" value="4.350,00" aria-label="Preu"></td>
+            <td class="num">4.350,00 €</td>
+            <td><input class="input" value="31/07/2024" aria-label="Previsió fac."></td>
+            <td><input class="input" value="31/12/2024" aria-label="Previsió pag."></td>
+            <td><span class="tag ok" title="Cobrat">D 2024-030</span></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la línia" aria-haspopup="menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+          <tr>
+            <td class="drag" title="Arrossega per reordenar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/></svg></td>
+            <td><select class="select" aria-label="Tipus"><option>Factura serveis 21%</option></select></td>
+            <td><input class="input" value="Impressió" aria-label="Concepte"></td>
+            <td><input class="input num" value="1" aria-label="Quantitat"></td>
+            <td><input class="input num" value="2.331,60" aria-label="Preu"></td>
+            <td class="num">2.331,60 €</td>
+            <td><input class="input" value="31/07/2024" aria-label="Previsió fac."></td>
+            <td><input class="input" value="31/12/2024" aria-label="Previsió pag."></td>
+            <td><span class="tag warn">Pendent de cobrar</span></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la línia" aria-haspopup="menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+          <tr>
+            <td class="drag" title="Arrossega per reordenar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/></svg></td>
+            <td><select class="select" aria-label="Tipus"><option>Subvenció pública</option></select></td>
+            <td><input class="input" value="Avaluació" aria-label="Concepte"></td>
+            <td><input class="input num" value="1" aria-label="Quantitat"></td>
+            <td><input class="input num" value="22.651,37" aria-label="Preu"></td>
+            <td class="num">22.651,37 €</td>
+            <td><input class="input" value="16/12/2024" aria-label="Previsió fac."></td>
+            <td><input class="input" value="16/12/2024" aria-label="Previsió pag."></td>
+            <td><span class="tag ok" title="Cobrat">D 2024-044</span></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la línia" aria-haspopup="menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+          <tr>
+            <td class="drag" title="Arrossega per reordenar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h.01M15 6h.01M9 12h.01M15 12h.01M9 18h.01M15 18h.01"/></svg></td>
+            <td><select class="select" aria-label="Tipus"><option>Subvenció pública</option></select></td>
+            <td><input class="input" value="Redacció d'informe" aria-label="Concepte"></td>
+            <td><input class="input num" value="1" aria-label="Quantitat"></td>
+            <td><input class="input num" value="5.662,85" aria-label="Preu"></td>
+            <td class="num">5.662,85 €</td>
+            <td><input class="input" placeholder="dd/mm/aaaa" aria-label="Previsió fac."></td>
+            <td><input class="input" value="31/12/2026" aria-label="Previsió pag."></td>
+            <td><span class="tag warn">Pendent de cobrar</span></td>
+            <td class="menu-cell"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Accions de la línia" aria-haspopup="menu"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></td>
+          </tr>
+          <tr class="add"><td></td><td colspan="9"><button type="button" class="btn btn-sm btn-ghost"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix ingrés</button></td></tr>
+          <tr class="sec"><td></td><td colspan="4">Despeses <span class="muted">· 0</span></td><td class="num">0,00 €</td><td colspan="4"></td></tr>
+          <tr class="add"><td></td><td colspan="9"><button type="button" class="btn btn-sm btn-ghost"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix despesa</button></td></tr>
+        </tbody>
+          <tfoot>
+            <tr>
+              <td></td>
+              <td colspan="3">Total · 6 fases · 41 línies</td>
+              <td colspan="5"><div class="phase-sums"><span><span class="muted">Ingressos</span> 35.691,82 €</span><span><span class="muted">Despeses</span> 11.185,57 €</span><span><span class="muted">Resultat</span> <span class="pos">24.506,25 €</span></span></div></td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="card-foot legend">
+        <button type="button" class="btn btn-sm"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nova fase</button>
+        <span>Document: <b>F</b> factura · <b>D</b> ingrés o despesa rebuda · <b>S</b> subvenció. Verd = cobrat/pagat. Imports sense IVA; el resultat de les fases no inclou el cost de les hores.</span>
+      </div>
+    </section>
+
+    <div class="savebar">
+      <span class="dirty">1 canvi sense desar</span>
+      <span class="muted">Fase 2024 · Material fungible: compte</span>
+      <div class="actions">
+        <button type="button" class="btn">Descarta</button>
+        <button type="button" class="btn btn-primary">Desa</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+</body>
+</html>

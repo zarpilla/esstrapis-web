@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Contactes</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: keep long names on one line in list tables */
+table.table td.name { max-width: 380px; }
+table.table td.name .title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* candidate for a.css: secondary columns hidden on phones */
+@media (max-width: 720px) { table.table .hide-sm { display: none; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item is-active" href="A-Contactes.html" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <header class="page-head">
+      <div>
+        <h1>Contactes</h1>
+        <div class="sub">1.053 contactes · 138 clientes, 223 proveïdores, 11 d'intercooperació</div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Exporta</button>
+        <a class="btn btn-primary" href="A-Contacte.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nou contacte</a>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Filtres">
+      <label class="search"><span class="sr-only">Cerca</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg><input class="input" type="search" placeholder="Cerca per nom, NIF, correu o població"></label>
+      <div class="seg" role="group" aria-label="Tipus">
+        <button type="button" class="is-on" aria-pressed="true">Tots</button>
+        <button type="button" aria-pressed="false">Clientes</button>
+        <button type="button" aria-pressed="false">Proveïdores</button>
+        <button type="button" aria-pressed="false">Intercooperació</button>
+      </div>
+      <button type="button" class="filter"><span>Població</span><b>Totes</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <span class="spacer"></span>
+      <button type="button" class="filter"><span>Ordena</span><b>Més usats</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+    </section>
+
+    <section class="card">
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Tipus</th>
+              <th class="hide-sm">Correu i telèfon</th>
+              <th class="hide-sm">Persona de contacte</th>
+              <th>Relació</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Ajuntament de Vilafranca de Prova</a><span class="subline">B00000336 · Vilafranca de Prova</span></td>
+            <td><span class="tag info">Proveïdora</span> </td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">86 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Fundació Teixit</a><span class="subline">G00000380 · Sant Simulat</span></td>
+            <td><span class="muted" style="white-space:nowrap">Sense tipus</span></td>
+            <td class="hide-sm"><span class="title" style="font-weight:600">contacte380@exemple.org</span><span class="subline">600 380 000</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">73 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Ateneu L&#x27;Era</a><span class="subline">G00000017 · Sant Fictici de Mar</span></td>
+            <td><span class="tag accent">Clienta</span> </td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">3 projectes · 40 ingressos · 21 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Fundació Garbí</a><span class="subline">G00000254 · Masdemo</span></td>
+            <td><span class="tag info">Proveïdora</span> </td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">60 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Consell Comarcal de Riudemostra</a><span class="subline">G00000242 · Riudemostra</span></td>
+            <td><span class="tag info">Proveïdora</span> </td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">59 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Ajuntament de Vilanova de l&#x27;Exemple</a><span class="subline">G00000602 · Vilanova de l&#x27;Exemple</span></td>
+            <td><span class="muted" style="white-space:nowrap">Sense tipus</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">46 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Ateneu Teixit</a><span class="subline">G00000383 · Prats de Mostra</span></td>
+            <td><span class="muted" style="white-space:nowrap">Sense tipus</span></td>
+            <td class="hide-sm"><span class="title" style="font-weight:600">contacte383@exemple.org</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">1 projecte · 41 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Col·lectiu La Farga</a><span class="subline">B00000519 · Santa Mostra</span></td>
+            <td><span class="muted" style="white-space:nowrap">Sense tipus</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">2 ingressos · 36 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Xarxa Sòlida</a><span class="subline">F00000046 · Masdemo</span></td>
+            <td><span class="tag accent">Clienta</span> </td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">1 projecte · 4 ingressos · 33 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Xarxa Vent de Prova</a><span class="subline">F00000304 · Vilafranca de Prova</span></td>
+            <td><span class="tag info">Proveïdora</span> </td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">1 projecte · 1 ingrés · 35 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Ajuntament de Vilafranca de Prova</a><span class="subline">F00000112 · Vilafranca de Prova</span></td>
+            <td><span class="tag accent">Clienta</span> </td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">36 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Associació La Teranyina</a><span class="subline">F00000667 · Pobla de Proves</span></td>
+            <td><span class="muted" style="white-space:nowrap">Sense tipus</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">9 projectes · 25 ingressos · 1 despesa</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Xarxa La Sínia</a><span class="subline">F00000460 · Sant Simulat</span></td>
+            <td><span class="muted" style="white-space:nowrap">Sense tipus</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">35 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Ateneu Ca l&#x27;Exemple</a><span class="subline">G00000137 · Les Planes de Mentida</span></td>
+            <td><span class="tag info">Proveïdora</span> </td>
+            <td class="hide-sm"><span class="title" style="font-weight:600">contacte137@exemple.org</span><span class="subline">600 137 000</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">33 despeses</td>
+          </tr>
+          <tr>
+            <td class="name"><a class="title" href="A-Contacte.html">Ajuntament de Montprova</a><span class="subline">F00000616 · Montprova</span></td>
+            <td><span class="muted" style="white-space:nowrap">Sense tipus</span></td>
+            <td class="hide-sm"><span class="title" style="font-weight:600">contacte616@exemple.org</span><span class="subline">600 616 000</span></td>
+            <td class="hide-sm"><span class="muted">—</span></td>
+            <td style="white-space:nowrap">29 despeses</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-foot">
+        <span>1–15 de 1.053 contactes</span>
+        <nav class="pagination" aria-label="Pàgines">
+          <button type="button" aria-label="Anterior">‹</button>
+          <button type="button" aria-current="page">1</button>
+          <button type="button">2</button>
+          <button type="button">3</button>
+          <button type="button" disabled>…</button>
+          <button type="button">71</button>
+          <button type="button" aria-label="Següent">›</button>
+        </nav>
+      </div>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

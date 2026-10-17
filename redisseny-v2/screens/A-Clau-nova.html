@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Clau nova</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: logged-out pages (login, forgotten and new password) share this shell.
+   Same measures as A-Login.html (which uses inline styles). */
+.auth { min-height: 900px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 72px 16px 32px; font-size: 15px; }
+.auth-main { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 28px; }
+.auth-main.wide { max-width: 848px; }
+.auth-logo { display: flex; justify-content: center; }
+.auth-logo .logo { font-size: 30px; padding: 0; }
+.auth-logo .logo b { padding: 4px 6px 3px; }
+.auth-cards { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; align-items: flex-start; }
+.auth-cards > div { flex: 1 1 340px; max-width: 400px; display: flex; flex-direction: column; gap: 8px; }
+.auth-card { background: var(--a-surface); border: 1px solid var(--a-line); border-radius: var(--a-radius-lg); padding: 32px; display: flex; flex-direction: column; gap: 20px; box-shadow: var(--a-shadow); }
+.auth-card h1 { font-size: 24px; font-weight: 800; }
+.auth-card .lead { margin: 4px 0 0; color: var(--a-muted); }
+.auth-card .input { height: 44px; }
+.auth-card .btn { height: 44px; font-size: 16px; }
+.auth-back { margin: 0; text-align: center; color: var(--a-muted); font-size: 14px; }
+.auth-back a { font-weight: 600; }
+.auth a:not(.btn) { text-decoration: none; }
+.auth-foot { width: 100%; max-width: 720px; display: flex; flex-direction: column; align-items: center; gap: 12px; padding-top: 48px; }
+.auth-foot > span { font-size: 13px; color: var(--a-muted); font-weight: 600; }
+.auth-foot div { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.auth-foot i { width: 120px; height: 40px; border: 1px dashed var(--a-input); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-style: normal; color: var(--a-muted); }
+@media (max-width: 720px) { .auth { padding-top: 40px; } .auth-card { padding: 24px 20px; } }
+/* candidate for a.css: live checklist of password rules */
+.rules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.rules li { display: flex; align-items: center; gap: 8px; color: var(--a-muted); }
+.rules li.ok { color: var(--a-pos); font-weight: 700; }
+.rules li.bad { color: var(--a-danger-fg); font-weight: 700; }
+.rules svg.i { width: 16px; height: 16px; }
+.pw { position: relative; display: flex; }
+.pw .input { padding-right: 44px; }
+.pw button { position: absolute; right: 2px; top: 2px; width: 40px; height: 40px; border: 0; background: transparent; color: var(--a-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.state-cap { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--a-muted); padding-left: 4px; } /* mockup only */
+</style>
+</head>
+<body>
+<div class="auth">
+  <main class="auth-main wide">
+    <div class="auth-logo"><span class="logo"><b>ESS</b><span>TRAPIS</span></span></div>
+    <div class="auth-cards">
+      <div>
+        <span class="state-cap">Escrivint (encara no es pot desar)</span>
+        <form class="auth-card">
+          <div>
+            <h1>Tria una clau nova</h1>
+            <p class="lead">Després de desar-la, entra amb la clau nova. L'anterior deixarà de funcionar.</p>
+          </div>
+          <div class="field">
+            <label for="n-pass">Clau de pas nova</label>
+            <div class="pw"><input id="n-pass" class="input" type="password" autocomplete="new-password" value="cooperativa"><button type="button" aria-label="Mostra la clau"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+          </div>
+          <div class="field is-invalid">
+            <label for="n-pass2">Repeteix la clau</label>
+            <div class="pw"><input id="n-pass2" class="input" type="password" autocomplete="new-password" value="cooperativ" aria-describedby="n-err" aria-invalid="true"><button type="button" aria-label="Mostra la clau"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+            <span class="error" id="n-err">No coincideix amb la primera.</span>
+          </div>
+          <ul class="rules" aria-label="Requisits de la clau">
+            <li class="ok"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg> Com a mínim 6 caràcters</li>
+            <li class="bad"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg> Les dues claus coincideixen</li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Consell: una frase de tres o quatre paraules és fàcil de recordar i difícil d'endevinar.</span></li>
+          </ul>
+          <button type="submit" class="btn btn-primary" disabled style="background: var(--a-seg); border-color: var(--a-seg); color: #8A9A9C">Desa la clau</button>
+        </form>
+        <p class="auth-back"><a href="A-Login.html">← Torna a l'inici de sessió</a></p>
+      </div>
+
+      <div>
+        <span class="state-cap">Enllaç caducat o ja utilitzat</span>
+        <section class="auth-card">
+          <div>
+            <h1>Aquest enllaç ja no serveix</h1>
+            <p class="lead">Cada enllaç es pot fer servir una sola vegada. Demana'n un de nou i fes servir el correu més recent.</p>
+          </div>
+          <div class="notice danger"><span>No s'ha pogut canviar la clau de pas: l'enllaç ha caducat o ja s'ha fet servir.</span></div>
+          <a class="btn btn-primary" href="A-Clau-oblidada.html">Demana un enllaç nou</a>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="auth-foot">
+    <span>Amb el suport de</span>
+    <div><i>[Logo 1]</i><i>[Logo 2]</i><i>[Logo 3]</i></div>
+  </footer>
+</div>
+</body>
+</html>

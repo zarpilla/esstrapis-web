@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Nou projecte</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: stepper for multi-step creation */
+.steps { display: flex; flex-wrap: wrap; gap: 8px 0; counter-reset: step; list-style: none; margin: 0; padding: 0; }
+.steps li { flex: 1 1 160px; display: flex; align-items: center; gap: 10px; padding-right: 12px; font-weight: 700; color: var(--a-muted); position: relative; }
+.steps li::after { content: ""; flex: 1; height: 2px; background: var(--a-line); min-width: 16px; }
+.steps li:last-child::after { display: none; }
+.steps .n { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--a-line); background: var(--a-surface); display: inline-flex; align-items: center; justify-content: center; font-weight: 800; flex: none; }
+.steps li.is-current { color: var(--a-fg); font-weight: 800; }
+.steps li.is-current .n { border-color: var(--a-accent); background: var(--a-accent); color: #fff; }
+.howto { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.howto li { display: grid; grid-template-columns: 30px 1fr; gap: 2px 12px; }
+.howto .n { grid-row: span 2; width: 26px; height: 26px; border-radius: 50%; background: var(--a-chip); font-weight: 800; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; }
+.howto li.is-current .n { background: var(--a-accent); color: #fff; }
+.howto span.muted { font-size: 13px; }
+.req { color: var(--a-neg); }
+.narrow .notice { flex-wrap: nowrap; align-items: flex-start; }
+.narrow .notice > span { flex: 1 1 auto; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item is-active" aria-current="page" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="A-Llistat.html">Projectes</a><span aria-hidden="true">/</span><span>Nou projecte</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Nou projecte</h1>
+        <div class="sub">Primer les dades bàsiques. El pressupost i la planificació, als passos següents.</div>
+      </div>
+    </header>
+
+    <ol class="steps" aria-label="Passos">
+      <li class="is-current" aria-current="step"><span class="n">1</span>Dades bàsiques</li>
+      <li><span class="n">2</span>Fases i pressupost</li>
+      <li><span class="n">3</span>Planificació</li>
+      <li><span class="n">4</span>Confirmació</li>
+    </ol>
+
+    <div class="notice danger" role="alert">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><path d="M12 3l10 18H2zM12 10v4M12 17.5v.5"/></svg>
+      <span><b>Falta 1 camp obligatori</b> per continuar: Àmbit.</span>
+    </div>
+
+    <div class="cols">
+      <div class="wide" style="display: flex; flex-direction: column; gap: 16px">
+        <section class="card form-section" aria-labelledby="s-basic">
+          <h2 id="s-basic">Dades bàsiques</h2>
+          <p>Els camps amb <span class="req">*</span> són obligatoris.</p>
+          <div class="field">
+            <label for="f-codi">Codi <span class="req">*</span></label>
+            <input id="f-codi" class="input" value="Diagnosi de cures comunitàries Santa Mostra">
+            <span class="help">El nom curt amb què veureu el projecte a tot arreu.</span>
+          </div>
+          <div class="grid-form">
+            <div class="field">
+              <label for="f-estat">Estat <span class="req">*</span></label>
+              <select id="f-estat" class="select"><option>Prospecció</option><option>Sol·licitat</option><option>Actiu</option><option>Tancat</option><option>Denegat</option><option>No presentat</option><option>Renunciat</option></select>
+            </div>
+            <div class="field is-invalid">
+              <label for="f-ambit">Àmbit <span class="req">*</span></label>
+              <select id="f-ambit" class="select" aria-invalid="true" aria-describedby="e-ambit"><option>Tria un àmbit</option><option>Balkar</option><option>Iltir</option><option>Lakue</option><option>Urtur (Consultories)</option><option>Entitats, cooperatives i empreses</option></select>
+              <span class="error" id="e-ambit">Tria un àmbit.</span>
+            </div>
+            <div class="field">
+              <label for="f-coord">Coordina <span class="req">*</span></label>
+              <select id="f-coord" class="select"><option>Laia Puig</option></select>
+            </div>
+            <div class="field">
+              <label for="f-ini">Inici <span class="req">*</span></label>
+              <input id="f-ini" class="input" value="16/10/2026">
+            </div>
+            <div class="field">
+              <label for="f-fi">Final <span class="req">*</span></label>
+              <input id="f-fi" class="input" value="31/12/2026">
+            </div>
+            <div class="field">
+              <label for="f-tipus">Tipus</label>
+              <select id="f-tipus" class="select"><option>Tria un tipus</option></select>
+            </div>
+          </div>
+        </section>
+
+        <section class="card form-section" aria-labelledby="s-opt">
+          <h2 id="s-opt">Si ja ho saps</h2>
+          <p>Opcional. Ho pots afegir o canviar més tard a la pestanya Dades.</p>
+          <div class="field">
+            <label for="f-cli">Clientes</label>
+            <div style="display: flex; gap: 8px"><input id="f-cli" class="input" placeholder="Escriu el nom de la clienta…"><button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nou contacte</button></div>
+          </div>
+          <div class="grid-form">
+            <div class="field">
+              <label for="f-ded">Tipus de dedicació</label>
+              <select id="f-ded" class="select"><option>Tria un tipus</option><option>H3 aliances, prospecció i capacitats</option></select>
+            </div>
+            <div class="field">
+              <label for="f-mare">Projecte mare</label>
+              <input id="f-mare" class="input" placeholder="Escriu el nom del projecte…">
+              <span class="help">Per agrupar projectes interanuals.</span>
+            </div>
+          </div>
+          <label class="switch"><input type="checkbox"><span><b>Subvencions</b><span>Que s'acull a subvencions que caldrà justificar. Activa l'expedient, els imports i les dates.</span></span></label>
+        </section>
+      </div>
+
+      <aside class="narrow">
+        <section class="card card-pad">
+          <h2 class="section-title" style="font-size: 16px; margin-bottom: 14px">Com es crea un projecte</h2>
+          <ol class="howto">
+            <li class="is-current"><span class="n">1</span><b>Dades bàsiques</b><span class="muted">Ara. Amb això el projecte ja es desa.</span></li>
+            <li><span class="n">2</span><b>Fases i pressupost</b><span class="muted">El pressupost original: fases amb els ingressos i les despeses previstos. Cal almenys una fase.</span></li>
+            <li><span class="n">3</span><b>Planificació</b><span class="muted">Qui hi dedicarà hores, quantes i quan.</span></li>
+            <li><span class="n">4</span><b>Confirmació</b><span class="muted">Es crea el pressupost d'execució a partir de l'original i el projecte queda complet.</span></li>
+          </ol>
+        </section>
+        <div class="notice info">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 11v6M12 7.5v.5"/></svg>
+          <span>Pots deixar-ho a mitges: el projecte es desa a cada pas i el reprens des del llistat.</span>
+        </div>
+        <section class="card card-pad">
+          <b>Vols partir d'un projecte que ja existeix?</b>
+          <p class="muted" style="margin: 6px 0 0">Obre'l i fes <b>Duplica</b>: copia les dades, les fases i el pressupost, i pots moure les dates.</p>
+        </section>
+      </aside>
+    </div>
+
+    <div class="savebar">
+      <span class="muted">Pas 1 de 4</span>
+      <div class="actions">
+        <a class="btn" href="A-Llistat.html">Cancel·la</a>
+        <button type="button" class="btn btn-primary">Desa i continua<svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+
+  </main>
+</div>
+</body>
+</html>

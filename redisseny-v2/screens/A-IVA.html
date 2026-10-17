@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · IVA</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+  /* candidate for a.css: row actions — one text action + icon buttons, right aligned */
+  .row-actions { display: flex; gap: 6px; justify-content: flex-end; align-items: center; white-space: nowrap; }
+  /* candidate for a.css: single-line truncation inside table cells */
+  table.table .trunc { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nowrap { white-space: nowrap; }
+  /* candidate for a.css: kpi value colours */
+  .kpi .value.neg { color: var(--a-neg); } .kpi .value.pos { color: var(--a-pos); }
+</style>
+</head>
+<body>
+<!-- Proposal A · IVA (route /vat, VatTable.vue). Data: projectes_v5_manual as computed by the current screen on 16/10/2026: executed VAT pending = 0; expected (previst) VAT per quarter with cumulative balance; 2026 T3 selected. -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item is-active" aria-current="page" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><span>Diners</span><span aria-hidden="true">/</span><span>IVA</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>IVA</h1>
+        <div class="sub">Liquidació trimestral amb càlcul acumulat · IVA deduïble 79 %</div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Exporta</button>
+      </div>
+    </header>
+
+    <section class="kpis" aria-label="Resum">
+      <div class="kpi"><span class="label">Executat pendent de saldar</span><span class="value">0,00 €</span><span class="foot">Cap factura cobrada o pagada amb l'IVA pendent</span></div>
+      <div class="kpi"><span class="label">Pròxim pagament previst</span><span class="value neg">9.319,00 €</span><span class="foot">2026 T3 · es paga el 30/10/2026</span></div>
+      <div class="kpi"><span class="label">Següent</span><span class="value neg">25.788,67 €</span><span class="foot">2026 T4 · es paga el 20/01/2027</span></div>
+      <div class="kpi"><span class="label">Saldo previst total</span><span class="value neg">77.616,42 €</span><span class="foot">a pagar: repercutit 190.045,23 € − 79 % de 142.314,94 € suportat</span></div>
+    </section>
+
+    <section class="card" aria-label="IVA per trimestre">
+      <div class="card-head">
+        <h2>IVA per trimestre</h2>
+        <div class="toolbar">
+          <div class="seg" role="group" aria-label="Origen"><button type="button" class="is-on" aria-pressed="true">Previst <span class="muted" style="font-weight:600;margin-left:4px"></span></button><button type="button" aria-pressed="false">Executat <span class="muted" style="font-weight:600;margin-left:4px"></span></button></div>
+          <button type="button" class="filter"><span>Anys</span><b>2025–2027</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table class="table" style="min-width:900px">
+          <thead><tr>
+            <th>Trimestre</th><th class="num">IVA repercutit</th><th class="num">IVA suportat</th><th class="num">Suportat deduïble</th>
+            <th class="num">Saldo trimestre</th><th class="num">Saldo acumulat</th><th class="num">A pagar</th><th>Data de pagament</th>
+          </tr></thead>
+          <tbody>
+          <tr class="group"><td colspan="8">2025</td></tr>
+          <tr>
+            <td><b>T1</b> <span class="muted">2025</span></td>
+            <td class="num">5.693,79 €</td><td class="num">2.603,48 €</td><td class="num">2.056,75 €</td>
+            <td class="num"><span class="neg">3.637,04 €</span></td><td class="num"><span class="neg">3.637,04 €</span></td><td class="num"><b>3.637,04 €</b></td><td class="nowrap">30/04/2025</td>
+          </tr>
+          <tr>
+            <td><b>T2</b> <span class="muted">2025</span></td>
+            <td class="num">20.053,98 €</td><td class="num">2.745,07 €</td><td class="num">2.168,60 €</td>
+            <td class="num"><span class="neg">17.885,37 €</span></td><td class="num"><span class="neg">17.885,37 €</span></td><td class="num"><b>17.885,37 €</b></td><td class="nowrap">30/07/2025</td>
+          </tr>
+          <tr>
+            <td><b>T3</b> <span class="muted">2025</span></td>
+            <td class="num">4.430,48 €</td><td class="num">465,88 €</td><td class="num">368,05 €</td>
+            <td class="num"><span class="neg">4.062,43 €</span></td><td class="num"><span class="neg">4.062,43 €</span></td><td class="num"><b>4.062,43 €</b></td><td class="nowrap">30/10/2025</td>
+          </tr>
+          <tr>
+            <td><b>T4</b> <span class="muted">2025</span></td>
+            <td class="num">9.829,00 €</td><td class="num">14.774,91 €</td><td class="num">11.672,18 €</td>
+            <td class="num"><span class="pos">−1.843,18 €</span></td><td class="num"><span class="pos">−1.843,18 €</span></td><td class="num"><span class="tag">Es traspassa</span></td><td class="nowrap"><span class="zero">—</span></td>
+          </tr>
+          <tr class="group"><td colspan="8">2026</td></tr>
+          <tr>
+            <td><b>T1</b> <span class="muted">2026</span></td>
+            <td class="num">1.644,30 €</td><td class="num">730,80 €</td><td class="num">577,33 €</td>
+            <td class="num"><span class="neg">1.066,97 €</span></td><td class="num"><span class="pos">−776,21 €</span></td><td class="num"><span class="tag">Es traspassa</span></td><td class="nowrap"><span class="zero">—</span></td>
+          </tr>
+          <tr>
+            <td><b>T2</b> <span class="muted">2026</span></td>
+            <td class="num">2.304,58 €</td><td class="num">1.012,77 €</td><td class="num">800,09 €</td>
+            <td class="num"><span class="neg">1.504,49 €</span></td><td class="num"><span class="neg">728,28 €</span></td><td class="num"><b>728,28 €</b></td><td class="nowrap">30/07/2026</td>
+          </tr>
+          <tr class="is-selected" aria-selected="true">
+            <td><b>T3</b> <span class="muted">2026</span></td>
+            <td class="num">15.150,19 €</td><td class="num">7.381,25 €</td><td class="num">5.831,19 €</td>
+            <td class="num"><span class="neg">9.319,00 €</span></td><td class="num"><span class="neg">9.319,00 €</span></td><td class="num"><b>9.319,00 €</b></td><td class="nowrap">30/10/2026 <span class="tag accent">Pròxim</span></td>
+          </tr>
+          <tr>
+            <td><b>T4</b> <span class="muted">2026</span></td>
+            <td class="num">45.936,86 €</td><td class="num">25.504,04 €</td><td class="num">20.148,19 €</td>
+            <td class="num"><span class="neg">25.788,67 €</span></td><td class="num"><span class="neg">25.788,67 €</span></td><td class="num"><b>25.788,67 €</b></td><td class="nowrap">20/01/2027</td>
+          </tr>
+          <tr class="group"><td colspan="8">2027</td></tr>
+          <tr>
+            <td><b>T1</b> <span class="muted">2027</span></td>
+            <td class="num">56.637,00 €</td><td class="num">1.699,11 €</td><td class="num">1.342,30 €</td>
+            <td class="num"><span class="neg">55.294,70 €</span></td><td class="num"><span class="neg">55.294,70 €</span></td><td class="num"><b>55.294,70 €</b></td><td class="nowrap">30/04/2027</td>
+          </tr>
+          <tr>
+            <td><b>T2</b> <span class="muted">2027</span></td>
+            <td class="num">0,00 €</td><td class="num">11.883,82 €</td><td class="num">9.388,21 €</td>
+            <td class="num"><span class="pos">−9.388,21 €</span></td><td class="num"><span class="pos">−9.388,21 €</span></td><td class="num"><span class="tag">Es traspassa</span></td><td class="nowrap"><span class="zero">—</span></td>
+          </tr>
+          <tr>
+            <td><b>T3</b> <span class="muted">2027</span></td>
+            <td class="num">6.394,50 €</td><td class="num">16.841,51 €</td><td class="num">13.304,79 €</td>
+            <td class="num"><span class="pos">−6.910,29 €</span></td><td class="num"><span class="pos">−16.298,51 €</span></td><td class="num"><span class="tag">Es traspassa</span></td><td class="nowrap"><span class="zero">—</span></td>
+          </tr>
+          <tr>
+            <td><b>T4</b> <span class="muted">2027</span></td>
+            <td class="num">91,35 €</td><td class="num">18.382,26 €</td><td class="num">14.521,98 €</td>
+            <td class="num"><span class="pos">−14.430,63 €</span></td><td class="num"><span class="pos">−30.729,14 €</span></td><td class="num"><span class="tag">Es traspassa</span></td><td class="nowrap"><span class="zero">—</span></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-foot"><span>Saldo positiu (vermell) = a pagar a Hisenda · negatiu (verd) = a favor, es traspassa al trimestre següent. Només es crea el pagament a Tresoreria quan l'acumulat és a pagar.</span><a href="#">Mostra 13 trimestres anteriors i 4 posteriors</a></div>
+    </section>
+
+    <section class="card" aria-label="Documents previstos del trimestre">
+      <div class="card-head"><h2>Documents previstos · 2026 T3</h2><span class="sub">43 línies de projectes encara sense factura</span></div>
+      <div class="table-wrap">
+        <table class="table" style="min-width:820px">
+          <thead><tr><th>Projecte · concepte</th><th>Tipus</th><th class="sorted" aria-sort="ascending">Data estimada ↑</th><th class="num">Base</th><th class="num">% IVA</th><th class="num">IVA</th></tr></thead>
+          <tbody>
+          <tr>
+            <td><a class="title trunc" href="#" style="max-width:360px">Acompanyament en transició energètica Masdemo</a><span class="subline">Impressió</span></td>
+            <td><span class="tag info">Ingrés previst</span></td><td>01/07/2026</td>
+            <td class="num">3.915,00 €</td><td class="num"><span class="muted" style="font-weight:600">21%</span></td><td class="num">822,15 €</td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="#" style="max-width:360px">Acompanyament en transició energètica Masdemo</a><span class="subline">Avaluació</span></td>
+            <td><span class="tag info">Ingrés previst</span></td><td>01/07/2026</td>
+            <td class="num">7.830,00 €</td><td class="num"><span class="muted" style="font-weight:600">21%</span></td><td class="num">1.644,30 €</td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="#" style="max-width:360px">Acompanyament en transició energètica Masdemo</a><span class="subline">Redacció d&#x27;informe</span></td>
+            <td><span class="tag info">Ingrés previst</span></td><td>01/07/2026</td>
+            <td class="num">3.915,00 €</td><td class="num"><span class="muted" style="font-weight:600">21%</span></td><td class="num">822,15 €</td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="#" style="max-width:360px">Acompanyament en transició energètica Masdemo</a><span class="subline">Assessorament</span></td>
+            <td><span class="tag info">Ingrés previst</span></td><td>01/07/2026</td>
+            <td class="num">2.610,00 €</td><td class="num"><span class="muted" style="font-weight:600">21%</span></td><td class="num">548,10 €</td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="#" style="max-width:360px">Acompanyament en transició energètica Masdemo</a><span class="subline">Recerca de camp</span></td>
+            <td><span class="tag info">Ingrés previst</span></td><td>01/07/2026</td>
+            <td class="num">261,00 €</td><td class="num"><span class="muted" style="font-weight:600">21%</span></td><td class="num">54,81 €</td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="#" style="max-width:360px">Acompanyament en transició energètica Masdemo</a><span class="subline">Disseny gràfic</span></td>
+            <td><span class="tag info">Ingrés previst</span></td><td>01/07/2026</td>
+            <td class="num">522,00 €</td><td class="num"><span class="muted" style="font-weight:600">21%</span></td><td class="num">109,62 €</td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="#" style="max-width:360px">Dinamització d&#x27;habitatge cooperatiu Les Planes de Mentida</a><span class="subline">Desplaçaments</span></td>
+            <td><span class="tag info">Ingrés previst</span></td><td>01/07/2026</td>
+            <td class="num">0,87 €</td><td class="num"><span class="muted" style="font-weight:600">21%</span></td><td class="num">0,18 €</td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="#" style="max-width:360px">Dinamització d&#x27;habitatge cooperatiu Les Planes de Mentida</a><span class="subline">Redacció d&#x27;informe</span></td>
+            <td><span class="tag">Despesa prevista</span></td><td>01/07/2026</td>
+            <td class="num">217,50 €</td><td class="num"><span class="muted" style="font-weight:600">21%</span></td><td class="num">45,67 €</td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="#" style="max-width:360px">Assessorament en habitatge cooperatiu Pobla de Proves</a><span class="subline">Servei de càtering</span></td>
+            <td><span class="tag">Despesa prevista</span></td><td>01/07/2026</td>
+            <td class="num">261,00 €</td><td class="num"><span class="muted" style="font-weight:600">21%</span></td><td class="num">54,81 €</td>
+          </tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="3">Repercutit · ingressos previstos</td><td class="num">72.143,76 €</td><td></td><td class="num">15.150,19 €</td></tr>
+            <tr><td colspan="3">Suportat · despeses previstes</td><td class="num">35.285,52 €</td><td></td><td class="num">7.381,25 €</td></tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="card-foot"><span>1–9 de 43</span><nav class="pagination" aria-label="Paginació"><button type="button" aria-label="Anterior" disabled>‹</button><button type="button" aria-current="page">1</button><button type="button">2</button><button type="button">3</button><button type="button">4</button><button type="button">5</button><button type="button" aria-label="Següent">›</button></nav></div>
+    </section>
+
+    <section class="card" aria-label="Documents executats pendents de saldar">
+      <div class="card-head"><h2>Executat pendent de saldar</h2>
+        <div class="toolbar"><label class="field" style="flex-direction:row;align-items:center;gap:8px"><span class="muted" style="font-weight:600">Data de pagament</span><input class="input" style="width:150px" value="16/10/2026" aria-label="Data de pagament"></label><button type="button" class="btn" disabled>Saldar</button></div>
+      </div>
+      <div class="empty"><b>Tot l'IVA executat està saldat</b><span>Quan es cobri o es pagui una factura amb IVA apareixerà aquí: marca-la i salda-la amb la data del pagament a Hisenda.</span></div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

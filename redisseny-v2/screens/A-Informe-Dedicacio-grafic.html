@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Dedicació (gràfic)</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: report layout helpers (shared by all A-Informe-* pages) */
+.report-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; color: var(--a-muted); font-size: 13px; }
+.filter b { font-weight: 800; }
+.btn-link { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: var(--a-accent); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+/* collapsible group rows in report tables */
+table.table tr.group td:first-child { white-space: nowrap; }
+table.table tr.group .gt { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 0; font: inherit; font-weight: 800; color: var(--a-fg); cursor: pointer; }
+table.table tr.group .gt svg { width: 16px; height: 16px; color: var(--a-muted); }
+table.table tr.group .gt[aria-expanded="false"] svg { transform: rotate(-90deg); }
+table.table tr.group .count { font-weight: 600; color: var(--a-muted); margin-left: 4px; }
+table.table tr.more td { color: var(--a-muted); font-size: 13px; }
+table.table td.indent { padding-left: 40px; }
+table.table th.num, table.table td.num { text-align: right; }
+.hb { min-width: 180px; display: flex; flex-direction: column; gap: 5px; }
+.hb .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; white-space: nowrap; }
+.hb .top b { font-weight: 800; }
+.hb .top span { color: var(--a-muted); font-size: 13px; }
+.hb .top span.over { color: var(--a-over); font-weight: 700; }
+table.table td .of { display: block; color: var(--a-muted); font-size: 12.5px; font-weight: 600; }
+
+/* candidate for a.css: horizontal bar list (chart + table in one) */
+.hlist { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.hlist td { padding: 6px 0; border-bottom: 1px solid var(--a-line-soft); vertical-align: middle; }
+.hlist td.n { padding-right: 12px; max-width: 0; width: 52%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.hlist td.b { width: 24%; padding-right: 12px; }
+.hlist td.v { text-align: right; font-weight: 800; white-space: nowrap; padding-right: 10px; }
+.hlist td.p { text-align: right; color: var(--a-muted); white-space: nowrap; width: 54px; }
+.hlist .bar { height: 10px; border-radius: 3px; }
+.hlist tr.other td.n, .hlist tr.other td.v { color: var(--a-muted); font-weight: 600; }
+.hlist tr.other .bar > span { background: #A6B3B5; }
+.hlist tfoot td { border-bottom: 0; font-weight: 800; padding-top: 10px; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 16px; align-items: start; }
+@media (max-width: 720px) { .grid2 { grid-template-columns: 1fr; } }
+/* candidate for a.css: chart frame + legend */
+.chart { width: 100%; height: auto; display: block; max-height: 260px; min-width: 680px; }
+.chart text { font: 12px var(--a-font); fill: var(--a-fg-2); }
+.chart .val { font-weight: 800; fill: var(--a-fg); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--a-fg-2); font-size: 13px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+/* stacked share bar */
+.stack { display: flex; height: 14px; border-radius: 4px; overflow: hidden; background: var(--a-seg); }
+.stack span { display: block; height: 100%; }
+.t1 { background: #0B7A6C; } .t2 { background: #2F6DB5; } .t3 { background: #E08A2E; } .t0 { background: #C9D3D4; }
+</style>
+</head>
+<body>
+<!-- Proposal A · Dedicació (gràfic). Static mockup; figures are real values from the anonymized demo database (projectes_v5_manual). -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="true"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="nav-sub">
+          <a class="nav-item" href="A-Informe-Projectes.html">Panell de projectes</a>
+          <a class="nav-item is-active" aria-current="page" href="A-Informe-Dedicacio-grafic.html">Dedicació (gràfic)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-taula.html">Dedicació (taula)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-real.html">% Dedicació real</a>
+          <a class="nav-item" href="A-Informe-Previsio-dedicacio.html">Previsió dedicació</a>
+          <a class="nav-item" href="A-Informe-Prev-real.html">Prev./Real dedicació</a>
+          <a class="nav-item" href="A-Informe-Ingressos-despeses.html">Ingressos/Despeses</a>
+          <a class="nav-item" href="A-Informe-Preu-hora.html">Preu hora</a>
+          <a class="nav-item" href="A-Informe-Previsio-economica.html">Previsió econòmica</a>
+          <a class="nav-item" href="A-Informe-Estrategies.html">Estratègies</a>
+          <a class="nav-item" href="A-Informe-Intercooperacio.html">Intercooperació</a>
+          <a class="nav-item" href="A-Informe-Saldo-hores.html">Saldo hores</a>
+          <a class="nav-item" href="A-Informe-Hores-anuals.html">Hores anuals</a>
+          <a class="nav-item" href="A-Justificacions.html">Justificacions</a>
+          <a class="nav-item" href="A-Subvencions.html">Subvencions</a>
+        </div>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="#">Informes</a><span aria-hidden="true">/</span><span>Dedicació (gràfic)</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Dedicació</h1>
+        <div class="sub">Com es reparteixen les hores dedicades del període: per mes, persona, projecte, tipus d'activitat i funció.</div>
+      </div>
+      <div class="actions"><button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exporta .ods</button></div>
+    </header>
+    <div class="toolbar">
+      <button type="button" class="filter"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg><span>Període</span><b>01/01/2026 – 30/06/2026</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="seg " role="group" aria-label="Període ràpid"><button type="button">Aquest mes</button><button type="button">Trimestre</button><button type="button" class="is-on" aria-pressed="true">Semestre</button><button type="button">Any</button></div>
+      <button type="button" class="filter"><span>Persona</span><b>Totes</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Projecte</span><b>Tots</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <label class="check"><input type="checkbox"> Només hores modificades els últims 7 dies</label>
+    </div>
+    <section class="kpis" aria-label="Resum">
+      <div class="kpi"><span class="label">Hores dedicades</span><span class="value">9.219,3&nbsp;h</span><span class="foot">gener – juny 2026</span></div>
+      <div class="kpi"><span class="label">Mitjana mensual</span><span class="value">1.536,5&nbsp;h</span><span class="foot">màxim a l'abril: 1.721,8&nbsp;h</span></div>
+      <div class="kpi"><span class="label">Persones</span><span class="value">17</span><span class="foot">amb hores al període</span></div>
+      <div class="kpi"><span class="label">Projectes</span><span class="value">86</span><span class="foot">els 10 primers sumen el 69&nbsp;%</span></div>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>Hores per mes</h2><span class="sub">totes les persones i projectes</span></div>
+      <div class="card-pad table-wrap"><svg class="chart" viewBox="0 0 1060 230" role="img" aria-label="Hores dedicades per mes, gener a juny de 2026: gen 1.314,5 h; febr 1.371,3 h; març 1.601,3 h; abr 1.721,8 h; maig 1.495,3 h; juny 1.715,0 h">
+<line x1="56" x2="1060" y1="196.0" y2="196.0" stroke="#EDF1F2"/><text x="48" y="200.0" text-anchor="end">0</text>
+<line x1="56" x2="1060" y1="148.2" y2="148.2" stroke="#EDF1F2"/><text x="48" y="152.2" text-anchor="end">500</text>
+<line x1="56" x2="1060" y1="100.4" y2="100.4" stroke="#EDF1F2"/><text x="48" y="104.4" text-anchor="end">1.000</text>
+<line x1="56" x2="1060" y1="52.7" y2="52.7" stroke="#EDF1F2"/><text x="48" y="56.7" text-anchor="end">1.500</text>
+<rect x="101.3" y="70.4" width="84" height="125.6" rx="3" fill="#0B7A6C"/><text class="val" x="143.3" y="63.4" text-anchor="middle">1.314,5</text><text x="143.3" y="216" text-anchor="middle">gen 2026</text>
+<rect x="268.0" y="65.0" width="84" height="131.0" rx="3" fill="#0B7A6C"/><text class="val" x="310.0" y="58.0" text-anchor="middle">1.371,3</text><text x="310.0" y="216" text-anchor="middle">febr 2026</text>
+<rect x="434.7" y="43.0" width="84" height="153.0" rx="3" fill="#0B7A6C"/><text class="val" x="476.7" y="36.0" text-anchor="middle">1.601,3</text><text x="476.7" y="216" text-anchor="middle">març 2026</text>
+<rect x="601.3" y="31.5" width="84" height="164.5" rx="3" fill="#0B7A6C"/><text class="val" x="643.3" y="24.5" text-anchor="middle">1.721,8</text><text x="643.3" y="216" text-anchor="middle">abr 2026</text>
+<rect x="768.0" y="53.1" width="84" height="142.9" rx="3" fill="#0B7A6C"/><text class="val" x="810.0" y="46.1" text-anchor="middle">1.495,3</text><text x="810.0" y="216" text-anchor="middle">maig 2026</text>
+<rect x="934.7" y="32.1" width="84" height="163.9" rx="3" fill="#0B7A6C"/><text class="val" x="976.7" y="25.1" text-anchor="middle">1.715,0</text><text x="976.7" y="216" text-anchor="middle">juny 2026</text>
+<line x1="56" x2="1060" y1="196" y2="196" stroke="#C9D3D4"/></svg></div>
+      <details class="card-foot"><summary>Veure les dades en taula</summary>
+        <table class="table compact" style="margin-top:8px"><thead><tr><th>Mes</th><th class="num">Hores</th></tr></thead><tbody><tr><td>gen 2026</td><td class="num">1.314,50&nbsp;h</td></tr><tr><td>febr 2026</td><td class="num">1.371,33&nbsp;h</td></tr><tr><td>març 2026</td><td class="num">1.601,32&nbsp;h</td></tr><tr><td>abr 2026</td><td class="num">1.721,80&nbsp;h</td></tr><tr><td>maig 2026</td><td class="num">1.495,34&nbsp;h</td></tr><tr><td>juny 2026</td><td class="num">1.715,01&nbsp;h</td></tr></tbody><tfoot><tr><td>Total</td><td class="num">9.219,30&nbsp;h</td></tr></tfoot></table>
+      </details>
+    </section>
+    <div class="grid2">
+      <section class="card">
+        <div class="card-head"><h2>Per persona</h2><span class="sub">17 persones</span></div>
+        <div class="card-pad"><table class="hlist" aria-label="Hores per persona"><tbody><tr><td class="n" title="Núria Puig">Núria Puig</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:100.0%"></span></div></td><td class="v">1.349,25&nbsp;h</td><td class="p">14,6&nbsp;%</td></tr><tr><td class="n" title="Marc Serra">Marc Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:77.8%"></span></div></td><td class="v">1.049,25&nbsp;h</td><td class="p">11,4&nbsp;%</td></tr><tr><td class="n" title="Clara Serra">Clara Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:77.8%"></span></div></td><td class="v">1.049,18&nbsp;h</td><td class="p">11,4&nbsp;%</td></tr><tr><td class="n" title="Clara Puig">Clara Puig</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:75.1%"></span></div></td><td class="v">1.013,92&nbsp;h</td><td class="p">11,0&nbsp;%</td></tr><tr><td class="n" title="Quim Serra">Quim Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:73.2%"></span></div></td><td class="v">988,00&nbsp;h</td><td class="p">10,7&nbsp;%</td></tr><tr><td class="n" title="Marta Serra">Marta Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:70.2%"></span></div></td><td class="v">947,00&nbsp;h</td><td class="p">10,3&nbsp;%</td></tr><tr><td class="n" title="Laia Puig">Laia Puig</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:42.5%"></span></div></td><td class="v">573,25&nbsp;h</td><td class="p">6,2&nbsp;%</td></tr><tr><td class="n" title="Berta Serra">Berta Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:42.2%"></span></div></td><td class="v">569,92&nbsp;h</td><td class="p">6,2&nbsp;%</td></tr><tr><td class="n" title="Laia Serra">Laia Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:39.0%"></span></div></td><td class="v">525,75&nbsp;h</td><td class="p">5,7&nbsp;%</td></tr><tr><td class="n" title="Jordi Serra">Jordi Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:29.8%"></span></div></td><td class="v">402,75&nbsp;h</td><td class="p">4,4&nbsp;%</td></tr><tr><td class="n" title="Èric Serra">Èric Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:16.4%"></span></div></td><td class="v">221,50&nbsp;h</td><td class="p">2,4&nbsp;%</td></tr><tr><td class="n" title="Gemma Serra">Gemma Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:14.9%"></span></div></td><td class="v">201,50&nbsp;h</td><td class="p">2,2&nbsp;%</td></tr><tr><td class="n" title="Roger Serra">Roger Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:13.2%"></span></div></td><td class="v">178,03&nbsp;h</td><td class="p">1,9&nbsp;%</td></tr><tr><td class="n" title="Arnau Serra">Arnau Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:6.6%"></span></div></td><td class="v">88,50&nbsp;h</td><td class="p">1,0&nbsp;%</td></tr><tr><td class="n" title="Xavi Serra">Xavi Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:3.0%"></span></div></td><td class="v">40,00&nbsp;h</td><td class="p">0,4&nbsp;%</td></tr><tr><td class="n" title="Mireia Serra">Mireia Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:1.0%"></span></div></td><td class="v">13,00&nbsp;h</td><td class="p">0,1&nbsp;%</td></tr><tr><td class="n" title="Aina Serra">Aina Serra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:0.6%"></span></div></td><td class="v">8,50&nbsp;h</td><td class="p">0,1&nbsp;%</td></tr></tbody><tfoot><tr><td class="n">Total</td><td></td><td class="v">9.219,30&nbsp;h</td><td class="p">100&nbsp;%</td></tr></tfoot></table></div>
+      </section>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <section class="card">
+          <div class="card-head"><h2>Per projecte</h2><span class="sub">86 projectes</span></div>
+          <div class="card-pad"><table class="hlist" aria-label="Hores per projecte"><tbody><tr><td class="n" title="Jornades d&#x27;habitatge cooperatiu Vilanova de l&#x27;Exemple">Jornades d&#x27;habitatge cooperatiu Vilanova de l&#x27;Exemple</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:100.0%"></span></div></td><td class="v">1.617,99&nbsp;h</td><td class="p">17,6&nbsp;%</td></tr><tr><td class="n" title="Campanya d&#x27;habitatge cooperatiu Sant Simulat">Campanya d&#x27;habitatge cooperatiu Sant Simulat</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:53.0%"></span></div></td><td class="v">857,67&nbsp;h</td><td class="p">9,3&nbsp;%</td></tr><tr><td class="n" title="Pla de finances ètiques Pobla de Proves">Pla de finances ètiques Pobla de Proves</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:46.7%"></span></div></td><td class="v">755,11&nbsp;h</td><td class="p">8,2&nbsp;%</td></tr><tr><td class="n" title="Jornades de consum responsable Riudemostra">Jornades de consum responsable Riudemostra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:46.2%"></span></div></td><td class="v">748,00&nbsp;h</td><td class="p">8,1&nbsp;%</td></tr><tr><td class="n" title="Assessorament en educació ambiental Santa Mostra">Assessorament en educació ambiental Santa Mostra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:44.9%"></span></div></td><td class="v">726,50&nbsp;h</td><td class="p">7,9&nbsp;%</td></tr><tr><td class="n" title="Acompanyament en cultura popular Bellmodel">Acompanyament en cultura popular Bellmodel</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:27.7%"></span></div></td><td class="v">447,42&nbsp;h</td><td class="p">4,9&nbsp;%</td></tr><tr><td class="n" title="Recerca en sobirania alimentària Riudemostra">Recerca en sobirania alimentària Riudemostra</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:25.9%"></span></div></td><td class="v">419,67&nbsp;h</td><td class="p">4,6&nbsp;%</td></tr><tr><td class="n" title="Projecte pilot de sobirania alimentària Castellexemple">Projecte pilot de sobirania alimentària Castellexemple</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:21.3%"></span></div></td><td class="v">344,00&nbsp;h</td><td class="p">3,7&nbsp;%</td></tr><tr><td class="n" title="Assessorament en habitatge cooperatiu Pobla de Proves">Assessorament en habitatge cooperatiu Pobla de Proves</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:19.5%"></span></div></td><td class="v">315,00&nbsp;h</td><td class="p">3,4&nbsp;%</td></tr><tr><td class="n" title="Dinamització de sobirania alimentària Rocafictícia">Dinamització de sobirania alimentària Rocafictícia</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:10.4%"></span></div></td><td class="v">168,00&nbsp;h</td><td class="p">1,8&nbsp;%</td></tr><tr class="other"><td class="n">Altres 76 projectes</td><td class="b"><div class="bar" aria-hidden="true"><span style="width:100.0%"></span></div></td><td class="v">2.819,94&nbsp;h</td><td class="p">30,6&nbsp;%</td></tr></tbody><tfoot><tr><td class="n">Total</td><td></td><td class="v">9.219,30&nbsp;h</td><td class="p">100&nbsp;%</td></tr></tfoot></table></div>
+        </section>
+        <section class="card">
+          <div class="card-head"><h2>Per tipus d'activitat</h2></div>
+          <div class="card-pad" style="display:flex;flex-direction:column;gap:12px">
+            <div class="stack" role="img" aria-label="Repartiment per tipus d'activitat: el 94,9 % de les hores no té tipus assignat"><span class="t1" style="width:4.34%"></span><span class="t2" style="width:0.27%"></span><span class="t3" style="width:0.53%"></span><span class="t0" style="width:94.87%"></span></div>
+            <table class="hlist"><tbody><tr><td class="n"><span class="legend"><span><i class="t1"></i>H1 facturable i implementació</span></span></td><td class="v">399,67&nbsp;h</td><td class="p">4,3&nbsp;%</td></tr><tr><td class="n"><span class="legend"><span><i class="t2"></i>H2 gestió i estructura</span></span></td><td class="v">24,50&nbsp;h</td><td class="p">0,3&nbsp;%</td></tr><tr><td class="n"><span class="legend"><span><i class="t3"></i>H3 aliances, prospecció i capacitats</span></span></td><td class="v">48,50&nbsp;h</td><td class="p">0,5&nbsp;%</td></tr><tr><td class="n"><span class="legend"><span><i class="t0"></i>Sense assignar</span></span></td><td class="v">8.746,63&nbsp;h</td><td class="p">94,9&nbsp;%</td></tr></tbody></table>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-head"><h2>Per funció</h2></div>
+          <div class="empty"><b>Cap hora del període té funció</b><span>Les 9.219,3&nbsp;h estan sense assignar. La funció s'indica en registrar les hores, a «Hores dedicades».</span></div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

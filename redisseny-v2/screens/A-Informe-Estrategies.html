@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Informe Estratègies</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: report toolbar label + chart legend + chart/table alternative */
+/* candidate for a.css: contain .sr-only text inside scrolling tables (otherwise it widens the page) */
+.table-wrap { position: relative; }
+.tb-group { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.chart-scroll { overflow-x: auto; }
+.chart-scroll .chart { min-width: 620px; }
+.toolbar .tb-label { color: var(--a-muted); font-weight: 700; font-size: 13px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; color: var(--a-fg-2); font-size: 13px; font-weight: 600; }
+.legend li { display: inline-flex; align-items: center; gap: 8px; }
+.sw { width: 12px; height: 12px; border-radius: 3px; flex: none; display: inline-block; }
+.sw.dot { border-radius: 50%; width: 10px; height: 10px; }
+.chart { display: block; width: 100%; height: auto; }
+.chart text { font-family: var(--a-font); fill: var(--a-muted); font-size: 12px; }
+.chart .grid { stroke: var(--a-line-soft); }
+.chart .axis { stroke: var(--a-input); }
+.chart .lbl { fill: var(--a-fg); font-weight: 800; }
+.chart .lbl.neg { fill: var(--a-neg); }
+details.alt { border-top: 1px solid var(--a-line); }
+details.alt > summary { padding: 10px 18px; cursor: pointer; font-weight: 700; color: var(--a-accent); }
+/* candidate for a.css: pivot-style table (column groups, nested rows, subtotals) */
+table.table.pivot th.cg { text-align: center; border-left: 1px solid var(--a-line); }
+table.table.pivot .bl { border-left: 1px solid var(--a-line); }
+table.table.pivot td.lvl2 { padding-left: 36px; }
+table.table.pivot tr.group td { border-top: 1px solid var(--a-line); }
+table.table.pivot tr.more td { color: var(--a-muted); font-size: 13px; }
+table.table .tx { font-weight: 600; }
+.btn .i { width: 16px; height: 16px; }
+.foot-note { color: var(--a-muted); font-size: 13px; padding: 10px 18px; border-top: 1px solid var(--a-line); }
+
+.tog { width: 22px; height: 22px; border: 0; background: transparent; color: var(--a-muted); font: inherit; cursor: pointer; padding: 0; }
+td.pbar { width: 140px; min-width: 80px; }
+table.table .title { min-width: 240px; }
+.notice .i { flex: none; }
+/* candidate for a.css: heat-map matrix cells (sequential teal, value always printed) */
+table.matrix td.hm { text-align: center; font-weight: 800; width: 9%; border-left: 2px solid var(--a-surface); }
+table.matrix .h1 { background: #E3F4F1; }
+table.matrix .h2 { background: #BFE3DC; }
+table.matrix .h3 { background: #7CC4B8; }
+table.matrix .h4 { background: #0B7A6C; color: #fff; }
+table.matrix th.hc { text-align: center; }
+table.matrix th[scope=row] { background: transparent; padding-top: 6px; padding-bottom: 6px; }
+</style>
+</head>
+<body>
+<!-- Proposal A · report "Estratègies". Static mockup, real figures from the anonymized database (projectes_v5_manual). -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="true"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="nav-sub">
+          <a class="nav-item" href="A-Informe-Projectes.html">Panell de projectes</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-grafic.html">Dedicació (gràfic)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-taula.html">Dedicació (taula)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-real.html">% Dedicació real</a>
+          <a class="nav-item" href="A-Informe-Previsio-dedicacio.html">Previsió dedicació</a>
+          <a class="nav-item" href="A-Informe-Prev-real.html">Prev./Real dedicació</a>
+          <a class="nav-item" href="A-Informe-Ingressos-despeses.html">Ingressos/Despeses</a>
+          <a class="nav-item" href="A-Informe-Preu-hora.html">Preu hora</a>
+          <a class="nav-item" href="A-Informe-Previsio-economica.html">Previsió econòmica</a>
+          <a class="nav-item is-active" href="A-Informe-Estrategies.html" aria-current="page">Estratègies</a>
+          <a class="nav-item" href="A-Informe-Intercooperacio.html">Intercooperació</a>
+          <a class="nav-item" href="A-Informe-Saldo-hores.html">Saldo hores</a>
+          <a class="nav-item" href="A-Informe-Hores-anuals.html">Hores anuals</a>
+          <a class="nav-item" href="A-Justificacions.html">Justificacions</a>
+          <a class="nav-item" href="A-Subvencions.html">Subvencions</a>
+        </div>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><span>Informes</span><span aria-hidden="true">/</span><span>Estratègies</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Estratègies</h1>
+        <div class="sub">Quins projectes treballen cada línia estratègica, amb les hores previstes i el balanç</div>
+      </div>
+      <div class="actions"><button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Exporta .ods</button></div>
+    </header>
+
+    <section class="toolbar" aria-label="Filtres">
+      <button type="button" class="filter"><span>Estat</span><b>Tots</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <span class="tb-group"><span class="tb-label">Files</span><div class="seg" role="group" aria-label="Files"><button type="button" aria-pressed="true" class="is-on">Estratègia</button><button type="button" aria-pressed="false">Projecte</button></div></span>
+    </section>
+
+    <div class="notice info" role="status"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5M12 8h.01"/></svg><span><b>Només 1 dels 76 projectes actius té estratègies assignades.</b> Amb el filtre «Actiu» l’informe queda gairebé buit; aquí es mostren tots els estats (gairebé tots són projectes tancats de 2021 a 2023).</span></div>
+
+    <section class="kpis" aria-label="Resum">
+      <div class="kpi"><span class="label">Projectes amb estratègia</span><span class="value">75</span><span class="foot">de 538 projectes</span></div>
+      <div class="kpi"><span class="label">Estratègies en ús</span><span class="value">19 de 30</span><span class="foot">11 no tenen cap projecte</span></div>
+      <div class="kpi"><span class="label">Hores previstes</span><span class="value">19.007 h</span><span class="foot">Dels projectes amb estratègia</span></div>
+      <div class="kpi"><span class="label">Balanç</span><span class="value">704.837,55 €</span><span class="foot">Ingressos − despeses dels mateixos projectes</span></div>
+    </section>
+
+    <section class="card" aria-labelledby="h-est">
+      <div class="card-head">
+        <div><h2 id="h-est">Per estratègia</h2><span class="sub">Agrupades per línia estratègica</span></div>
+        <button type="button" class="btn btn-sm"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 9h18M9 4v16"/></svg>Configura la taula dinàmica</button>
+      </div>
+      <div class="table-wrap">
+        <table class="table compact pivot">
+          <thead><tr><th>Codi</th><th>Estratègia</th><th class="num">Projectes</th><th><span class="sr-only">Proporció</span></th><th class="num">Hores previstes</th><th class="num">Balanç</th></tr></thead>
+          <tbody>
+<tr class="group"><td colspan="2"><button type="button" class="tog" aria-expanded="true">▾</button> Línia 1 <span class="muted">· 4 estratègies</span></td><td class="num">6</td><td></td><td class="num">2.696 h</td><td class="num">111.815,60 €</td></tr>
+<tr><td class="lvl2"><span class="tag">1.1</span></td><td><a class="title" href="#">Acompanyar el personal a connectar el propòsit personal i col·lectiu</a></td><td class="num">2</td><td class="pbar"><div class="bar"><span style="width:7.4%"></span></div></td><td class="num">207 h</td><td class="num neg">−1.560,67 €</td></tr>
+<tr><td class="lvl2"><span class="tag">1.2</span></td><td><a class="title" href="#">Gestionar la cooperativa des d’una perspectiva reproductiva</a></td><td class="num">2</td><td class="pbar"><div class="bar"><span style="width:7.4%"></span></div></td><td class="num">263 h</td><td class="num">7.890,95 €</td></tr>
+<tr><td class="lvl2"><span class="tag">1.4</span></td><td><a class="title" href="#">Posicionar la cooperativa en xarxes i espais de relat i polítiques</a></td><td class="num">3</td><td class="pbar"><div class="bar"><span style="width:11.1%"></span></div></td><td class="num">2.489 h</td><td class="num">113.376,27 €</td></tr>
+<tr><td class="lvl2"><span class="tag">1.5</span></td><td><a class="title" href="#">Arrelar l’anàlisi intern i estratègic en els processos de canvi</a></td><td class="num">1</td><td class="pbar"><div class="bar"><span style="width:3.7%"></span></div></td><td class="num">160 h</td><td class="num neg">−1.560,67 €</td></tr>
+<tr class="group"><td colspan="2"><button type="button" class="tog" aria-expanded="true">▾</button> Línia 2 <span class="muted">· 5 estratègies</span></td><td class="num">48</td><td></td><td class="num">14.395 h</td><td class="num">594.309,45 €</td></tr>
+<tr><td class="lvl2"><span class="tag">2.1</span></td><td><a class="title" href="#">Fer tendència un model de governança regenerativa</a></td><td class="num">27</td><td class="pbar"><div class="bar"><span style="width:100.0%"></span></div></td><td class="num">5.076 h</td><td class="num">202.621,79 €</td></tr>
+<tr><td class="lvl2"><span class="tag">2.2</span></td><td><a class="title" href="#">Ser referents en patrons de governança i lideratge</a></td><td class="num">17</td><td class="pbar"><div class="bar"><span style="width:63.0%"></span></div></td><td class="num">6.849 h</td><td class="num">299.054,04 €</td></tr>
+<tr><td class="lvl2"><span class="tag">2.3</span></td><td><a class="title" href="#">Desenvolupar productes i serveis de governança regenerativa</a></td><td class="num">15</td><td class="pbar"><div class="bar"><span style="width:55.6%"></span></div></td><td class="num">5.253 h</td><td class="num">249.343,12 €</td></tr>
+<tr><td class="lvl2"><span class="tag">2.4</span></td><td><a class="title" href="#">Oferir formacions en governança i lideratge</a></td><td class="num">20</td><td class="pbar"><div class="bar"><span style="width:74.1%"></span></div></td><td class="num">9.606 h</td><td class="num">450.992,95 €</td></tr>
+<tr><td class="lvl2"><span class="tag">2.5</span></td><td><a class="title" href="#">Crear una estructura oberta per monitorar la qualitat democràtica</a></td><td class="num">2</td><td class="pbar"><div class="bar"><span style="width:7.4%"></span></div></td><td class="num">2.873 h</td><td class="num">117.885,71 €</td></tr>
+<tr class="group"><td colspan="2"><button type="button" class="tog" aria-expanded="true">▾</button> Línia 3 <span class="muted">· 5 estratègies</span></td><td class="num">33</td><td></td><td class="num">8.583 h</td><td class="num">372.914,77 €</td></tr>
+<tr><td class="lvl2"><span class="tag">3.1</span></td><td><a class="title" href="#">Donar suport als ecosistemes rurals de l’ESS i el municipalisme</a></td><td class="num">14</td><td class="pbar"><div class="bar"><span style="width:51.9%"></span></div></td><td class="num">5.013 h</td><td class="num">231.457,51 €</td></tr>
+<tr><td class="lvl2"><span class="tag">3.2</span></td><td><a class="title" href="#">Impulsar i nodrir pols cooperatius</a></td><td class="num">8</td><td class="pbar"><div class="bar"><span style="width:29.6%"></span></div></td><td class="num">3.748 h</td><td class="num">189.856,97 €</td></tr>
+<tr><td class="lvl2"><span class="tag">3.3</span></td><td><a class="title" href="#">Recerca en metodologies de desenvolupament d’ecosistemes</a></td><td class="num">4</td><td class="pbar"><div class="bar"><span style="width:14.8%"></span></div></td><td class="num">2.978 h</td><td class="num">128.417,16 €</td></tr>
+<tr><td class="lvl2"><span class="tag">3.4</span></td><td><a class="title" href="#">Acompanyar organitzacions i xarxes en treball ecosistèmic</a></td><td class="num">9</td><td class="pbar"><div class="bar"><span style="width:33.3%"></span></div></td><td class="num">633 h</td><td class="num">47.880,63 €</td></tr>
+<tr><td class="lvl2"><span class="tag">3.5</span></td><td><a class="title" href="#">Optimitzar i nodrir l’enxarxament de la cooperativa</a></td><td class="num">5</td><td class="pbar"><div class="bar"><span style="width:18.5%"></span></div></td><td class="num">648 h</td><td class="num">10.809,48 €</td></tr>
+<tr class="group"><td colspan="2"><button type="button" class="tog" aria-expanded="true">▾</button> Línia 4 <span class="muted">· 5 estratègies</span></td><td class="num">28</td><td></td><td class="num">11.229 h</td><td class="num">424.971,22 €</td></tr>
+<tr><td class="lvl2"><span class="tag">4.1</span></td><td><a class="title" href="#">Usar els conflictes com a palanca de canvi social al territori</a></td><td class="num">4</td><td class="pbar"><div class="bar"><span style="width:14.8%"></span></div></td><td class="num">626 h</td><td class="num">16.032,35 €</td></tr>
+<tr><td class="lvl2"><span class="tag">4.2</span></td><td><a class="title" href="#">Recerca en marcs i metodologies per abordar conflictes</a></td><td class="num">4</td><td class="pbar"><div class="bar"><span style="width:14.8%"></span></div></td><td class="num">1.875 h</td><td class="num">89.496,12 €</td></tr>
+<tr><td class="lvl2"><span class="tag">4.3</span></td><td><a class="title" href="#">Crear formats que donin valor a les veus marginals</a></td><td class="num">8</td><td class="pbar"><div class="bar"><span style="width:29.6%"></span></div></td><td class="num">2.580 h</td><td class="num">124.238,48 €</td></tr>
+<tr><td class="lvl2"><span class="tag">4.4</span></td><td><a class="title" href="#">Crear discurs davant els reptes planetaris</a></td><td class="num">8</td><td class="pbar"><div class="bar"><span style="width:29.6%"></span></div></td><td class="num">3.582 h</td><td class="num">210.878,78 €</td></tr>
+<tr><td class="lvl2"><span class="tag">4.5</span></td><td><a class="title" href="#">Formacions i espais sobre conflicte, regeneració i comunitat</a></td><td class="num">16</td><td class="pbar"><div class="bar"><span style="width:59.3%"></span></div></td><td class="num">9.088 h</td><td class="num">291.073,73 €</td></tr>
+
+          </tbody>
+          <tfoot><tr><td colspan="2">Total (projectes únics)</td><td class="num">75</td><td></td><td class="num">19.007 h</td><td class="num">704.837,55 €</td></tr></tfoot>
+        </table>
+      </div>
+      <p class="foot-note">Un projecte pot tenir diverses estratègies: les files no se sumen. Els subtotals de línia i el total compten cada projecte un sol cop.</p>
+    </section>
+
+    <section class="card" aria-labelledby="h-mat">
+      <div class="card-head">
+        <div><h2 id="h-mat">Estratègia × àmbit</h2><span class="sub">Nombre de projectes</span></div>
+        <ul class="legend" aria-label="Escala"><li><span class="sw" style="background:#E3F4F1"></span>1</li><li><span class="sw" style="background:#BFE3DC"></span>2–3</li><li><span class="sw" style="background:#7CC4B8"></span>4–6</li><li><span class="sw" style="background:#0B7A6C"></span>7 o més</li></ul>
+      </div>
+      <div class="table-wrap">
+        <table class="table compact matrix">
+          <thead><tr><th>Codi</th><th class="hc" title="Regions rurals, administracions i municipis">Regions rurals</th><th class="hc" title="Entitats, cooperatives i empreses">Entitats i coop.</th><th class="hc" title="Docència i recerca">Docència i recerca</th><th class="hc" title="Iltir">Iltir</th><th class="hc" title="Balkar">Balkar</th><th class="hc" title="Urtur (Consultories)">Urtur</th><th class="hc" title="Lakue">Lakue</th><th class="hc" title="Desenvolupament personal i relacional">Desenv. personal</th><th class="num">Total</th></tr></thead>
+          <tbody><tr><th scope="row"><span class="tag">1.1</span></th><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm h2">2</td><td class="hm "><span class="sr-only">0</span></td><td class="num">2</td></tr><tr><th scope="row"><span class="tag">1.2</span></th><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm h2">2</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">2</td></tr><tr><th scope="row"><span class="tag">1.4</span></th><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm h2">2</td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">3</td></tr><tr><th scope="row"><span class="tag">1.5</span></th><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="num">1</td></tr><tr><th scope="row"><span class="tag">2.1</span></th><td class="hm h4">15</td><td class="hm h3">6</td><td class="hm "><span class="sr-only">0</span></td><td class="hm h2">3</td><td class="hm h2">2</td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">27</td></tr><tr><th scope="row"><span class="tag">2.2</span></th><td class="hm h3">5</td><td class="hm h3">5</td><td class="hm h1">1</td><td class="hm h2">3</td><td class="hm h1">1</td><td class="hm h2">2</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">17</td></tr><tr><th scope="row"><span class="tag">2.3</span></th><td class="hm h4">7</td><td class="hm h3">5</td><td class="hm "><span class="sr-only">0</span></td><td class="hm h2">2</td><td class="hm "><span class="sr-only">0</span></td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">15</td></tr><tr><th scope="row"><span class="tag">2.4</span></th><td class="hm h2">3</td><td class="hm h3">4</td><td class="hm h2">3</td><td class="hm h2">2</td><td class="hm h3">6</td><td class="hm h2">2</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">20</td></tr><tr><th scope="row"><span class="tag">2.5</span></th><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">2</td></tr><tr><th scope="row"><span class="tag">3.1</span></th><td class="hm h4">7</td><td class="hm h2">2</td><td class="hm h1">1</td><td class="hm h2">3</td><td class="hm "><span class="sr-only">0</span></td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">14</td></tr><tr><th scope="row"><span class="tag">3.2</span></th><td class="hm "><span class="sr-only">0</span></td><td class="hm h2">3</td><td class="hm "><span class="sr-only">0</span></td><td class="hm h3">4</td><td class="hm "><span class="sr-only">0</span></td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">8</td></tr><tr><th scope="row"><span class="tag">3.3</span></th><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm h2">3</td><td class="hm "><span class="sr-only">0</span></td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">4</td></tr><tr><th scope="row"><span class="tag">3.4</span></th><td class="hm "><span class="sr-only">0</span></td><td class="hm h4">7</td><td class="hm "><span class="sr-only">0</span></td><td class="hm h2">2</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">9</td></tr><tr><th scope="row"><span class="tag">3.5</span></th><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm h3">5</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">5</td></tr><tr><th scope="row"><span class="tag">4.1</span></th><td class="hm h2">2</td><td class="hm h1">1</td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">4</td></tr><tr><th scope="row"><span class="tag">4.2</span></th><td class="hm h1">1</td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm h1">1</td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">4</td></tr><tr><th scope="row"><span class="tag">4.3</span></th><td class="hm h1">1</td><td class="hm h2">2</td><td class="hm h3">5</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">8</td></tr><tr><th scope="row"><span class="tag">4.4</span></th><td class="hm h2">2</td><td class="hm h1">1</td><td class="hm h3">4</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm "><span class="sr-only">0</span></td><td class="num">8</td></tr><tr><th scope="row"><span class="tag">4.5</span></th><td class="hm h1">1</td><td class="hm h3">4</td><td class="hm h3">5</td><td class="hm "><span class="sr-only">0</span></td><td class="hm h3">4</td><td class="hm h1">1</td><td class="hm "><span class="sr-only">0</span></td><td class="hm h1">1</td><td class="num">16</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

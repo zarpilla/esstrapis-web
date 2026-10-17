@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Perfil</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: live checklist of password rules (same as A-Clau-nova) */
+.rules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.rules li { display: flex; align-items: center; gap: 8px; color: var(--a-muted); }
+.rules li.ok { color: var(--a-pos); font-weight: 700; }
+.rules svg.i { width: 16px; height: 16px; }
+/* candidate for a.css: large avatar for a person's header */
+.avatar.lg { width: 56px; height: 56px; font-size: 18px; }
+.user[aria-current] { background: var(--a-accent-soft); border-radius: var(--a-radius); }
+.input[readonly] { background: var(--a-bg); color: var(--a-fg-2); }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Administració</span>
+        <a class="nav-item" href="A-Admin-Configuracio.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>Configuració</a>
+        <a class="nav-item" href="A-Admin-Usuaris.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5"/></svg>Usuaris</a>
+        <a class="nav-item" href="A-Admin-Verifactu.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM9 14l2 2 4-4"/></svg>Verifactu i FACe</a>
+        <a class="nav-item" href="A-Admin-Taules.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 10h18M3 15h18M9 4v16"/></svg>Taules auxiliars</a>
+      </div>
+    </nav>
+    <a class="user" aria-current="page" href="A-Perfil.html" title="El meu perfil" style="color: inherit; text-decoration: none"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></a>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><span>El meu compte</span><span aria-hidden="true">/</span><span>Perfil</span></nav>
+    <header class="page-head">
+      <div style="display: flex; align-items: center; gap: 16px">
+        <span class="avatar lg">LP</span>
+        <div>
+          <h1>Laia Puig</h1>
+          <div class="sub">persona2@exemple.coop · les teves dades, la clau de pas i les preferències</div>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/></svg>Surt</button>
+      </div>
+    </header>
+
+    <div class="cols">
+      <form class="wide" style="display: flex; flex-direction: column; gap: 16px">
+        <section class="card form-section">
+          <h2>Dades personals</h2>
+          <div class="grid-form">
+            <div class="field">
+              <label for="p-nom">Nom complet</label>
+              <input id="p-nom" class="input" value="Laia Puig">
+              <span class="help">Surt als informes i a les llistes de persones.</span>
+            </div>
+            <div class="field">
+              <label for="p-user">Nom d'usuari</label>
+              <input id="p-user" class="input" value="Laia Puig">
+            </div>
+            <div class="field full">
+              <label for="p-mail">Correu electrònic</label>
+              <input id="p-mail" class="input" type="email" value="persona2@exemple.coop" readonly>
+              <span class="help">És el que fas servir per entrar. Per canviar-lo, demana-ho a una persona administradora.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card form-section">
+          <h2>Clau de pas</h2>
+          <p>Deixa-ho en blanc si no la vols canviar.</p>
+          <div class="grid-form">
+            <div class="field full" style="max-width: 420px">
+              <label for="p-cur">Clau actual</label>
+              <input id="p-cur" class="input" type="password" autocomplete="current-password">
+            </div>
+            <div class="field">
+              <label for="p-new">Clau nova</label>
+              <input id="p-new" class="input" type="password" autocomplete="new-password">
+            </div>
+            <div class="field">
+              <label for="p-new2">Repeteix la clau nova</label>
+              <input id="p-new2" class="input" type="password" autocomplete="new-password">
+            </div>
+            <ul class="rules full" aria-label="Requisits de la clau">
+              <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>Com a mínim 6 caràcters</li>
+              <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>Les dues claus noves coincideixen</li>
+            </ul>
+          </div>
+          <span class="muted" style="font-size: 13px">Has oblidat la clau actual? <a href="A-Clau-oblidada.html" style="font-weight: 700">Rep un enllaç per correu</a>.</span>
+        </section>
+
+        <section class="card form-section">
+          <h2>Preferències</h2>
+          <div class="grid-form">
+            <div class="field full">
+              <label for="p-ical">Calendari personal (iCal)</label>
+              <input id="p-ical" class="input" placeholder="https://… /calendari.ics">
+              <span class="help">Si poses l'adreça d'un calendari .ics, les seves cites es poden importar com a hores dedicades. El calendari de tota l'entitat es configura a Configuració general.</span>
+            </div>
+          </div>
+        </section>
+      </form>
+
+      <aside class="narrow">
+        <section class="card">
+          <div class="card-head"><h2>Accés</h2></div>
+          <div class="card-pad" style="display: flex; flex-direction: column; gap: 14px">
+            <dl class="dl">
+              <dt>Estat</dt><dd><span class="tag ok">Actiu</span></dd>
+              <dt>Permisos</dt><dd style="display: flex; flex-wrap: wrap; gap: 6px"><span class="tag">Projectes</span><span class="tag">Hores</span><span class="tag accent">Administració</span></dd>
+            </dl>
+            <span class="muted" style="font-size: 13px">Els permisos els canvia una persona administradora a <a href="A-Admin-Usuari.html">Usuaris</a>.</span>
+          </div>
+        </section>
+        <section class="card">
+          <div class="card-head"><h2>Novetats</h2><span class="sub">15/10/2026</span></div>
+          <div class="card-pad" style="display: flex; flex-direction: column; gap: 10px">
+            <span><span class="tag warn">Correccions</span></span>
+            <span>A hores dedicades, en fer «Continua» al comptador ja no es perd la funció triada.</span>
+            <a href="A-Novetats.html" style="font-weight: 700">Mira totes les novetats →</a>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <div class="savebar">
+      <span class="muted" style="font-weight: 700">Sense canvis</span>
+      <div class="actions">
+        <button type="button" class="btn" disabled>Descarta</button>
+        <button type="button" class="btn btn-primary" disabled style="opacity: .45">Desa</button>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

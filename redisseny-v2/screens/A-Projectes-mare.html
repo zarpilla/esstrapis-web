@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Projectes mare</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+.mothers { min-width: 1040px; }
+.mothers td.tg { width: 44px; padding-right: 0; }
+.mothers tr.is-open td { background: var(--a-accent-soft); border-bottom-color: transparent; }
+.mothers tr.child td { background: #F7FCFB; }
+.mothers tr.child td:nth-child(2) { padding-left: 28px; border-left: 3px solid var(--a-accent); }
+.mothers tr.child .title { font-weight: 600; }
+.mothers tr.child.add td { padding-top: 4px; padding-bottom: 8px; }
+.mothers tr.child.add .btn { color: var(--a-accent); }
+.mothers td.num { font-weight: 700; }
+.mothers th.num { white-space: normal; width: 104px; }
+.mothers td:nth-child(2) { min-width: 300px; }
+.mothers td:nth-child(3) { white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item is-active" aria-current="page" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="A-Llistat.html">Projectes</a><span aria-hidden="true">/</span><span>Projectes mare</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Projectes mare</h1>
+        <div class="sub">8 projectes mare · agrupen projectes interanuals; les xifres sumen les dels fills</div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Exporta</button>
+        <a class="btn btn-primary" href="A-Projecte-nou.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nou projecte</a>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Vista">
+        <a href="A-Llistat.html">Tots els projectes</a>
+        <a class="is-on" aria-current="page" href="A-Projectes-mare.html">Projectes mare</a>
+      </div>
+      <label class="search"><span class="sr-only">Cerca</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg><input class="input" type="search" placeholder="Nom del projecte"></label>
+      <button type="button" class="filter"><span>Estat</span><b>Tots</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Coordina</span><b>Totes</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+    </div>
+
+    <section class="card" style="overflow: hidden">
+      <div class="table-wrap">
+        <table class="table mothers">
+          <thead>
+            <tr><th></th><th class="sorted">Nom ↑</th><th>Coordina</th><th>Àmbit</th><th class="num">Hores dedicades</th><th class="num">Hores previstes</th><th class="num">Resultat executat</th><th class="num">Resultat previst</th><th>Estat</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="tg"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="false" aria-label="Mostra els projectes fills"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></td>
+              <td><a class="title" href="A-Fitxa.html">Acompanyament en cures comunitàries Riudemostra</a><span class="subline">1 projecte fill · 2026–2026</span></td>
+              <td>Marc Serra</td>
+              <td>Balkar</td>
+              <td class="num">42,67 h</td>
+              <td class="num">689,80 h</td>
+              <td class="num"><span class="neg">−3.180,26 €</span></td>
+              <td class="num"><span class="pos">7.195,36 €</span></td>
+              <td><span class="tag ok">Actiu</span></td>
+            </tr>
+            <tr>
+              <td class="tg"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="false" aria-label="Mostra els projectes fills"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></td>
+              <td><a class="title" href="A-Fitxa.html">Acompanyament en participació ciutadana Masdemo</a><span class="subline">1 projecte fill · 2026–2026</span></td>
+              <td>Pau Puig</td>
+              <td>Urtur (Consultories)</td>
+              <td class="num">0,00 h</td>
+              <td class="num">357,21 h</td>
+              <td class="num"><span class="neg">−715,27 €</span></td>
+              <td class="num"><span class="pos">2.065,17 €</span></td>
+              <td><span class="tag ok">Actiu</span></td>
+            </tr>
+            <tr>
+              <td class="tg"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="false" aria-label="Mostra els projectes fills"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></td>
+              <td><a class="title" href="A-Fitxa.html">Assessorament en salut comunitària</a><span class="subline">1 projecte fill · 2022–2022</span></td>
+              <td>Laia Puig</td>
+              <td>Entitats, cooperatives i empreses</td>
+              <td class="num">0,00 h</td>
+              <td class="num">4,50 h</td>
+              <td class="num"><span class="zero">0,00 €</span></td>
+              <td class="num"><span class="pos">105,25 €</span></td>
+              <td><span class="tag">Tancat</span></td>
+            </tr>
+            <tr>
+              <td class="tg"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="false" aria-label="Mostra els projectes fills"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></td>
+              <td><a class="title" href="A-Fitxa.html">Campanya de tecnologies lliures</a><span class="subline">1 projecte fill · 2022–2022</span></td>
+              <td>Laia Puig</td>
+              <td>Urtur (Consultories)</td>
+              <td class="num">40,25 h</td>
+              <td class="num">5,00 h</td>
+              <td class="num"><span class="neg">−282,08 €</span></td>
+              <td class="num"><span class="pos">241,64 €</span></td>
+              <td><span class="tag">Tancat</span></td>
+            </tr>
+            <tr>
+              <td class="tg"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="false" aria-label="Mostra els projectes fills"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></td>
+              <td><a class="title" href="A-Fitxa.html">Dinamització de cures comunitàries Torredemo</a><span class="subline">3 projectes fills · 2024–2025</span></td>
+              <td>Clara Puig</td>
+              <td>Iltir</td>
+              <td class="num">1.192,00 h</td>
+              <td class="num">410,00 h</td>
+              <td class="num"><span class="neg">−5.439,05 €</span></td>
+              <td class="num"><span class="pos">8.012,25 €</span></td>
+              <td><span class="tag ok">Actiu</span></td>
+            </tr>
+            <tr class="is-open">
+              <td class="tg"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="true" aria-label="Amaga els projectes fills"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+              <td><a class="title" href="A-Fitxa.html">Formació en igualtat de gènere Montprova</a><span class="subline">3 projectes fills · 2019–2030</span></td>
+              <td>Marc Serra</td>
+              <td>Balkar</td>
+              <td class="num">412,09 h</td>
+              <td class="num">189,00 h</td>
+              <td class="num"><span class="pos">4.825,92 €</span></td>
+              <td class="num"><span class="pos">9.954,15 €</span></td>
+              <td><span class="tag ok">Actiu</span></td>
+            </tr>
+            <tr class="child">
+              <td></td>
+              <td><a class="title" href="A-Fitxa.html">Projecte pilot d'economia social</a><span class="subline">02/09/2019 – 31/08/2030</span></td>
+              <td class="muted">—</td>
+              <td class="muted">—</td>
+              <td class="num">90,34 h</td>
+              <td class="num">76,00 h</td>
+              <td class="num"><span class="neg">−898,01 €</span></td>
+              <td class="num"><span class="neg">−1.361,23 €</span></td>
+              <td><span class="tag">Tancat</span></td>
+            </tr>
+            <tr class="child">
+              <td></td>
+              <td><a class="title" href="A-Fitxa.html">Campanya de transició energètica</a><span class="subline">01/01/2020 – 28/02/2030</span></td>
+              <td class="muted">—</td>
+              <td class="muted">—</td>
+              <td class="num">155,25 h</td>
+              <td class="num">75,00 h</td>
+              <td class="num"><span class="pos">5.574,39 €</span></td>
+              <td class="num"><span class="pos">7.798,43 €</span></td>
+              <td><span class="tag">Tancat</span></td>
+            </tr>
+            <tr class="child">
+              <td></td>
+              <td><a class="title" href="A-Fitxa.html">Acompanyament en sobirania alimentària Riudemostra</a><span class="subline">01/01/2023 – 30/06/2030</span></td>
+              <td class="muted">—</td>
+              <td class="muted">—</td>
+              <td class="num">166,50 h</td>
+              <td class="num">38,00 h</td>
+              <td class="num"><span class="pos">149,54 €</span></td>
+              <td class="num"><span class="pos">3.516,95 €</span></td>
+              <td><span class="tag">Tancat</span></td>
+            </tr>
+            <tr class="child add"><td></td><td colspan="8"><button type="button" class="btn btn-sm btn-ghost"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix un projecte fill</button></td></tr>
+            <tr>
+              <td class="tg"></td>
+              <td><a class="title" href="A-Fitxa.html">Pla d'emprenedoria col·lectiva</a><span class="subline"><span class="tag warn">Sense projectes fills</span> · 2019–2032</span></td>
+              <td>Laia Puig</td>
+              <td>Iltir</td>
+              <td class="num">211,00 h</td>
+              <td class="num">24,00 h</td>
+              <td class="num"><span class="neg">−2.240,08 €</span></td>
+              <td class="num"><span class="pos">415,22 €</span></td>
+              <td><span class="tag">Tancat</span></td>
+            </tr>
+            <tr>
+              <td class="tg"><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-expanded="false" aria-label="Mostra els projectes fills"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></td>
+              <td><a class="title" href="A-Fitxa.html">Taller de territori rural</a><span class="subline">3 projectes fills · 2022–2023</span></td>
+              <td>Jordi Puig</td>
+              <td>Entitats, cooperatives i empreses</td>
+              <td class="num">147,50 h</td>
+              <td class="num">146,00 h</td>
+              <td class="num"><span class="neg">−1.204,25 €</span></td>
+              <td class="num"><span class="pos">1.613,20 €</span></td>
+              <td><span class="tag">Tancat</span></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr><td></td><td colspan="3">Total · 8 projectes mare</td><td class="num">2.045,51 h</td><td class="num">1.825,51 h</td><td class="num"><span class="neg">−8.235,07 €</span></td><td class="num"><span class="pos">29.602,24 €</span></td><td></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

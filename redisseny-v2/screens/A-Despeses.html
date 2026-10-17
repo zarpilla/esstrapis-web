@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Despeses</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+  /* candidate for a.css: row actions — one text action + icon buttons, right aligned */
+  .row-actions { display: flex; gap: 6px; justify-content: flex-end; align-items: center; white-space: nowrap; }
+  /* candidate for a.css: single-line truncation inside table cells */
+  table.table .trunc { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nowrap { white-space: nowrap; }
+  /* candidate for a.css: kpi value colours */
+  .kpi .value.neg { color: var(--a-neg); } .kpi .value.pos { color: var(--a-pos); }
+</style>
+</head>
+<body>
+<!-- Proposal A · Despeses (route /received-invoices). Data: projectes_v5_manual, 2n trimestre 2026, today 16/10/2026. Vençuda = not paid and Venciment before today; documents without Venciment are Pendent. Payrolls of a month are grouped in one expandable row. -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item is-active" aria-current="page" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><span>Diners</span><span aria-hidden="true">/</span><span>Despeses</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Despeses</h1>
+        <div class="sub">Factures rebudes, despeses, dietes, tiquets i nòmines · 2n trimestre 2026 · 226 documents</div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Exporta</button>
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nova dieta</button>
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nova despesa</button>
+        <button type="button" class="btn btn-primary"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nova factura</button>
+      </div>
+    </header>
+
+    <section class="kpis" aria-label="Resum del període">
+      <div class="kpi"><span class="label">Total T2 2026</span><span class="value">167.473,64 €</span><span class="foot">226 documents · base 165.798,15 €</span></div>
+      <div class="kpi"><span class="label">Pagat</span><span class="value">153.083,43 €</span><span class="foot">195 documents</span></div>
+      <div class="kpi"><span class="label">Pendent de pagar</span><span class="value">13.020,91 €</span><span class="foot">27 documents · sense venciment passat</span></div>
+      <div class="kpi"><span class="label">Vençut</span><span class="value neg">1.369,30 €</span><span class="foot">4 documents amb el venciment passat</span></div>
+    </section>
+
+    <div class="notice" role="status"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2zM12 10v5M12 18h.01"/></svg><span><b>6 dietes sense assignar</b> a cap línia de projecte (104,50 €). No comptaran al resultat de cap projecte fins que no s'assignin.</span><a href="#">Mostra-les</a></div>
+
+    <section class="toolbar" aria-label="Filtres">
+      <label class="search"><span class="sr-only">Cerca</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg><input class="input" type="search" placeholder="Cerca per codi, contacte o núm. de factura"></label>
+      <button type="button" class="filter"><span>Any</span><b>2026</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Període</span><b>T2</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Estat</span><b>Tots</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8M16 5v4M10 15v4"/></svg><b>Més filtres</b><span>sèrie, contacte, projecte</span></button>
+      <div class="seg" role="group" aria-label="Tipus de document"><button type="button" class="is-on" aria-pressed="true">Tots <span class="muted" style="font-weight:600;margin-left:4px">226</span></button><button type="button" aria-pressed="false">Factures <span class="muted" style="font-weight:600;margin-left:4px">96</span></button><button type="button" aria-pressed="false">Altres <span class="muted" style="font-weight:600;margin-left:4px">35</span></button><button type="button" aria-pressed="false">Dietes <span class="muted" style="font-weight:600;margin-left:4px">48</span></button><button type="button" aria-pressed="false">Tiquets <span class="muted" style="font-weight:600;margin-left:4px">1</span></button><button type="button" aria-pressed="false">Nòmines <span class="muted" style="font-weight:600;margin-left:4px">46</span></button></div>
+    </section>
+
+    <section class="card" aria-label="Documents">
+      <div class="table-wrap">
+        <table class="table" style="min-width:1000px">
+          <thead><tr>
+            <th class="sorted" aria-sort="descending">Document · data ↓</th><th>Contacte</th><th>Concepte · projecte</th>
+            <th class="num">Base · IVA</th><th class="num">Total</th><th>Estat</th><th aria-label="Accions"></th>
+          </tr></thead>
+          <tbody>
+          <tr>
+            <td><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-expanded="false" aria-label="Mostra les 16 nòmines de juny" style="margin:-4px 4px -4px -8px;vertical-align:middle"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button><a class="title" href="#" style="display:inline">Nòmines juny</a><span class="subline">30/06/2026 · Nòmina</span></td>
+            <td><span class="title">16 persones</span><span class="subline">bestretes del mes</span></td>
+            <td><span class="title trunc" style="max-width:200px">Nòmines de juny 2026</span><span class="subline">sense projecte</span></td>
+            <td class="num">35.809,52 €<span class="subline">sense IVA</span></td>
+            <td class="num">35.809,52 €</td>
+            <td><span class="tag warn">2 pendents</span><span class="subline nowrap">14 pagades</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Paga les 2 nòmines pendents de juny"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar 2</button><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-187</a><span class="subline">30/06/2026 · Factura</span></td>
+            <td><span class="title trunc" style="max-width:170px">Xarxa Alba</span><span class="subline trunc" style="max-width:170px">F. prov. 26/000565</span></td>
+            <td><span class="title trunc" style="max-width:200px">Comunicació i difusió</span><span class="subline trunc" style="max-width:200px">Dinamització d&#x27;habitatge cooperatiu Les Planes de Mentida</span></td>
+            <td class="num">71,62 €<span class="subline">IVA 15,04 €</span></td>
+            <td class="num">86,66 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">06/07/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-187"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-187"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-185</a><span class="subline">30/06/2026 · Factura</span></td>
+            <td><span class="title trunc" style="max-width:170px">Consell Comarcal de Sant Fictici de Mar</span><span class="subline trunc" style="max-width:170px">F. prov. 161301</span></td>
+            <td><span class="title trunc" style="max-width:200px">Desplaçaments</span><span class="subline trunc" style="max-width:200px">Pla de finances ètiques Pobla de Proves</span></td>
+            <td class="num">23,18 €<span class="subline">IVA 2,31 €</span></td>
+            <td class="num">25,49 €</td>
+            <td><span class="tag warn">Pendent</span><span class="subline nowrap">sense venciment</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Marca 2026-185 com a pagada"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-185"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-185"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-184</a><span class="subline">30/06/2026 · Factura</span></td>
+            <td><span class="title trunc" style="max-width:170px">Col·lectiu Vent de Prova</span><span class="subline trunc" style="max-width:170px">F. prov. A373</span></td>
+            <td><span class="title trunc" style="max-width:200px">Dinamització</span><span class="subline trunc" style="max-width:200px">Assessorament en educació ambiental Santa Mostra</span></td>
+            <td class="num">121,56 €<span class="subline">IVA 25,53 €</span></td>
+            <td class="num">147,08 €</td>
+            <td><span class="tag warn">Pendent</span><span class="subline nowrap">sense venciment</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Marca 2026-184 com a pagada"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-184"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-184"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-183</a><span class="subline">30/06/2026 · Factura</span></td>
+            <td><span class="title trunc" style="max-width:170px">Ajuntament de Sant Fictici de Mar</span><span class="subline trunc" style="max-width:170px">F. prov. 26/418</span></td>
+            <td><span class="title trunc" style="max-width:200px">Sessions formatives</span><span class="subline trunc" style="max-width:200px">Projecte pilot de cures comunitàries Pobla de Proves</span></td>
+            <td class="num">2.175,00 €<span class="subline">IVA 456,75 €</span></td>
+            <td class="num">2.631,75 €</td>
+            <td><span class="tag warn">Pendent</span><span class="subline nowrap">sense venciment</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Marca 2026-183 com a pagada"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-183"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-183"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-182</a><span class="subline">30/06/2026 · Factura</span></td>
+            <td><span class="title trunc" style="max-width:170px">Xarxa Els Horts</span><span class="subline trunc" style="max-width:170px">F. prov. O5XLXMKD-2026-06</span></td>
+            <td><span class="title trunc" style="max-width:200px">Disseny de materials</span><span class="subline trunc" style="max-width:200px">Formació en habitatge cooperatiu La Vall Imaginària</span></td>
+            <td class="num">19,26 €<span class="subline">sense IVA</span></td>
+            <td class="num">19,26 €</td>
+            <td><span class="tag warn">Pendent</span><span class="subline nowrap">sense venciment</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Marca 2026-182 com a pagada"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-182"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-182"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-181</a><span class="subline">30/06/2026 · Factura</span></td>
+            <td><span class="title trunc" style="max-width:170px">Col·lectiu El Rebost</span><span class="subline trunc" style="max-width:170px">F. prov. 2026-003</span></td>
+            <td><span class="title trunc" style="max-width:200px">Coordinació</span><span class="subline trunc" style="max-width:200px">Formació en habitatge cooperatiu La Vall Imaginària</span></td>
+            <td class="num">135,24 €<span class="subline">IVA 13,53 €</span></td>
+            <td class="num">148,76 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">21/05/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-181"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-181"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-173</a><span class="subline">30/06/2026 · Factura</span></td>
+            <td><span class="title trunc" style="max-width:170px">Ateneu Alba</span><span class="subline trunc" style="max-width:170px">F. prov. 2025-09</span></td>
+            <td><span class="title trunc" style="max-width:200px">Avaluació</span><span class="subline trunc" style="max-width:200px">Dinamització d&#x27;habitatge cooperatiu Les Planes de Mentida</span></td>
+            <td class="num">809,10 €<span class="subline">IVA 80,91 €</span></td>
+            <td class="num">890,01 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">06/07/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-173"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-173"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-139</a><span class="subline">30/06/2026 · Altres</span></td>
+            <td><span class="title trunc" style="max-width:170px">Xarxa La Llavor</span><span class="subline trunc" style="max-width:170px">B00000000</span></td>
+            <td><span class="title trunc" style="max-width:200px">Servei de càtering</span><span class="subline trunc" style="max-width:200px">Dinamització d&#x27;habitatge cooperatiu Les Planes de Mentida</span></td>
+            <td class="num">20,88 €<span class="subline">sense IVA</span></td>
+            <td class="num">20,88 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">30/06/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-139"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-139"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-136</a><span class="subline">30/06/2026 · Dieta</span></td>
+            <td><span class="title trunc" style="max-width:170px">Xarxa Mar Endins</span><span class="subline trunc" style="max-width:170px">B00000000</span></td>
+            <td><span class="title trunc" style="max-width:200px">Gestió administrativa</span><span class="subline trunc" style="max-width:200px">Taller de comerç de proximitat Torredemo</span></td>
+            <td class="num">105,60 €<span class="subline">sense IVA</span></td>
+            <td class="num">105,60 €</td>
+            <td><span class="tag warn">Pendent</span><span class="subline nowrap">sense venciment</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Marca 2026-136 com a pagada"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-136"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-136"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-133</a><span class="subline">29/06/2026 · Dieta</span></td>
+            <td><span class="title trunc" style="max-width:170px">Associació L&#x27;Era</span><span class="subline trunc" style="max-width:170px">B00000000</span></td>
+            <td><span class="title trunc" style="max-width:200px">Dinamització</span><span class="subline trunc" style="max-width:200px">Taller de comerç de proximitat Torredemo</span></td>
+            <td class="num">19,80 €<span class="subline">sense IVA</span></td>
+            <td class="num">19,80 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">10/07/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-133"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-133"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-127</a><span class="subline">29/06/2026 · Dieta</span></td>
+            <td><span class="title trunc" style="max-width:170px">Consell Comarcal de Montprova</span><span class="subline trunc" style="max-width:170px">B00000000</span></td>
+            <td><span class="title trunc" style="max-width:200px">Desplaçaments</span><span class="subline trunc" style="max-width:200px">Estudi sobre territori rural Sant Simulat</span></td>
+            <td class="num">211,20 €<span class="subline">sense IVA</span></td>
+            <td class="num">211,20 €</td>
+            <td><span class="tag ok">Pagada</span><span class="subline nowrap">29/06/2026</span></td>
+            <td><div class="row-actions"><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-127"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-127"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-154</a><span class="subline">28/06/2026 · Dieta</span></td>
+            <td><span class="title trunc" style="max-width:170px">Col·lectiu Cal Demo</span><span class="subline trunc" style="max-width:170px">B00000000</span></td>
+            <td><span class="title trunc" style="max-width:200px">Material fungible</span><span class="subline trunc" style="max-width:200px">Pla de finances ètiques Pobla de Proves</span> <span class="tag warn" title="No assignada a cap línia de projecte">Sense assignar</span></td>
+            <td class="num">16,28 €<span class="subline">sense IVA</span></td>
+            <td class="num">16,28 €</td>
+            <td><span class="tag warn">Pendent</span><span class="subline nowrap">sense venciment</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Marca 2026-154 com a pagada"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-154"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-154"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title" href="#">2026-172</a><span class="subline">26/06/2026 · Factura</span></td>
+            <td><span class="title trunc" style="max-width:170px">Xarxa Garbí</span><span class="subline trunc" style="max-width:170px">F. prov. 26-03</span></td>
+            <td><span class="title trunc" style="max-width:200px">Impressió</span><span class="subline trunc" style="max-width:200px">Pla de compra pública responsable Prats de Mostra</span></td>
+            <td class="num">456,75 €<span class="subline">IVA 95,92 €</span></td>
+            <td class="num">552,67 €</td>
+            <td><span class="tag warn">Pendent</span><span class="subline nowrap">sense venciment</span></td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm" aria-label="Marca 2026-172 com a pagada"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Pagar</button><a class="btn btn-sm btn-icon" href="#" title="Document adjunt" aria-label="Document adjunt de 2026-172"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h6M9 17h4"/></svg></a><button type="button" class="btn btn-sm btn-icon btn-ghost" aria-label="Més accions per a 2026-172"><svg class="i" style="stroke-width:2.6" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01"/></svg></button></div></td>
+          </tr>
+          </tbody>
+          <tfoot><tr>
+            <td colspan="3">Total · 226 documents</td>
+            <td class="num">165.798,15 €<span class="subline">IVA 1.858,08 €</span></td><td class="num">167.473,64 €<span class="subline">IRPF −182,61 €</span></td><td colspan="2"></td>
+          </tr></tfoot>
+        </table>
+      </div>
+      <div class="card-foot"><span>1–14 de 226 · les nòmines de cada mes s'agrupen en una fila</span><nav class="pagination" aria-label="Paginació"><button type="button" aria-label="Anterior" disabled>‹</button><button type="button" aria-current="page">1</button><button type="button">2</button><button type="button">3</button><button type="button" disabled>…</button><button type="button">13</button><button type="button" aria-label="Següent">›</button></nav></div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

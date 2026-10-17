@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Contacte</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: a row of checkboxes for multi-choice tags, sized like an input */
+.toggles { display: flex; flex-wrap: wrap; gap: 8px 22px; min-height: 40px; align-items: center; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item is-active" href="A-Contactes.html" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="A-Contactes.html">Contactes</a><span aria-hidden="true">/</span><span>Fitxa</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Cooperativa Arrels SCCL</h1>
+        <div class="sub">B00000390 · Bellmodel · sense tipus de contacte</div>
+      </div>
+    </header>
+
+    <div class="cols">
+      <div class="wide" style="display:flex;flex-direction:column;gap:16px">
+        <section class="card form-section">
+          <h2>Identificació</h2>
+          <p>Els camps amb * són obligatoris.</p>
+          <div class="grid-form">
+            <div class="field full"><label>Raó social *</label><input class="input" type="text" value="Cooperativa Arrels SCCL" placeholder="Raó social del contacte"></div>
+            <div class="field "><label>NIF *</label><input class="input" type="text" value="B00000390" placeholder=""></div>
+            <div class="field "><label>Nom comercial</label><input class="input" type="text" value="" placeholder=""></div>
+            <div class="field full is-changed">
+              <span class="label">Tipus de contacte <span class="badge-changed">modificat</span></span>
+              <div class="toggles" role="group" aria-label="Tipus de contacte">
+                <label class="check"><input type="checkbox" checked> Clienta</label>
+                <label class="check"><input type="checkbox"> Proveïdora</label>
+                <label class="check"><input type="checkbox"> Intercooperació</label>
+              </div>
+              <span class="help">Abans: cap. Té 1 projecte i 2 ingressos com a clienta.</span>
+            </div>
+            <div class="field"><label>Forma jurídica</label><select class="select"><option>—</option><option>Administració</option><option selected>Economia social</option><option>Economia convencional</option></select></div>
+            <div class="field"><label>Sector</label><select class="select"><option>—</option></select></div>
+            <div class="field"><label>Persona</label><select class="select"><option>—</option><option>Laia Puig</option><option>Marc Serra</option></select><span class="help">Si és també treballadora o sòcia de la cooperativa</span></div>
+          </div>
+        </section>
+
+        <section class="card form-section">
+          <h2>Contacte</h2>
+          <div class="grid-form">
+            <div class="field "><label>Telèfon</label><input class="input" type="tel" value="600 390 000" placeholder=""></div>
+            <div class="field "><label>Email</label><input class="input" type="email" value="contacte390@exemple.org" placeholder=""></div>
+            <div class="field "><label>Web</label><input class="input" type="text" value="" placeholder="https://"></div>
+          </div>
+          <div class="grid-form">
+            <div class="field "><label>Persona de contacte</label><input class="input" type="text" value="Roger Coll" placeholder=""></div>
+            <div class="field "><label>Telèfon de contacte</label><input class="input" type="tel" value="600 000 000" placeholder=""></div>
+            <div class="field "><label>Email de contacte</label><input class="input" type="email" value="persona.contacte390@exemple.org" placeholder=""><span class="help">Per enviar-li factures</span></div>
+          </div>
+        </section>
+
+        <section class="card form-section">
+          <h2>Adreça</h2>
+          <div class="grid-form">
+            <div class="field full"><label>Adreça *</label><input class="input" type="text" value="Carrer Major, 31" placeholder=""></div>
+            <div class="field "><label>CP *</label><input class="input" type="text" value="08000" placeholder=""></div>
+            <div class="field "><label>Població *</label><input class="input" type="text" value="Bellmodel" placeholder=""></div>
+            <div class="field "><label>Província</label><input class="input" type="text" value="Barcelona" placeholder=""></div>
+            <div class="field "><label>País</label><input class="input" type="text" value="Catalunya" placeholder=""></div>
+          </div>
+        </section>
+
+        <section class="card form-section">
+          <h2>Sòcia i seguiment</h2>
+          <div class="grid-form">
+            <div class="field"><label>Import aportació sòcia</label><div class="affix"><input class="input num" type="text" placeholder="0,00"><span>€</span></div></div>
+            <div class="field "><label>Data aportació sòcia</label><input class="input" type="text" value="" placeholder="dd/mm/aaaa"></div>
+            <div class="field "><label>Data de seguiment</label><input class="input" type="text" value="" placeholder="dd/mm/aaaa"></div>
+            <div class="field full"><label>Notes</label><textarea class="textarea" placeholder="Notes, observacions, comentaris…"></textarea></div>
+          </div>
+          <label class="switch"><input type="checkbox"><span><b>Activar FACe</b><span>Factura electrònica a l'administració pública: en activar-ho apareixen els codis DIR3 (OC, OG, UT) i el cercador.</span></span></label>
+        </section>
+      </div>
+
+      <aside class="narrow">
+        <section class="card">
+          <div class="card-head"><h2>Relació</h2><span class="sub">des del 2022</span></div>
+          <div class="card-pad" style="display:flex;flex-direction:column;gap:14px">
+            <div>
+              <div class="muted" style="font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em">Projectes · 1</div>
+              <a href="A-Fitxa.html" style="font-weight:700">Estudi sobre aigua i clima</a>
+            </div>
+            <div>
+              <div class="muted" style="font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em">Ingressos · 2</div>
+              <table class="table compact" style="margin-top:4px">
+                <tbody>
+                  <tr><td style="padding-left:0"><a href="A-Ingressos.html">2022-074</a><span class="subline">20/09/2022</span></td><td><span class="tag ok">Cobrada</span></td><td class="num" style="padding-right:0">718,47 €</td></tr>
+                  <tr><td style="padding-left:0"><a href="A-Ingressos.html">2023-036</a><span class="subline">15/06/2023</span></td><td><span class="tag ok">Cobrada</span></td><td class="num" style="padding-right:0">729,00 €</td></tr>
+                </tbody>
+                <tfoot><tr><td style="padding-left:0">Total</td><td></td><td class="num" style="padding-right:0">1.447,47 €</td></tr></tfoot>
+              </table>
+            </div>
+            <div>
+              <div class="muted" style="font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.03em">Despeses · 0</div>
+              <span class="muted">Cap factura rebuda d'aquest contacte.</span>
+            </div>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+    <div class="savebar">
+      <button type="button" class="btn btn-ghost btn-danger"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>Esborra el contacte</button>
+      <span class="dirty">1 canvi sense desar</span>
+      <div class="actions">
+        <button type="button" class="btn">Descarta</button>
+        <button type="button" class="btn">Desa i surt</button>
+        <button type="button" class="btn btn-primary">Desa</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

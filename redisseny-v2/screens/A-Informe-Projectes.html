@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Panell de projectes</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: report layout helpers (shared by all A-Informe-* pages) */
+.report-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; color: var(--a-muted); font-size: 13px; }
+.filter b { font-weight: 800; }
+.btn-link { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: var(--a-accent); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+/* collapsible group rows in report tables */
+table.table tr.group td:first-child { white-space: nowrap; }
+table.table tr.group .gt { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 0; font: inherit; font-weight: 800; color: var(--a-fg); cursor: pointer; }
+table.table tr.group .gt svg { width: 16px; height: 16px; color: var(--a-muted); }
+table.table tr.group .gt[aria-expanded="false"] svg { transform: rotate(-90deg); }
+table.table tr.group .count { font-weight: 600; color: var(--a-muted); margin-left: 4px; }
+table.table tr.more td { color: var(--a-muted); font-size: 13px; }
+table.table td.indent { padding-left: 40px; }
+table.table th.num, table.table td.num { text-align: right; }
+.hb { min-width: 180px; display: flex; flex-direction: column; gap: 5px; }
+.hb .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; white-space: nowrap; }
+.hb .top b { font-weight: 800; }
+.hb .top span { color: var(--a-muted); font-size: 13px; }
+.hb .top span.over { color: var(--a-over); font-weight: 700; }
+table.table td .of { display: block; color: var(--a-muted); font-size: 12.5px; font-weight: 600; }
+</style>
+</head>
+<body>
+<!-- Proposal A · Panell de projectes. Static mockup; figures are real values from the anonymized demo database (projectes_v5_manual). -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="true"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="nav-sub">
+          <a class="nav-item is-active" aria-current="page" href="A-Informe-Projectes.html">Panell de projectes</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-grafic.html">Dedicació (gràfic)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-taula.html">Dedicació (taula)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-real.html">% Dedicació real</a>
+          <a class="nav-item" href="A-Informe-Previsio-dedicacio.html">Previsió dedicació</a>
+          <a class="nav-item" href="A-Informe-Prev-real.html">Prev./Real dedicació</a>
+          <a class="nav-item" href="A-Informe-Ingressos-despeses.html">Ingressos/Despeses</a>
+          <a class="nav-item" href="A-Informe-Preu-hora.html">Preu hora</a>
+          <a class="nav-item" href="A-Informe-Previsio-economica.html">Previsió econòmica</a>
+          <a class="nav-item" href="A-Informe-Estrategies.html">Estratègies</a>
+          <a class="nav-item" href="A-Informe-Intercooperacio.html">Intercooperació</a>
+          <a class="nav-item" href="A-Informe-Saldo-hores.html">Saldo hores</a>
+          <a class="nav-item" href="A-Informe-Hores-anuals.html">Hores anuals</a>
+          <a class="nav-item" href="A-Justificacions.html">Justificacions</a>
+          <a class="nav-item" href="A-Subvencions.html">Subvencions</a>
+        </div>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="#">Informes</a><span aria-hidden="true">/</span><span>Panell de projectes</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Panell de projectes</h1>
+        <div class="sub">Hores i resultat econòmic de cada projecte, previst i real, agrupats per àmbit.</div>
+      </div>
+      <div class="actions"><button type="button" class="btn btn-ghost"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M14 4v4M8 10v4M16 16v4"/></svg>Configura la taula dinàmica</button><button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exporta .ods</button></div>
+    </header>
+    <div class="toolbar">
+      <label class="search"><span class="sr-only">Cerca projecte</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg><input class="input" type="search" placeholder="Cerca projecte"></label>
+      <button type="button" class="filter"><span>Estat</span><b>Actiu</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Líder</span><b>Totes</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Tipus</span><b>Tots</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Any d'inici</span><b>Tots</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    </div>
+    <section class="kpis" aria-label="Resum">
+      <div class="kpi"><span class="label">Projectes</span><span class="value">76</span><span class="foot">en estat Actiu · 4 àmbits</span></div>
+      <div class="kpi"><span class="label">Hores reals</span><span class="value">15.848,3&nbsp;h</span><div class="bar" aria-hidden="true"><span style="width:56%"></span></div><span class="foot">56&nbsp;% de 28.258,7&nbsp;h previstes</span></div>
+      <div class="kpi"><span class="label">Ingressos reals</span><span class="value">656.120&nbsp;€</span><div class="bar" aria-hidden="true"><span style="width:49%"></span></div><span class="foot">49&nbsp;% de 1.331.209&nbsp;€ previstos</span></div>
+      <div class="kpi"><span class="label">Resultat real</span><span class="value pos">113.595,96&nbsp;€</span><span class="foot">Previst: 305.043,22&nbsp;€</span></div>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>Projectes per àmbit</h2><div class="toolbar"><span class="muted">Agrupa per</span><div class="seg sm" role="group" aria-label="Agrupa per"><button type="button" class="is-on" aria-pressed="true">Àmbit</button><button type="button">Líder</button><button type="button">Tipus</button><button type="button">Cap</button></div></div></div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Projecte</th><th>Hores reals <span class="muted">/ previstes</span></th><th class="num">Ingressos reals</th><th class="num">Resultat previst</th><th class="num">Resultat real</th></tr></thead>
+          <tbody>
+<tr class="group"><td><button type="button" class="gt" aria-expanded="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Urtur (Consultories)</button><span class="count">· 21 projectes</span></td>
+<td><div class="hb"><div class="top"><b>4.537,7&nbsp;h</b><span class="">52&nbsp;% de 8.799,8&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:52%"></span></div></div></td><td class="num">284.624,96&nbsp;€<span class="of">de 451.145,24&nbsp;€</span></td><td class="num pos">195.134,78&nbsp;€</td><td class="num pos">166.165,54&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Jornades de consum responsable Riudemostra</a><span class="subline">Laia Puig · Pegàs de Foc · inici 2025</span></td>
+<td><div class="hb"><div class="top"><b>1.299,9&nbsp;h</b><span class="">36&nbsp;% de 3.631,2&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:36%"></span></div></div></td><td class="num">131.317,80&nbsp;€<span class="of">de 164.029,80&nbsp;€</span></td><td class="num pos">42.841,04&nbsp;€</td><td class="num pos">81.623,77&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Assessorament en educació ambiental Santa Mostra</a><span class="subline">Laia Puig · Ateneu Coop · inici 2024</span></td>
+<td><div class="hb"><div class="top"><b>1.901,2&nbsp;h</b><span class="">64&nbsp;% de 2.954,5&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:64%"></span></div></div></td><td class="num">79.343,65&nbsp;€<span class="of">de 119.015,48&nbsp;€</span></td><td class="num pos">71.509,44&nbsp;€</td><td class="num pos">44.418,25&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Recerca en habitatge cooperatiu Masdemo</a><span class="subline">Pau Puig · inici 2026</span></td>
+<td><div class="hb"><div class="top"><b>70,5&nbsp;h</b><span class="">15&nbsp;% de 466,4&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:15%"></span></div></div></td><td class="num">6.721,23&nbsp;€<span class="of">de 9.870,49&nbsp;€</span></td><td class="num neg">−3.936,08&nbsp;€</td><td class="num pos">2.971,03&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Acompanyament en participació ciutadana Masdemo</a><span class="subline">Pau Puig · Consultories NAC · inici 2026</span></td>
+<td><div class="hb"><div class="top"><b>0,0&nbsp;h</b><span class="">0&nbsp;% de 357,2&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:0%"></span></div></div></td><td class="num">0,00&nbsp;€<span class="of">de 15.312,00&nbsp;€</span></td><td class="num pos">2.065,17&nbsp;€</td><td class="num neg">−715,27&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Dinamització de participació ciutadana Sant Fictici de Mar</a><span class="subline">Pau Puig · Consultories NAC · inici 2026</span></td>
+<td><div class="hb"><div class="top"><b>0,0&nbsp;h</b><span class="">0&nbsp;% de 357,2&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:0%"></span></div></div></td><td class="num">0,00&nbsp;€<span class="of">de 15.312,00&nbsp;€</span></td><td class="num pos">2.065,17&nbsp;€</td><td class="num neg">−715,27&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Campanya d&#x27;agroecologia Montprova</a><span class="subline">Núria Puig · Simbiosi Fluvial · inici 2024</span></td>
+<td><div class="hb"><div class="top"><b>237,0&nbsp;h</b><span class="over">108&nbsp;% de 220,0&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="over" style="width:100%"></span></div></div></td><td class="num">8.026,27&nbsp;€<span class="of">de 8.026,27&nbsp;€</span></td><td class="num pos">1.215,63&nbsp;€</td><td class="num pos">1.069,26&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Estudi sobre cures comunitàries La Vall Imaginària</a><span class="subline">Pau Puig · Consultories NAC · inici 2026</span></td>
+<td><div class="hb"><div class="top"><b>0,0&nbsp;h</b><span class="">0&nbsp;% de 200,0&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:0%"></span></div></div></td><td class="num">0,00&nbsp;€<span class="of">de 10.440,00&nbsp;€</span></td><td class="num pos">3.067,85&nbsp;€</td><td class="num zero">0,00&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Estudi sobre gestió de residus Montprova</a><span class="subline">Marc Serra · Xarxes NAC · inici 2015</span></td>
+<td><div class="hb"><div class="top"><b>2,2&nbsp;h</b><span class="">1&nbsp;% de 181,3&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:1%"></span></div></div></td><td class="num">0,00&nbsp;€<span class="of">de 0,00&nbsp;€</span></td><td class="num neg">−4.019,10&nbsp;€</td><td class="num neg">−48,49&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Dinamització d&#x27;igualtat de gènere Torredemo</a><span class="subline">Clara Puig · Miceli Social · inici 2023</span></td>
+<td><div class="hb"><div class="top"><b>287,8&nbsp;h</b><span class="over">197&nbsp;% de 145,8&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="over" style="width:100%"></span></div></div></td><td class="num">11.159,90&nbsp;€<span class="of">de 22.319,80&nbsp;€</span></td><td class="num pos">19.080,94&nbsp;€</td><td class="num pos">5.434,70&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Estudi sobre xarxes de suport La Vall Imaginària</a><span class="subline">Clara Puig · Consultories NAC · inici 2024</span></td>
+<td><div class="hb"><div class="top"><b>134,5&nbsp;h</b><span class="over">158&nbsp;% de 85,0&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="over" style="width:100%"></span></div></div></td><td class="num">4.767,60&nbsp;€<span class="of">de 4.767,60&nbsp;€</span></td><td class="num pos">3.130,23&nbsp;€</td><td class="num pos">2.302,22&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Estudi sobre participació ciutadana Vilafranca de Prova</a><span class="subline">Núria Puig · Aliances INT · inici 2026</span></td>
+<td><div class="hb"><div class="top"><b>0,0&nbsp;h</b><span class="">0&nbsp;% de 53,2&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:0%"></span></div></div></td><td class="num">0,00&nbsp;€<span class="of">de 0,00&nbsp;€</span></td><td class="num neg">−1.208,09&nbsp;€</td><td class="num zero">0,00&nbsp;€</td></tr>
+<tr><td class="indent"><a class="title" href="A-Fitxa.html">Jornades de sobirania alimentària Masdemo</a><span class="subline">Laia Puig · Consultories NAC · inici 2025</span></td>
+<td><div class="hb"><div class="top"><b>171,2&nbsp;h</b><span class="over">385&nbsp;% de 44,5&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="over" style="width:100%"></span></div></div></td><td class="num">1.357,20&nbsp;€<span class="of">de 4.204,28&nbsp;€</span></td><td class="num pos">3.313,33&nbsp;€</td><td class="num neg">−900,08&nbsp;€</td></tr>
+<tr class="more"><td class="indent" colspan="5"><button type="button" class="btn-link">Mostra 9 projectes més</button> · 433,2&nbsp;h reals</td></tr>
+<tr class="group"><td><button type="button" class="gt" aria-expanded="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Iltir</button><span class="count">· 24 projectes</span></td>
+<td><div class="hb"><div class="top"><b>5.854,8&nbsp;h</b><span class="">67&nbsp;% de 8.751,6&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:67%"></span></div></div></td><td class="num">294.626,40&nbsp;€<span class="of">de 576.447,41&nbsp;€</span></td><td class="num pos">253.309,80&nbsp;€</td><td class="num pos">52.822,42&nbsp;€</td></tr>
+<tr class="group"><td><button type="button" class="gt" aria-expanded="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Lakue</button><span class="count">· 16 projectes</span></td>
+<td><div class="hb"><div class="top"><b>4.412,8&nbsp;h</b><span class="">61&nbsp;% de 7.282,7&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:61%"></span></div></div></td><td class="num">22.937,97&nbsp;€<span class="of">de 37.728,84&nbsp;€</span></td><td class="num neg">−189.505,72&nbsp;€</td><td class="num neg">−110.882,16&nbsp;€</td></tr>
+<tr class="group"><td><button type="button" class="gt" aria-expanded="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Balkar</button><span class="count">· 15 projectes</span></td>
+<td><div class="hb"><div class="top"><b>1.043,1&nbsp;h</b><span class="">30&nbsp;% de 3.424,5&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:30%"></span></div></div></td><td class="num">53.930,45&nbsp;€<span class="of">de 265.887,48&nbsp;€</span></td><td class="num pos">46.104,36&nbsp;€</td><td class="num pos">5.490,16&nbsp;€</td></tr>
+          </tbody>
+          <tfoot><tr><td>Total · 76 projectes</td><td><div class="hb"><div class="top"><b>15.848,3&nbsp;h</b><span class="">56&nbsp;% de 28.258,7&nbsp;h</span></div><div class="bar" aria-hidden="true"><span class="" style="width:56%"></span></div></div></td><td class="num">656.119,78&nbsp;€<span class="of">de 1.331.208,97&nbsp;€</span></td><td class="num pos">305.043,22&nbsp;€</td><td class="num pos">113.595,96&nbsp;€</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="card-foot"><span>Hores reals: totes les hores dedicades des de l'inici del projecte. Resultat = ingressos − despeses (hores incloses).</span><span>Més mesures (hores originals, despeses, preu/hora) a «Configura la taula dinàmica».</span></div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

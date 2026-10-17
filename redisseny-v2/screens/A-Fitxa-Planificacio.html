@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Planificació</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: Gantt (label column + month grid; bars positioned in % of the visible range) */
+.gantt { min-width: 1000px; font-variant-numeric: tabular-nums; }
+.g-row { display: grid; grid-template-columns: 380px 1fr; border-bottom: 1px solid var(--a-line-soft); min-height: 40px; }
+.g-label { display: flex; align-items: center; gap: 10px; padding: 6px 12px 6px 16px; border-right: 1px solid var(--a-line); min-width: 0; }
+.g-name { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g-name small { color: var(--a-muted); font-size: 12px; font-weight: 600; }
+.g-ind1 { padding-left: 18px; font-weight: 700; }
+.g-ind2 { padding-left: 32px; font-weight: 600; }
+.g-hw { width: 56px; text-align: right; color: var(--a-fg-2); font-size: 13px; white-space: nowrap; }
+.g-cost { width: 92px; text-align: right; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.g-track { position: relative; background-image: repeating-linear-gradient(to right, transparent 0, transparent calc(100% / 12 - 1px), var(--a-line-soft) calc(100% / 12 - 1px), var(--a-line-soft) calc(100% / 12)); }
+.g-head { background: var(--a-thead); border-bottom: 1px solid var(--a-line); min-height: 0; }
+.g-head .g-label { font-size: 12px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; color: var(--a-fg-2); }
+.g-head .g-track, .g-foot .g-track { display: grid; grid-template-columns: repeat(12, 1fr); background-image: none; }
+.g-head .g-track span { padding: 6px 0 8px; text-align: center; font-size: 12px; font-weight: 800; color: var(--a-fg-2); border-left: 1px solid var(--a-line-soft); }
+.g-year { grid-column: 1 / -1; text-align: center; font-size: 12px; font-weight: 800; padding-top: 8px; border-left: 0 !important; padding-bottom: 0 !important; }
+.g-bar { position: absolute; top: 8px; bottom: 8px; border-radius: 6px; display: flex; align-items: center; padding: 0 10px; font-size: 12px; font-weight: 800; white-space: nowrap; overflow: hidden; cursor: grab; }
+.g-bar span { overflow: hidden; text-overflow: ellipsis; }
+.g-bar.phase { background: var(--a-accent); color: #fff; }
+.g-bar.line { background: var(--a-accent-soft); color: var(--a-accent); border: 1px solid #B9E2DA; }
+.g-bar.person { background: var(--a-info-bg); color: var(--a-info-fg); border: 1px solid #BCD3EE; top: 9px; bottom: 9px; }
+.g-row.is-phase { background: var(--a-surface); }
+.g-row.is-phase .g-label { font-weight: 800; }
+.g-row.is-selected { background: var(--a-accent-soft); }
+.g-row.is-selected .g-bar.person { background: var(--a-info-fg); color: #fff; box-shadow: 0 0 0 3px var(--a-focus); }
+.g-bar .grip { position: absolute; top: 4px; bottom: 4px; width: 4px; border-radius: 2px; background: rgba(255,255,255,.7); }
+.g-empty { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--a-muted); font-size: 13px; }
+.g-foot { background: var(--a-thead); border-bottom: 0; }
+.g-foot .g-label { font-weight: 800; }
+.g-foot .g-track span { text-align: center; font-size: 13px; font-weight: 800; padding: 10px 0; }
+.editor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px 20px; }
+.editor-grid .seg { flex-wrap: nowrap; align-self: flex-start; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item is-active" aria-current="page" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="A-Llistat.html">Projectes</a><span aria-hidden="true">/</span><span>Fitxa</span></nav>
+    <header class="page-head" style="align-items: flex-start">
+      <div>
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+          <h1>Assessorament en igualtat de gènere Santa Mostra</h1>
+          <span class="tag" style="font-weight: 800">Tancat</span>
+        </div>
+        <div class="meta">
+          <span><span>Àmbit</span> <b>Lakue</b></span>
+          <span><span>Coordina</span> <b>Laia Serra</b></span>
+          <span><span>Dates</span> <b>1 gen. 2024 – 31 des. 2026</b></span>
+          <span><span>Dedicació</span> <b>H3 aliances, prospecció i capacitats</b></span>
+        </div>
+      </div>
+      <div class="actions"><button type="button" class="btn">Duplica</button><a class="btn btn-primary" href="A-Edicio.html">Edita les dades</a></div>
+    </header>
+
+    <div class="notice" role="status">
+      <svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:20px;height:20px"><path d="M12 3l10 18H2zM12 10v4M12 17.5v.5"/></svg>
+      <span><b>1 línia no té data</b> (Ingrés · 2024 · Recerca de camp). Surt com a «Sense data» a la previsió, la periodificació i la tresoreria.</span>
+      <a href="A-Fitxa-Pressupost.html#fase-2024">Posa-hi data</a>
+    </div>
+
+    <nav class="tabs" aria-label="Seccions del projecte">
+      <a href="A-Fitxa.html">Resum</a><a href="A-Edicio.html">Dades</a><a href="A-Fitxa-Pressupost.html">Pressupost i fases</a><a href="A-Fitxa-Periodificacio.html">Periodificació</a><a href="A-Fitxa-Moviments.html">Cobraments i pagaments</a><a class="is-active" aria-current="page" href="A-Fitxa-Planificacio.html">Planificació</a><a href="A-Tasques.html">Tasques</a>
+    </nav>
+
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="Planificació">
+        <button type="button">Original</button>
+        <button type="button" class="is-on" aria-pressed="true">Prevista</button>
+      </div>
+      <div class="seg" role="group" aria-label="Escala">
+        <button type="button">Setmanes</button>
+        <button type="button" class="is-on" aria-pressed="true">Mesos</button>
+      </div>
+      <div class="seg" role="group" aria-label="Període">
+        <button type="button" aria-label="Any anterior"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button type="button" class="is-on" aria-pressed="true">2024</button>
+        <button type="button" aria-label="Any següent"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:16px;height:16px"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+      <button type="button" class="filter"><span>Persona</span><b>Totes</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <label class="check"><input type="checkbox"> Només fases</label>
+      <span class="spacer"></span>
+      <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix dedicació</button>
+    </div>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Planificació prevista</h2>
+        <span class="sub">4.918,62 h previstes · 80.691,33 € · 13 dedicacions en 1 fase</span>
+      </div>
+      <div class="table-wrap">
+      <div class="gantt" role="grid" aria-label="Diagrama de Gantt de fases i dedicacions">
+        <div class="g-row g-head">
+          <div class="g-label"><span class="g-name">Fases i dedicacions</span><span class="g-hw">h/setm.</span><span class="g-cost">Cost previst</span></div>
+          <div class="g-track"><span class="g-year">2024</span><span>gen.</span><span>febr.</span><span>març</span><span>abr.</span><span>maig</span><span>juny</span><span>jul.</span><span>ag.</span><span>set.</span><span>oct.</span><span>nov.</span><span>des.</span></div>
+        </div>
+        <div class="g-row is-phase">
+          <div class="g-label"><span class="g-name"><b>Coordinació</b></span></div>
+          <div class="g-track"><span class="g-empty">Sense dedicacions previstes · <a href="#">Afegeix-ne una</a></span></div>
+        </div>
+        <div class="g-row is-phase">
+          <div class="g-label"><span class="g-name"><b>Disseny de materials</b></span></div>
+          <div class="g-track"><span class="g-empty">Sense dedicacions previstes · <a href="#">Afegeix-ne una</a></span></div>
+        </div>
+        <div class="g-row is-phase">
+          <div class="g-label"><span class="g-name"><b>Sessions formatives</b></span></div>
+          <div class="g-track"><span class="g-empty">Sense dedicacions previstes · <a href="#">Afegeix-ne una</a></span></div>
+        </div>
+        <div class="g-row is-phase">
+          <div class="g-label"><span class="g-name"><b>2024</b><small>13 dedicacions</small></span><span class="g-cost"><b>80.691,33 €</b></span></div>
+          <div class="g-track"><div class="g-bar phase" style="left: 0.0000%; width: 100.0000%"><span>2024 · 4.918,62 h</span></div></div>
+        </div>
+        <div class="g-row is-line">
+          <div class="g-label"><span class="g-name g-ind1">Recerca de camp<small>línia d'ingrés</small></span></div>
+          <div class="g-track"><div class="g-bar line" style="left: 0.0000%; width: 100.0000%"><span>Recerca de camp</span></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">LP</span>Laia Puig</span><span class="g-hw">12</span><span class="g-cost"><span class="tag warn" title="El cost calculat és 0: revisa el cost/hora o les hores">0,00 €</span></span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 25.0000%"><span>12 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-person is-selected">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">PP</span>Pau Puig</span><span class="g-hw">20</span><span class="g-cost">16.192,86 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 100.0000%"><i class="grip" style="left: 3px"></i><span>20 h/setm.</span><i class="grip" style="right: 3px"></i></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">NP</span>Núria Puig</span><span class="g-hw">12</span><span class="g-cost">12.752,46 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 100.0000%"><span>12 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">JP</span>Júlia Puig</span><span class="g-hw">12</span><span class="g-cost">10.001,52 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 100.0000%"><span>12 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">OP</span>Oriol Puig</span><span class="g-hw">12</span><span class="g-cost">9.436,86 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 100.0000%"><span>12 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">CP</span>Clara Puig</span><span class="g-hw">12</span><span class="g-cost">9.894,15 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 100.0000%"><span>12 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">JP</span>Jordi Puig</span><span class="g-hw">8,75</span><span class="g-cost">6.921,59 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 100.0000%"><span>8,75 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">LP</span>Laia Puig</span><span class="g-hw">12</span><span class="g-cost">2.540,99 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 75.0000%; width: 25.0000%"><span>12 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">AP</span>Aina Puig</span><span class="g-hw">8</span><span class="g-cost">5.595,79 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 100.0000%"><span>8 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">RP</span>Rita Puig</span><span class="g-hw">3,20</span><span class="g-cost">597,95 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 100.0000%"><span>3,20 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">MS</span>Marc Serra</span><span class="g-hw">3,20</span><span class="g-cost">2.174,36 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 100.0000%"><span>3,20 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">LS</span>Laia Serra</span><span class="g-hw">3,20</span><span class="g-cost">2.369,18 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 100.0000%"><span>3,20 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-person">
+          <div class="g-label"><span class="g-name g-ind2"><span class="avatar sm">PS</span>Pau Serra</span><span class="g-hw">3,20</span><span class="g-cost">2.193,44 €</span></div>
+          <div class="g-track"><div class="g-bar person" style="left: 0.0000%; width: 100.0000%"><span>3,20 h/setm.</span></div></div>
+        </div>
+        <div class="g-row is-phase">
+          <div class="g-label"><span class="g-name"><b>Formació</b></span></div>
+          <div class="g-track"><span class="g-empty">Sense dedicacions previstes · <a href="#">Afegeix-ne una</a></span></div>
+        </div>
+        <div class="g-row is-phase">
+          <div class="g-label"><span class="g-name"><b>Lloguer d'espai</b></span></div>
+          <div class="g-track"><span class="g-empty">Sense dedicacions previstes · <a href="#">Afegeix-ne una</a></span></div>
+        </div>
+        <div class="g-row g-foot">
+          <div class="g-label"><span class="g-name">Càrrega setmanal (h)</span></div>
+          <div class="g-track"><span>109,55</span><span>109,55</span><span>109,55</span><span>97,55</span><span>97,55</span><span>97,55</span><span>97,55</span><span>97,55</span><span>97,55</span><span>109,55</span><span>109,55</span><span>109,55</span></div>
+        </div>
+      </div>
+      </div>
+      <div class="card-foot">
+        <span>Arrossega una barra per moure-la; estira'n les vores per canviar les dates. Tria una fila per editar-la.</span>
+        <span>Les fases sense dedicacions no tenen dates pròpies.</span>
+      </div>
+    </section>
+
+    <section class="card" aria-label="Dedicació seleccionada">
+      <div class="card-head">
+        <h2>Dedicació · Pau Puig</h2>
+        <span class="sub">Fase 2024 · Recerca de camp</span>
+      </div>
+      <div class="form-section">
+        <div class="editor-grid">
+          <div class="field"><label for="e-p">Persona</label><select id="e-p" class="select"><option>Pau Puig</option></select></div>
+          <div class="field"><label for="e-h">Hores</label><div class="affix"><input id="e-h" class="input num" value="20"><span>h</span></div></div>
+          <div class="field" style="grid-column: span 2"><span class="label">Repartiment</span><div class="seg sm" role="group" aria-label="Repartiment"><button type="button">Total</button><button type="button" class="is-on" aria-pressed="true">Setmanals</button><button type="button">Mensuals</button></div></div>
+          <div class="field"><label for="e-f">Des de</label><input id="e-f" class="input" value="01/01/2024"></div>
+          <div class="field"><label for="e-t">Fins a</label><input id="e-t" class="input" value="31/12/2024"></div>
+          <div class="field"><label for="e-c">Cost/hora (€)</label><div class="affix"><input id="e-c" class="input num" value="18,37"><span>€</span></div></div>
+          <div class="field" style="grid-column: span 2"><label for="e-d">Descripció</label><input id="e-d" class="input" placeholder="Opcional"></div>
+          <div class="field"><span class="label">Cost previst</span><b style="font-size: 18px; padding-top: 6px">16.192,86 €</b></div>
+        </div>
+        <div class="toolbar">
+          <button type="button" class="btn btn-ghost btn-danger">Esborra la dedicació</button>
+          <span class="spacer"></span>
+          <button type="button" class="btn">Cancel·la</button>
+          <button type="button" class="btn btn-primary">Desa la dedicació</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+</body>
+</html>

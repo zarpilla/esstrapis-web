@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Novetats</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: changelog entries (tag + text per line) */
+.cl-items { list-style: none; margin: 0; padding: 4px 20px 8px; }
+.cl-items li { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--a-line-soft); }
+.cl-items li:first-child { border-top: 0; }
+.cl-items .tag { justify-self: start; }
+.cl-items p { margin: 0; max-width: 72ch; }
+.cl-items a { font-weight: 700; }
+/* candidate for a.css: page with a side index (shared with A-Admin-Configuracio / A-Admin-Taules) */
+.with-index { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 20px; align-items: start; }
+.side-index { position: sticky; top: 16px; display: flex; flex-direction: column; gap: 2px; }
+.side-index .nav-item .count { margin-left: auto; color: var(--a-muted); font-weight: 600; font-size: 12px; }
+@media (max-width: 900px) { .with-index { grid-template-columns: minmax(0, 1fr); } .side-index { display: none; } }
+@media (max-width: 720px) { .cl-items li { grid-template-columns: minmax(0, 1fr); gap: 6px; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Administració</span>
+        <a class="nav-item" href="A-Admin-Configuracio.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>Configuració</a>
+        <a class="nav-item" href="A-Admin-Usuaris.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5"/></svg>Usuaris</a>
+        <a class="nav-item" href="A-Admin-Verifactu.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM9 14l2 2 4-4"/></svg>Verifactu i FACe</a>
+        <a class="nav-item" href="A-Admin-Taules.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 10h18M3 15h18M9 4v16"/></svg>Taules auxiliars</a>
+      </div>
+    </nav>
+    <a class="user" href="A-Perfil.html" title="El meu perfil" style="color: inherit; text-decoration: none"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></a>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><span>Altres</span><span aria-hidden="true">/</span><span>Novetats</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Novetats</h1>
+        <div class="sub">Què ha canviat a l'aplicació · darrera actualització 15/10/2026 · 108 canvis des de gener del 2024</div>
+      </div>
+      <div class="actions">
+        <a class="btn" href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H8l-4 4z"/></svg>Comunica un error o una idea</a>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <label class="search"><span class="sr-only">Cerca</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg><input class="input" type="search" placeholder="Cerca (p. ex. tresoreria, factures…)"></label>
+      <div class="seg" role="group" aria-label="Tipus de canvi">
+        <button type="button" class="is-on" aria-pressed="true">Tots · 108</button>
+        <button type="button" aria-pressed="false">Novetats · 54</button>
+        <button type="button" aria-pressed="false">Millores · 22</button>
+        <button type="button" aria-pressed="false">Correccions · 32</button>
+      </div>
+    </div>
+
+    <div class="with-index">
+      <div style="display: flex; flex-direction: column; gap: 16px; min-width: 0">
+        <section class="card cl-day" id="d20261015">
+          <div class="card-head"><h2><time datetime="2026-10-15">15/10/2026</time></h2><span class="sub">7 canvis</span></div>
+          <ul class="cl-items">
+            <li><span class="tag warn">Correccions</span><p>A <a href="A-Hores.html">hores dedicades</a>, en fer «Continua» al comptador es perdia la Funció triada (i també el tipus de dedicació i la tasca). Ara es guarden i hi són quan el tornes a obrir.</p></li>
+            <li><span class="tag warn">Correccions</span><p>A «Assignació de documents» (fases del projecte i tresoreria), en triar un tiquet ara es buiden la factura rebuda i la dieta, com ja passava amb els altres camps: cada línia queda lligada a un sol document.</p></li>
+            <li><span class="tag warn">Correccions</span><p>A les <a href="A-Despeses.html">despeses</a>, el botó «Cancel·lar» de «Nova Dieta» no feia res. Ara tanca la finestra i et deixa a la despesa nova.</p></li>
+            <li><span class="tag warn">Correccions</span><p>A <a href="A-Hores.html">hores dedicades</a>, si es tancava la finestra d'entrada d'hores clicant fora o amb Esc, ja no s'obria més fins a recarregar la pàgina: ni per afegir hores a mà, ni per aturar el comptador, ni per modificar una entrada. Ara es torna a obrir sempre. També passava amb altres finestres de l'aplicació.</p></li>
+            <li><span class="tag warn">Correccions</span><p>A <a href="A-Hores.html">hores dedicades</a>, en aturar el comptador («Fi de l'activitat») les hores es desaven a 0. Ara es desa el temps que ha estat en marxa.</p></li>
+            <li><span class="tag warn">Correccions</span><p>Algunes factures rebudes desades a finals de setembre sortien amb l'import doble a la llista de <a href="A-Despeses.html">despeses</a> i als informes. Ara mostren l'import correcte de les seves línies.</p></li>
+            <li><span class="tag warn">Correccions</span><p>A les dietes de <a href="A-Despeses.html">despeses</a>, els botons de cada línia (també el d'afegir-ne una de nova) quedaven fora de la pantalla. Ara les línies s'ajusten a l'amplada i els botons sempre es veuen.</p></li>
+          </ul>
+        </section>
+        <section class="card cl-day" id="d20261014">
+          <div class="card-head"><h2><time datetime="2026-10-14">14/10/2026</time></h2><span class="sub">5 canvis</span></div>
+          <ul class="cl-items">
+            <li><span class="tag accent">Novetats</span><p>Ara es pot triar el compte bancari de cada nòmina o bestreta (per defecte, el de nòmines). A <a href="A-Tresoreria.html">Tresoreria</a> la bestreta surt al compte triat.</p></li>
+            <li><span class="tag warn">Correccions</span><p>A l'entrada d'<a href="A-Hores.html">hores dedicades</a>, es torna a poder triar la funció del projecte (per exemple Licitacions o Propostes) i es guarda amb les hores.</p></li>
+            <li><span class="tag warn">Correccions</span><p>La fitxa del projecte ja no es penja en guardar-la sense «Àmbit territorial» o sense «Tipus de dedicació», ni quan no es pot guardar perquè hi falta alguna dada obligatòria.</p></li>
+            <li><span class="tag warn">Correccions</span><p>La vista per imprimir d'una factura o d'un pressupost ja no falla quan l'entitat encara no té logo.</p></li>
+            <li><span class="tag warn">Correccions</span><p>A les <a href="#">estadístiques de comandes</a> i d'incidències, triar «Tots» els anys amb un mes mostra aquell mes de tots els anys, en lloc de fallar o no mostrar res.</p></li>
+          </ul>
+        </section>
+        <section class="card cl-day" id="d20261012">
+          <div class="card-head"><h2><time datetime="2026-10-12">12/10/2026</time></h2><span class="sub">4 canvis</span></div>
+          <ul class="cl-items">
+            <li><span class="tag warn">Correccions</span><p>A la <a href="#">llista de comandes</a>, les caselles per seleccionar comandes tornen a marcar-se.</p></li>
+            <li><span class="tag warn">Correccions</span><p>El botó «Imprimeix PDF» de les comandes torna a funcionar. El PDF torna a mostrar també les caixes de les recollides i la ruta amb els punts de transferència.</p></li>
+            <li><span class="tag warn">Correccions</span><p>Al pressupost dels projectes, les despeses d'un tipus de despesa amb 0% d'IVA (per exemple «Ma d'obra») ja no sumen un 21% d'IVA. Els tipus «Quotes», «Comissions bancàries» i «Ajustament salarial final d'any», que no tenien IVA indicat, passen a tenir un 0%; un tipus de despesa sense IVA indicat continua comptant un 21%. Els totals dels projectes afectats es recalculen sols.</p></li>
+            <li><span class="tag info">Millores</span><p>Les descàrregues de dades (botó «Exporta dades» de les taules i estadístiques, comandes, Ecologística i Contasol) ara són fulls de càlcul en format obert OpenDocument (.ods), que s'obren amb LibreOffice, OpenOffice i Microsoft Excel. Els números hi van com a números, amb tots els decimals, i ja no depenen del camp «Decimal Excel» de la usuària.</p></li>
+          </ul>
+        </section>
+        <section class="card cl-day" id="d20261011">
+          <div class="card-head"><h2><time datetime="2026-10-11">11/10/2026</time></h2><span class="sub">4 canvis</span></div>
+          <ul class="cl-items">
+            <li><span class="tag warn">Correccions</span><p>Els botons d'opció no seleccionats tornen a mostrar el text: a la fitxa d'una <a href="#">comanda</a> (Ruta, Tipus de servei, Punt de recollida, Estat), als contactes i als filtres de tresoreria i estadístiques es veien en blanc.</p></li>
+            <li><span class="tag accent">Novetats</span><p>Les pàgines <a href="#">Incidències</a>, <a href="#">Punts de recollida</a> i <a href="A-Admin-Usuaris.html">Usuàries</a> tenen un botó per exportar la llista a Excel. A Incidències i Usuàries el fitxer porta totes les files, no només la pàgina que es veu.</p></li>
+            <li><span class="tag accent">Novetats</span><p>La pàgina <a href="#">Sòcies</a> té un botó per exportar la llista de sòcies a Excel.</p></li>
+            <li><span class="tag accent">Novetats</span><p>Administració d'usuàries: des de la fitxa d'una usuària a <a href="A-Admin-Usuaris.html">Usuàries</a> es pot posar-li una contrasenya nova i, amb el permís Logística (Admin), activar o desactivar el seu descompte multientrega.</p></li>
+          </ul>
+        </section>
+        <section class="card cl-day" id="d20261010">
+          <div class="card-head"><h2><time datetime="2026-10-10">10/10/2026</time></h2><span class="sub">2 canvis</span></div>
+          <ul class="cl-items">
+            <li><span class="tag info">Millores</span><p>Guardar un projecte amb moltes hores dedicades, i assignar-hi una factura o una despesa, torna a ser ràpid: en els projectes més grans passa de més de 7 segons a mig segon.</p></li>
+            <li><span class="tag info">Millores</span><p>Les pàgines carreguen menys dades: els projectes, les factures i les taules dinàmiques de <a href="#">Projectes</a> i <a href="#">Dedicació</a> s'obren més de pressa, sobretot amb connexions lentes.</p></li>
+          </ul>
+        </section>
+        <button type="button" class="btn" style="align-self: center">Mostra canvis anteriors</button>
+      </div>
+      <nav class="side-index" aria-label="Per any">
+        <span class="nav-label">Per any</span>
+        <a class="nav-item is-active" href="#">2026<span class="count">53</span></a>
+        <a class="nav-item" href="#">2025<span class="count">15</span></a>
+        <a class="nav-item" href="#">2024<span class="count">40</span></a>
+      </nav>
+    </div>
+  </main>
+</div>
+</body>
+</html>

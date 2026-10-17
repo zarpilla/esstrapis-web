@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Hores dedicades · entrada</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: hours calendar = .cal + an 8th "week total" column and per-project colours */
+.cal.hours { grid-template-columns: repeat(7, minmax(0, 1fr)) 92px; border-left: 0; }
+.cal.hours > div:nth-child(8n+1) { border-left: 1px solid var(--a-line); }
+.cal.hours > div { min-height: 112px; }
+.cal.hours > .dow { min-height: 0; }
+.cal.hours > .we { background: var(--a-thead); }
+.cal.hours > .gap { box-shadow: inset 0 0 0 2px #F2B8B0; }
+.cal.hours .dh { display: flex; justify-content: space-between; align-items: baseline; gap: 4px; }
+.cal.hours .tot { font-size: 12px; font-weight: 800; color: var(--a-fg-2); }
+.cal.hours .tot.over { color: var(--a-over); }
+.cal.hours .tot.neg { color: var(--a-neg); }
+.cal.hours .ev { text-decoration: none; display: block; }
+.cal.hours .more { font-size: 12px; font-weight: 700; text-decoration: none; padding: 0 6px; }
+.cal.hours > .wk { background: var(--a-thead); align-items: flex-end; justify-content: center; text-align: right; font-size: 13px; gap: 0; }
+.cal.hours > .wk b { font-size: 15px; }
+.cal.hours > .dow.wk { justify-content: flex-start; }
+.ev.c0, .dot.c0 { background: var(--a-chip); color: var(--a-fg-2); }
+.ev.c1, .dot.c1 { background: #E3F4F1; color: #0B6157; }
+.ev.c2, .dot.c2 { background: #E8F1FB; color: #1D4E89; }
+.ev.c3, .dot.c3 { background: #F3EAFB; color: #5B2F8A; }
+.ev.c4, .dot.c4 { background: #FDF0E3; color: #8A4513; }
+.ev.c5, .dot.c5 { background: #EAF5E1; color: #3B6618; }
+.ev.c6, .dot.c6 { background: #FCE8EF; color: #8A1F48; }
+.ev.warn, .dot.warn { background: var(--a-warn-bg); color: var(--a-warn-fg); }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; flex: none; }
+.dot.c1 { background: #0B7A6C; } .dot.c2 { background: #2F6DB5; } .dot.c3 { background: #7A4BB0; } .dot.c4 { background: #C06A22; } .dot.c5 { background: #4F8A22; } .dot.c6 { background: #B83A6A; } .dot.c0 { background: #A6B3B5; } .dot.warn { background: #D9A400; }
+table.table td.name { max-width: 460px; }
+table.table td.name .nm { display: flex; align-items: baseline; min-width: 0; }
+table.table td.name .tx { min-width: 0; }
+table.table td.name .title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.monthnav { display: flex; align-items: center; gap: 6px; }
+.monthnav b { min-width: 110px; text-align: center; font-size: 15px; }
+@media (max-width: 720px) {
+  .cal.hours { grid-template-columns: repeat(7, minmax(0, 1fr)) 58px; }
+  .cal.hours > div { min-height: 58px; padding: 4px; }
+  .cal.hours .ev, .cal.hours .more { display: none; }
+  .cal.hours .dh { flex-direction: column; }
+  .cal.hours > .wk { font-size: 11px; } .cal.hours > .wk b { font-size: 12px; } .cal.hours > .wk span.muted { display: none; }
+  .cal.hours > .dow { font-size: 10px; padding: 6px 2px; text-align: center; }
+  table.table td.name { max-width: 220px; }
+  table.table .hide-sm { display: none; }
+}
+
+/* candidate for a.css: radio choices as pills (replaces long radio columns) */
+.opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.opts label { display: inline-flex; align-items: center; gap: 6px; min-height: 34px; padding: 0 12px; border: 1px solid var(--a-input); border-radius: 999px; font-weight: 600; cursor: pointer; background: var(--a-surface); }
+.opts input { accent-color: var(--a-accent); margin: 0; }
+.opts label:has(input:checked) { border-color: var(--a-accent); background: var(--a-accent-soft); color: var(--a-accent); font-weight: 800; }
+
+/* modal open: page scroll locked, so the static capture is one screen high */
+html { overflow: hidden; } body { height: 100vh; overflow: hidden; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item is-active" href="A-Hores.html" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <header class="page-head">
+      <div>
+        <h1>Hores dedicades</h1>
+        <div class="sub">Laia Puig · octubre 2025 · 94 entrades</div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>Comptador</button>
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/></svg>Afegeix festiu</button>
+        <button type="button" class="btn btn-icon" aria-label="Més accions: importa calendari .ics, mou hores entre projectes, exporta" title="Importa .ics · Mou hores entre projectes · Exporta"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h.01M12 12h.01M19 12h.01" stroke-width="3"/></svg></button>
+        <a class="btn btn-primary" href="A-Hores-entrada.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix hores</a>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Filtres">
+      <button type="button" class="filter"><span>Persona</span><b>Laia Puig</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Projecte</span><b>Tots</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="monthnav">
+        <button type="button" class="btn btn-icon" aria-label="Mes anterior"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <b>octubre 2025</b>
+        <button type="button" class="btn btn-icon" aria-label="Mes següent"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+        <button type="button" class="btn">Avui</button>
+      </div>
+      <span class="spacer"></span>
+      <label class="check"><input type="checkbox"> Últimes modificades</label>
+      <div class="seg" role="group" aria-label="Vista">
+        <button type="button" class="is-on" aria-pressed="true">Calendari</button>
+        <button type="button" aria-pressed="false">Llista</button>
+      </div>
+    </section>
+
+    <section class="kpis" aria-label="Resum del mes">
+      <div class="kpi"><span class="label">Hores registrades</span><span class="value">146,5 h</span><span class="foot">94 entrades en 22 dies</span></div>
+      <div class="kpi"><span class="label">Jornada prevista</span><span class="value">138 h</span><span class="foot">23 dies laborables × 6 h</span></div>
+      <div class="kpi"><span class="label">Diferència</span><span class="value pos">+8,5 h</span><span class="foot">per sobre de la jornada</span></div>
+      <div class="kpi"><span class="label">Dies sense hores</span><span class="value neg">2</span><span class="foot">dv. 3 i dl. 20 d'octubre</span></div>
+    </section>
+
+    <section class="card">
+      <div class="cal hours" role="grid" aria-label="Calendari d'octubre de 2025">
+          <div class="dow">dl.</div>
+          <div class="dow">dt.</div>
+          <div class="dow">dc.</div>
+          <div class="dow">dj.</div>
+          <div class="dow">dv.</div>
+          <div class="dow">ds.</div>
+          <div class="dow">dg.</div>
+          <div class="dow wk">Setmana</div>
+          <div class="out" aria-label="dl. 29"><div class="dh"><span class="d">29</span></div></div>
+          <div class="out" aria-label="dt. 30"><div class="dh"><span class="d">30</span></div></div>
+          <div class="" aria-label="dc. 1"><div class="dh"><span class="d">1</span><span class="tot">5 h</span></div><a class="ev c0" href="A-Hores-entrada.html" title="Jornades d&#x27;emprenedoria col·lectiva · H3 aliances, prospecció i capacitats">2 h · Jornades d&#x27;emprenedoria col·lectiva</a><a class="ev c2" href="A-Hores-entrada.html" title="Estudi sobre consum responsable Vilafranca de Prova · Preparació de pressupost">0,5 h · Estudi sobre consum responsable Vilafranca de Prova</a><a class="ev warn" href="A-Hores-entrada.html" title="Sense projecte · Justificació">2 h · Sense projecte</a><a class="more" href="#">+1 més</a></div>
+          <div class="" aria-label="dj. 2"><div class="dh"><span class="d">2</span><span class="tot">4 h</span></div><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">1 h · Jornades de consum responsable Riudemostra</a><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">3 h · Jornades de consum responsable Riudemostra</a></div>
+          <div class="gap" aria-label="dv. 3"><div class="dh"><span class="d">3</span><span class="tot neg">0 h</span></div></div>
+          <div class="we" aria-label="ds. 4"><div class="dh"><span class="d">4</span></div></div>
+          <div class="we" aria-label="dg. 5"><div class="dh"><span class="d">5</span></div></div>
+          <div class="wk"><b>9 h</b><span class="muted">de 18 h</span><span class="neg">−9 h</span></div>
+          <div class="" aria-label="dl. 6"><div class="dh"><span class="d">6</span><span class="tot">5,5 h</span></div><a class="ev c5" href="A-Hores-entrada.html" title="Formació en emprenedoria col·lectiva">1,25 h · Formació en emprenedoria col·lectiva</a><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">1,25 h · Jornades de consum responsable Riudemostra</a><a class="ev warn" href="A-Hores-entrada.html" title="Sense projecte · Preparació de sessió">1 h · Sense projecte</a><a class="more" href="#">+1 més</a></div>
+          <div class="" aria-label="dt. 7"><div class="dh"><span class="d">7</span><span class="tot over">7 h</span></div><a class="ev c5" href="A-Hores-entrada.html" title="Formació en emprenedoria col·lectiva">1,5 h · Formació en emprenedoria col·lectiva</a><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">1 h · Jornades de consum responsable Riudemostra</a><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">1,5 h · Jornades de consum responsable Riudemostra</a><a class="more" href="#">+2 més</a></div>
+          <div class="" aria-label="dc. 8"><div class="dh"><span class="d">8</span><span class="tot">5 h</span></div><a class="ev c4" href="A-Hores-entrada.html" title="Assessorament en educació ambiental Santa Mostra">2 h · Assessorament en educació ambiental Santa Mostra</a><a class="ev c1" href="A-Hores-entrada.html" title="Dinamització de memòria històrica Torredemo · Seguiment amb l&#x27;entitat">1 h · Dinamització de memòria històrica Torredemo</a><a class="ev c2" href="A-Hores-entrada.html" title="Estudi sobre consum responsable Vilafranca de Prova · Gestió de correu">1 h · Estudi sobre consum responsable Vilafranca de Prova</a><a class="more" href="#">+1 més</a></div>
+          <div class="" aria-label="dj. 9"><div class="dh"><span class="d">9</span><span class="tot over">10 h</span></div><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">1 h · Jornades de consum responsable Riudemostra</a><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">1 h · Jornades de consum responsable Riudemostra</a><a class="ev c5" href="A-Hores-entrada.html" title="Formació en emprenedoria col·lectiva">0,5 h · Formació en emprenedoria col·lectiva</a><a class="more" href="#">+4 més</a></div>
+          <div class="" aria-label="dv. 10"><div class="dh"><span class="d">10</span><span class="tot">6 h</span></div><a class="ev c0" href="A-Hores-entrada.html" title="Diagnosi de cooperació internacional Rocafictícia">4,5 h · Diagnosi de cooperació internacional Rocafictícia</a><a class="ev c0" href="A-Hores-entrada.html" title="Formació en educació ambiental Vilafranca de Prova · Reunió de coordinació · H1 facturable i implementació">1,5 h · Formació en educació ambiental Vilafranca de Prova</a></div>
+          <div class="we" aria-label="ds. 11"><div class="dh"><span class="d">11</span></div></div>
+          <div class="we" aria-label="dg. 12"><div class="dh"><span class="d">12</span></div></div>
+          <div class="wk"><b>33,5 h</b><span class="muted">de 30 h</span><span class="pos">+3,5 h</span></div>
+          <div class="" aria-label="dl. 13"><div class="dh"><span class="d">13</span><span class="tot">5 h</span></div><a class="ev c5" href="A-Hores-entrada.html" title="Formació en emprenedoria col·lectiva">1 h · Formació en emprenedoria col·lectiva</a><a class="ev c5" href="A-Hores-entrada.html" title="Formació en emprenedoria col·lectiva">1,5 h · Formació en emprenedoria col·lectiva</a><a class="ev c5" href="A-Hores-entrada.html" title="Formació en emprenedoria col·lectiva">0,5 h · Formació en emprenedoria col·lectiva</a><a class="more" href="#">+2 més</a></div>
+          <div class="" aria-label="dt. 14"><div class="dh"><span class="d">14</span><span class="tot over">9,5 h</span></div><a class="ev c4" href="A-Hores-entrada.html" title="Assessorament en educació ambiental Santa Mostra">1 h · Assessorament en educació ambiental Santa Mostra</a><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">1 h · Jornades de consum responsable Riudemostra</a><a class="ev c5" href="A-Hores-entrada.html" title="Formació en emprenedoria col·lectiva">1 h · Formació en emprenedoria col·lectiva</a><a class="more" href="#">+5 més</a></div>
+          <div class="" aria-label="dc. 15"><div class="dh"><span class="d">15</span><span class="tot">5,5 h</span></div><a class="ev c0" href="A-Hores-entrada.html" title="Pla d&#x27;emprenedoria col·lectiva">1 h · Pla d&#x27;emprenedoria col·lectiva</a><a class="ev c0" href="A-Hores-entrada.html" title="Jornades de sobirania alimentària Masdemo">1 h · Jornades de sobirania alimentària Masdemo</a><a class="ev c1" href="A-Hores-entrada.html" title="Dinamització de memòria històrica Torredemo · Gestió de correu">1 h · Dinamització de memòria històrica Torredemo</a><a class="more" href="#">+2 més</a></div>
+          <div class="" aria-label="dj. 16"><div class="dh"><span class="d">16</span><span class="tot">4,25 h</span></div><a class="ev c0" href="A-Hores-entrada.html" title="Jornades d&#x27;emprenedoria col·lectiva · H3 aliances, prospecció i capacitats">0,75 h · Jornades d&#x27;emprenedoria col·lectiva</a><a class="ev c0" href="A-Hores-entrada.html" title="Jornades d&#x27;emprenedoria col·lectiva · H3 aliances, prospecció i capacitats">2 h · Jornades d&#x27;emprenedoria col·lectiva</a><a class="ev c1" href="A-Hores-entrada.html" title="Dinamització de memòria històrica Torredemo · Preparació de pressupost">0,25 h · Dinamització de memòria històrica Torredemo</a><a class="more" href="#">+1 més</a></div>
+          <div class="" aria-label="dv. 17"><div class="dh"><span class="d">17</span><span class="tot over">9 h</span></div><a class="ev c1" href="A-Hores-entrada.html" title="Dinamització de memòria històrica Torredemo · Formació interna">9 h · Dinamització de memòria històrica Torredemo</a></div>
+          <div class="we" aria-label="ds. 18"><div class="dh"><span class="d">18</span><span class="tot over">11 h</span></div><a class="ev c1" href="A-Hores-entrada.html" title="Dinamització de memòria històrica Torredemo · Reunió de coordinació">11 h · Dinamització de memòria històrica Torredemo</a></div>
+          <div class="we" aria-label="dg. 19"><div class="dh"><span class="d">19</span></div></div>
+          <div class="wk"><b>44,25 h</b><span class="muted">de 30 h</span><span class="pos">+14,25 h</span></div>
+          <div class="gap" aria-label="dl. 20"><div class="dh"><span class="d">20</span><span class="tot neg">0 h</span></div></div>
+          <div class="" aria-label="dt. 21"><div class="dh"><span class="d">21</span><span class="tot over">8 h</span></div><a class="ev c5" href="A-Hores-entrada.html" title="Formació en emprenedoria col·lectiva">1 h · Formació en emprenedoria col·lectiva</a><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">2 h · Jornades de consum responsable Riudemostra</a><a class="ev c0" href="A-Hores-entrada.html" title="Acompanyament en xarxes de suport Riudemostra · Preparació de sessió">1 h · Acompanyament en xarxes de suport Riudemostra</a><a class="more" href="#">+2 més</a></div>
+          <div class="" aria-label="dc. 22"><div class="dh"><span class="d">22</span><span class="tot">5,5 h</span></div><a class="ev c5" href="A-Hores-entrada.html" title="Formació en emprenedoria col·lectiva">1,5 h · Formació en emprenedoria col·lectiva</a><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">1 h · Jornades de consum responsable Riudemostra</a><a class="ev c6" href="A-Hores-entrada.html" title="Estudi sobre xarxes de suport La Vall Imaginària · Revisió de materials">3 h · Estudi sobre xarxes de suport La Vall Imaginària</a></div>
+          <div class="" aria-label="dj. 23"><div class="dh"><span class="d">23</span><span class="tot">5 h</span></div><a class="ev c0" href="A-Hores-entrada.html" title="Formació en finances ètiques Montprova">1 h · Formació en finances ètiques Montprova</a><a class="ev c4" href="A-Hores-entrada.html" title="Assessorament en educació ambiental Santa Mostra">1 h · Assessorament en educació ambiental Santa Mostra</a><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra · Seguiment amb l&#x27;entitat">1 h · Jornades de consum responsable Riudemostra</a><a class="more" href="#">+1 més</a></div>
+          <div class="" aria-label="dv. 24"><div class="dh"><span class="d">24</span><span class="tot over">9,5 h</span></div><a class="ev c4" href="A-Hores-entrada.html" title="Assessorament en educació ambiental Santa Mostra">2 h · Assessorament en educació ambiental Santa Mostra</a><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">1 h · Jornades de consum responsable Riudemostra</a><a class="ev c4" href="A-Hores-entrada.html" title="Assessorament en educació ambiental Santa Mostra · Treball de camp">1 h · Assessorament en educació ambiental Santa Mostra</a><a class="more" href="#">+2 més</a></div>
+          <div class="we" aria-label="ds. 25"><div class="dh"><span class="d">25</span></div></div>
+          <div class="we" aria-label="dg. 26"><div class="dh"><span class="d">26</span></div></div>
+          <div class="wk"><b>28 h</b><span class="muted">de 30 h</span><span class="neg">−2 h</span></div>
+          <div class="" aria-label="dl. 27"><div class="dh"><span class="d">27</span><span class="tot">6 h</span></div><a class="ev c5" href="A-Hores-entrada.html" title="Formació en emprenedoria col·lectiva">1 h · Formació en emprenedoria col·lectiva</a><a class="ev c0" href="A-Hores-entrada.html" title="Jornades d&#x27;emprenedoria col·lectiva · H3 aliances, prospecció i capacitats">2 h · Jornades d&#x27;emprenedoria col·lectiva</a><a class="ev c1" href="A-Hores-entrada.html" title="Dinamització de memòria històrica Torredemo · Justificació">2 h · Dinamització de memòria històrica Torredemo</a><a class="more" href="#">+1 més</a></div>
+          <div class="" aria-label="dt. 28"><div class="dh"><span class="d">28</span><span class="tot over">7,5 h</span></div><a class="ev c3" href="A-Hores-entrada.html" title="Jornades de consum responsable Riudemostra">1 h · Jornades de consum responsable Riudemostra</a><a class="ev c0" href="A-Hores-entrada.html" title="Jornades d&#x27;emprenedoria col·lectiva · H3 aliances, prospecció i capacitats">0,5 h · Jornades d&#x27;emprenedoria col·lectiva</a><a class="ev c0" href="A-Hores-entrada.html" title="Acompanyament en xarxes de suport Riudemostra · Reunió de coordinació">1 h · Acompanyament en xarxes de suport Riudemostra</a><a class="more" href="#">+3 més</a></div>
+          <div class="" aria-label="dc. 29"><div class="dh"><span class="d">29</span><span class="tot over">7 h</span></div><a class="ev c5" href="A-Hores-entrada.html" title="Formació en emprenedoria col·lectiva">1,5 h · Formació en emprenedoria col·lectiva</a><a class="ev c0" href="A-Hores-entrada.html" title="Projecte pilot d&#x27;educació ambiental Pobla de Proves · H1 facturable i implementació">0,5 h · Projecte pilot d&#x27;educació ambiental Pobla de Proves</a><a class="ev c0" href="A-Hores-entrada.html" title="Projecte pilot d&#x27;educació ambiental Pobla de Proves · H1 facturable i implementació">0,75 h · Projecte pilot d&#x27;educació ambiental Pobla de Proves</a><a class="more" href="#">+4 més</a></div>
+          <div class="" aria-label="dj. 30"><div class="dh"><span class="d">30</span><span class="tot">5,25 h</span></div><a class="ev c0" href="A-Hores-entrada.html" title="Jornades de sobirania alimentària Masdemo">1 h · Jornades de sobirania alimentària Masdemo</a><a class="ev c2" href="A-Hores-entrada.html" title="Estudi sobre consum responsable Vilafranca de Prova · Gestió de correu">0,5 h · Estudi sobre consum responsable Vilafranca de Prova</a><a class="ev c6" href="A-Hores-entrada.html" title="Estudi sobre xarxes de suport La Vall Imaginària · Treball de camp">0,5 h · Estudi sobre xarxes de suport La Vall Imaginària</a><a class="more" href="#">+3 més</a></div>
+          <div class="" aria-label="dv. 31"><div class="dh"><span class="d">31</span><span class="tot">6 h</span></div><a class="ev c4" href="A-Hores-entrada.html" title="Assessorament en educació ambiental Santa Mostra">4,5 h · Assessorament en educació ambiental Santa Mostra</a><a class="ev c0" href="A-Hores-entrada.html" title="Projecte pilot d&#x27;educació ambiental Pobla de Proves · H1 facturable i implementació">1,5 h · Projecte pilot d&#x27;educació ambiental Pobla de Proves</a></div>
+          <div class="out" aria-label="ds. 1"><div class="dh"><span class="d">1</span></div></div>
+          <div class="out" aria-label="dg. 2"><div class="dh"><span class="d">2</span></div></div>
+          <div class="wk"><b>31,75 h</b><span class="muted">de 30 h</span><span class="pos">+1,75 h</span></div>
+      </div>
+      <div class="card-foot">
+        <span>Clica un dia per afegir-hi hores, o una entrada per editar-la. Les vores marquen els dies laborables sense hores.</span>
+        <span><b style="color:var(--a-fg)">Total del mes: 146,5 h</b></span>
+      </div>
+    </section>
+
+    <div class="cols">
+      <section class="card wide">
+        <div class="card-head"><h2>Per projecte</h2><span class="sub">15 projectes + entrades sense projecte</span></div>
+        <div class="table-wrap">
+          <table class="table compact">
+            <tbody>
+              <tr><td class="name"><span class="nm"><span class="dot c1"></span><span class="tx"><a class="title" href="A-Fitxa.html">Dinamització de memòria històrica Torredemo</a></span></span></td><td class="hide-sm" style="width:30%"><div class="bar"><span style="width:100%"></span></div></td><td class="num">30,25 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">21 %</td></tr><tr><td class="name"><span class="nm"><span class="dot c2"></span><span class="tx"><a class="title" href="A-Fitxa.html">Estudi sobre consum responsable Vilafranca de Prova</a></span></span></td><td class="hide-sm" style="width:30%"><div class="bar"><span style="width:87%"></span></div></td><td class="num">26,25 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">18 %</td></tr><tr><td class="name"><span class="nm"><span class="dot c3"></span><span class="tx"><a class="title" href="A-Fitxa.html">Jornades de consum responsable Riudemostra</a></span></span></td><td class="hide-sm" style="width:30%"><div class="bar"><span style="width:65%"></span></div></td><td class="num">19,75 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">13 %</td></tr><tr><td class="name"><span class="nm"><span class="dot c4"></span><span class="tx"><a class="title" href="A-Fitxa.html">Assessorament en educació ambiental Santa Mostra</a></span></span></td><td class="hide-sm" style="width:30%"><div class="bar"><span style="width:47%"></span></div></td><td class="num">14,25 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">10 %</td></tr><tr><td class="name"><span class="nm"><span class="dot c5"></span><span class="tx"><a class="title" href="A-Fitxa.html">Formació en emprenedoria col·lectiva</a></span></span></td><td class="hide-sm" style="width:30%"><div class="bar"><span style="width:44%"></span></div></td><td class="num">13,25 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">9 %</td></tr><tr><td class="name"><span class="nm"><span class="dot c6"></span><span class="tx"><a class="title" href="A-Fitxa.html">Estudi sobre xarxes de suport La Vall Imaginària</a></span></span></td><td class="hide-sm" style="width:30%"><div class="bar"><span style="width:33%"></span></div></td><td class="num">10 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">7 %</td></tr><tr><td class="name"><span class="nm"><span class="dot c0"></span><span class="tx"><a class="title" href="A-Fitxa.html">Jornades d&#x27;emprenedoria col·lectiva</a></span></span></td><td class="hide-sm" style="width:30%"><div class="bar"><span style="width:30%"></span></div></td><td class="num">9 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">6 %</td></tr><tr><td class="name"><span class="nm"><span class="dot c0"></span><span class="tx"><a class="title" href="A-Fitxa.html">Diagnosi de cooperació internacional Rocafictícia</a></span></span></td><td class="hide-sm" style="width:30%"><div class="bar"><span style="width:17%"></span></div></td><td class="num">5 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">3 %</td></tr><tr><td class="name"><span class="nm"><span class="dot c0"></span><span class="tx"><span class="title" style="font-weight:600">8 projectes més</span><span class="subline">inclou 3 h sense projecte</span></span></span></td><td class="hide-sm"><div class="bar"><span style="width:62%"></span></div></td><td class="num">18,75 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">13 %</td></tr>
+            </tbody>
+            <tfoot><tr><td>Total</td><td class="hide-sm"></td><td class="num">146,5 h</td><td class="num">100 %</td></tr></tfoot>
+          </table>
+        </div>
+      </section>
+      <section class="card narrow">
+        <div class="card-head"><h2>Per tipus de dedicació</h2></div>
+        <div class="table-wrap">
+          <table class="table compact">
+            <tbody><tr><td>H1 facturable i implementació</td><td class="num">5,25 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">4 %</td></tr><tr><td>H2 gestió i estructura</td><td class="num">2 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">1 %</td></tr><tr><td>H3 aliances, prospecció i capacitats</td><td class="num">9 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">6 %</td></tr><tr><td>Sense tipus</td><td class="num">130,25 h</td><td class="num" style="font-weight:600;color:var(--a-muted)">89 %</td></tr></tbody>
+            <tfoot><tr><td>Total</td><td class="num">146,5 h</td><td class="num">100 %</td></tr></tfoot>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<div class="overlay" role="presentation">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+    <div class="modal-head">
+      <div><h2 id="mt">Afegeix hores</h2><div class="muted">Laia Puig · dilluns 20 d'octubre de 2025</div></div>
+      <a class="btn btn-ghost btn-icon" href="A-Hores.html" aria-label="Tanca"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></a>
+    </div>
+    <div class="modal-body">
+      <div class="grid-form" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
+        <div class="field"><label>Data</label><input class="input" value="20/10/2025"></div>
+        <div class="field"><label>Hores</label><div class="affix"><input class="input num" value="2"><span>h</span></div><span class="help">Aquest dia: 0 h de 6 h de jornada</span></div>
+      </div>
+      <div class="field"><label>Persona</label><select class="select"><option selected>Laia Puig</option><option>Marc Serra</option></select></div>
+      <div class="field"><label>Projecte</label><div class="search" style="max-width:none;flex:none"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg><input class="input" value="Acompanyament en xarxes de suport"></div></div>
+      <div class="field"><label>Descripció</label><input class="input" value="Justificació" placeholder="Descripció"></div>
+      <div class="field"><span class="label">Tipus dedicació</span><div class="opts" role="radiogroup"><label><input type="radio" name="dt"> H1 facturable i implementació</label><label><input type="radio" name="dt"> H2 gestió i estructura</label><label><input type="radio" name="dt" checked> H3 aliances, prospecció i capacitats</label></div><span class="help">Per defecte, el tipus del projecte.</span></div>
+      <div class="field"><span class="label">Funció</span><div class="opts" role="radiogroup"><label><input type="radio" name="fn"> Fons Europeus</label><label><input type="radio" name="fn" checked> Fons Locals</label><label><input type="radio" name="fn"> Fons Transnacionals</label><label><input type="radio" name="fn"> Fons Catalunya</label><label><input type="radio" name="fn"> Fons Estatals</label></div></div>
+      <div class="field"><span class="label">Tasca</span><div class="opts" role="radiogroup"><label><input type="radio" name="tk"> Cap</label><label><input type="radio" name="tk" checked> Tancar la justificació</label></div><span class="help">Tasques obertes del projecte per a la funció triada.</span></div>
+    </div>
+    <div class="modal-foot">
+      <a class="btn" href="A-Hores.html">Cancel·la</a>
+      <button type="button" class="btn btn-primary">Desa</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Tasques · Llista</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidates for a.css: task list (grouped table, row checkbox, inline pickers, bulk bar, priority, status popover) */
+.lane-more { color: var(--a-accent); }
+.filters2 { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.filters2 .filter { height: 34px; font-size: 13px; }
+.filters2 .check { font-weight: 600; color: var(--a-fg-2); margin-left: 4px; }
+.bulk { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 16px; background: var(--a-accent-soft); border-bottom: 1px solid var(--a-line); border-radius: var(--a-radius-lg) var(--a-radius-lg) 0 0; }
+.bulk b { color: var(--a-accent); margin-right: 8px; }
+.bulk .btn { background: var(--a-surface); }
+.bulk .spacer { flex: 1; }
+table.tasks { min-width: 1080px; }
+table.tasks td { vertical-align: top; }
+table.tasks td.ck, table.tasks th.ck { width: 44px; padding-right: 0; }
+table.tasks .ck input { width: 17px; height: 17px; margin: 2px 0 0; accent-color: var(--a-accent); }
+table.tasks td.task { max-width: 380px; }
+table.tasks .title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+table.tasks .subline { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+table.tasks .fn { color: var(--a-fg-2); font-weight: 700; }
+.metas { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; color: var(--a-muted); font-size: 12px; font-weight: 700; }
+.mi { display: inline-flex; align-items: center; gap: 4px; }
+.mi svg.i { width: 14px; height: 14px; }
+table.tasks tr:not(.grp):not(.add):not(.more):hover td { background: var(--a-thead); }
+table.tasks tr.is-selected:hover td { background: var(--a-accent-soft); }
+tr.grp td { background: var(--a-surface) !important; padding: 18px 16px 6px !important; border-bottom: 1px solid var(--a-line); }
+tr.grp:first-child td { padding-top: 10px !important; }
+.grp-btn { display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; font: inherit; font-weight: 800; font-size: 15px; color: var(--a-fg); cursor: pointer; padding: 0; }
+.grp-btn .count { padding: 0 7px; border-radius: 999px; background: var(--a-chip); color: var(--a-fg-2); font-size: 12px; }
+tr.grp.late .grp-btn > span:first-of-type { color: var(--a-danger-fg); }
+tr.grp.late .count { background: var(--a-danger-bg); color: var(--a-danger-fg); }
+tr.add td, tr.more td { border-bottom: 0; padding-top: 4px; padding-bottom: 4px; }
+.cellbtn { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 8px; margin-left: -8px; border: 0; border-radius: 6px; background: transparent; font: inherit; font-weight: 700; color: var(--a-accent); cursor: pointer; }
+.cellbtn.muted { color: var(--a-muted); font-weight: 600; }
+.cellbtn:hover { background: var(--a-chip); }
+.cellbtn svg.i { width: 16px; height: 16px; }
+.prio { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; white-space: nowrap; }
+.prio::before { content: ""; width: 8px; height: 8px; border-radius: 2px; transform: rotate(45deg); }
+.prio.hi { color: var(--a-neg); } .prio.hi::before { background: var(--a-neg); }
+.prio.mid { color: var(--a-fg-2); } .prio.mid::before { background: var(--a-muted); }
+.prio.lo { color: var(--a-muted); } .prio.lo::before { background: var(--a-input); }
+td.st { position: relative; }
+.tag.pick { border: 0; font-family: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; padding-right: 6px; }
+.tag.pick.is-open { outline: 2px solid var(--a-accent); outline-offset: 1px; }
+.pop { position: absolute; top: 38px; left: 8px; z-index: 6; min-width: 170px; background: var(--a-surface); border: 1px solid var(--a-line); border-radius: var(--a-radius); box-shadow: var(--a-shadow); padding: 6px; display: flex; flex-direction: column; gap: 2px; }
+.pop button { display: flex; align-items: center; justify-content: space-between; gap: 8px; height: 34px; padding: 0 8px; border: 0; border-radius: 6px; background: transparent; font: inherit; cursor: pointer; }
+.pop button:hover, .pop button[aria-checked="true"] { background: var(--a-thead); }
+.pop button svg.i { color: var(--a-accent); width: 16px; height: 16px; }
+.avatars { display: flex; }
+.avatars .avatar { border: 2px solid var(--a-surface); margin-left: -3px; }
+.avatars .avatar:first-child { margin-left: 0; }
+.due { font-weight: 700; display: block; }
+.due.neg { color: var(--a-danger-fg); }
+.due.soon { color: var(--a-warn-fg); }
+.nowrap { white-space: nowrap; }
+td.hcell { min-width: 130px; }
+.hrs { display: flex; justify-content: space-between; gap: 6px; font-size: 13px; white-space: nowrap; }
+.hcell .bar { margin-top: 4px; }
+.stale { color: var(--a-over); font-weight: 700; }
+th .sortable { display: inline-flex; align-items: center; gap: 4px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item is-active" href="A-Tasques.html" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="false"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <header class="page-head">
+      <div>
+        <h1>Tasques</h1>
+        <div class="sub">30 tasques obertes · 2 de vençudes · 28 acabades</div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn btn-primary"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Nova tasca</button>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Filtres">
+      <label class="search"><span class="sr-only">Cerca</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg><input class="input" type="search" placeholder="Cerca una tasca"></label>
+      <button type="button" class="filter"><span>Persona</span><b>Totes</b><svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Projecte</span><b>Tots</b><svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <span class="spacer"></span>
+      <div class="seg" role="group" aria-label="Vista">
+        <a href="A-Tasques.html" aria-pressed="false">Tauler</a>
+        <a href="A-Tasques-Llista.html" class="is-on" aria-pressed="true">Llista</a>
+      </div>
+    </section>
+
+    <section class="filters2" aria-label="Més filtres">
+      <button type="button" class="filter"><span>Estat</span><b>Obertes</b><svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Venciment</span><b>Tots</b><svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Prioritat</span><b>Totes</b><svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Funció</span><b>Totes</b><svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <label class="check"><input type="checkbox"> Mostra les arxivades</label>
+      <span class="spacer" style="flex:1"></span>
+      <button type="button" class="filter"><span>Agrupa per</span><b>Venciment</b><svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    </section>
+
+    <section class="card">
+      <div class="bulk" role="region" aria-label="Accions sobre les seleccionades">
+        <b>2 seleccionades</b>
+        <button type="button" class="btn btn-sm">Estat<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <button type="button" class="btn btn-sm">Assigna<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <button type="button" class="btn btn-sm">Data límit</button>
+        <button type="button" class="btn btn-sm">Prioritat<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <button type="button" class="btn btn-sm">Arxiva</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-sm btn-ghost">Desselecciona</button>
+      </div>
+      <div class="table-wrap">
+      <table class="table tasks">
+        <thead>
+          <tr>
+            <th class="ck"><input type="checkbox" aria-label="Selecciona-les totes" style="width:17px;height:17px;accent-color:var(--a-accent)"></th>
+            <th>Tasca <span class="muted" style="text-transform:none;letter-spacing:0;font-weight:600">· projecte · funció</span></th>
+            <th>Prioritat</th>
+            <th>Estat</th>
+            <th>Persones</th>
+            <th class="sorted">Data límit ↑</th>
+            <th>Hores <span class="muted" style="text-transform:none;letter-spacing:0;font-weight:600">fetes / estimades</span></th>
+            <th>Actualitzada</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr class="grp late"><td colspan="8"><button type="button" class="grp-btn" aria-expanded="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><span>Vençudes</span><span class="count">2</span></button></td></tr>
+        <tr>
+          <td class="ck"><input type="checkbox" aria-label="Selecciona «Publicar la difusió»"></td>
+          <td class="task"><a class="title" href="#">Publicar la difusió</a><span class="subline">Formació en educació ambiental Vilafranca de Prova · <span class="fn">Comunicació</span></span><span class="metas"><span class="mi" title="Comentaris"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span>2</span></span><span class="mi" title="Checklist"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l2 2 3-3M4 16l2 2 3-3M12 8h8M12 17h8"/></svg><span>1/3</span></span></span></td>
+          <td><span class="prio hi">Alta</span></td>
+          <td class="st"><button type="button" class="tag  pick" aria-haspopup="menu">Pendent<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+          <td><span class="avatars"><span class="avatar sm" title="Laia Serra">LS</span></span></td>
+          <td class="nowrap"><span class="due neg">01/03/2026</span></td>
+          <td class="hcell"><div class="hrs"><b>2 h</b><span class="muted">/ 4 h</span></div><div class="bar"><span style="width:50%"></span></div></td>
+          <td class="nowrap"><span class="stale" title="Fa més de 15 dies que no es toca">fa 32 dies</span></td>
+        </tr>
+        <tr>
+          <td class="ck"><input type="checkbox" aria-label="Selecciona «Revisar les hores»"></td>
+          <td class="task"><a class="title" href="#">Revisar les hores</a><span class="subline muted">Sense projecte</span><span class="metas"><span class="mi" title="Es repeteix"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l3 3-3 3M4 11V9a4 4 0 0 1 4-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 0 1-4 4H4"/></svg><span>Cada mes</span></span></span></td>
+          <td><span class="prio mid">Normal</span></td>
+          <td class="st"><button type="button" class="tag info pick" aria-haspopup="menu">En procés<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+          <td><span class="avatars"><span class="avatar sm" title="Arnau Serra">AS</span></span></td>
+          <td class="nowrap"><span class="due neg">15/10/2026</span></td>
+          <td class="hcell"><div class="hrs"><b>0,5 h</b><span class="muted">/ 1 h</span></div><div class="bar"><span style="width:50%"></span></div></td>
+          <td class="nowrap"><span>ahir</span></td>
+        </tr>
+        <tr class="grp"><td colspan="8"><button type="button" class="grp-btn" aria-expanded="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><span>Pròxims 7 dies</span><span class="count">4</span></button></td></tr>
+        <tr>
+          <td class="ck"><input type="checkbox" aria-label="Selecciona «Tancar la justificació»"></td>
+          <td class="task"><a class="title" href="#">Tancar la justificació</a><span class="subline">Taller de territori rural Sant Fictici de Mar · <span class="fn">Gestió</span></span><span class="metas"><span class="mi" title="Comentaris"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span>5</span></span><span class="mi" title="Checklist"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l2 2 3-3M4 16l2 2 3-3M12 8h8M12 17h8"/></svg><span>4/6</span></span><span class="mi" title="Documents"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5l-8 8a5 5 0 0 1-7-7l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7L9.7 17a1.7 1.7 0 0 1-2.4-2.4L15 7"/></svg><span>3</span></span></span></td>
+          <td><span class="prio hi">Alta</span></td>
+          <td class="st"><button type="button" class="tag info pick" aria-haspopup="menu">En procés<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+          <td><span class="avatars"><span class="avatar sm" title="Marc Serra">MS</span><span class="avatar sm" title="Laia Serra">LS</span></span></td>
+          <td class="nowrap"><span class="due soon">20/10/2026</span><span class="subline">des del 01/10</span></td>
+          <td class="hcell"><div class="hrs"><b>11 h</b><span class="muted">/ 10 h</span></div><div class="bar"><span class="over" style="width:100%"></span></div></td>
+          <td class="nowrap"><span>avui</span></td>
+        </tr>
+        <tr class="is-selected">
+          <td class="ck"><input type="checkbox" aria-label="Selecciona «Enviar el pressupost»" checked></td>
+          <td class="task"><a class="title" href="#">Enviar el pressupost</a><span class="subline">Taller d&#x27;inserció laboral Rocafictícia · <span class="fn">Coordinació</span></span></td>
+          <td><span class="prio mid">Normal</span></td>
+          <td class="st"><button type="button" class="tag  pick" aria-haspopup="menu">Pendent<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+          <td><span class="avatars"><span class="avatar sm" title="Jordi Puig">JP</span><span class="avatar sm" title="Marc Serra">MS</span><span class="avatar sm" title="Laia Serra">LS</span></span></td>
+          <td class="nowrap"><span class="due soon">22/10/2026</span></td>
+          <td class="hcell"><div class="hrs"><b>0 h</b><span class="muted">/ 2 h</span></div><div class="bar"><span style="width:0%"></span></div></td>
+          <td class="nowrap"><span>fa 3 dies</span></td>
+        </tr>
+        <tr class="is-selected">
+          <td class="ck"><input type="checkbox" aria-label="Selecciona «Trucar a l&#x27;entitat»" checked></td>
+          <td class="task"><a class="title" href="#">Trucar a l&#x27;entitat</a><span class="subline">Recerca en consum responsable Bellmodel · <span class="fn">Coordinació</span></span><span class="metas"><span class="mi" title="Comentaris"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span>1</span></span></span></td>
+          <td><span class="prio lo">Baixa</span></td>
+          <td class="st"><button type="button" class="tag  pick" aria-haspopup="menu">Pendent<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+          <td><span class="avatars"><span class="avatar sm" title="Jordi Puig">JP</span></span></td>
+          <td class="nowrap"><span class="due soon">23/10/2026</span></td>
+          <td class="hcell"><span class="muted">—</span></td>
+          <td class="nowrap"><span>fa 6 dies</span></td>
+        </tr>
+        <tr>
+          <td class="ck"><input type="checkbox" aria-label="Selecciona «Preparar la proposta»"></td>
+          <td class="task"><a class="title" href="#">Preparar la proposta</a><span class="subline muted">Sense projecte</span><span class="metas"><span class="mi" title="Documents"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5l-8 8a5 5 0 0 1-7-7l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7L9.7 17a1.7 1.7 0 0 1-2.4-2.4L15 7"/></svg><span>2</span></span></span></td>
+          <td><span class="prio hi">Alta</span></td>
+          <td class="st"><button type="button" class="tag info pick" aria-haspopup="menu">En procés<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+          <td><span class="avatars"><span class="avatar sm" title="Arnau Serra">AS</span></span></td>
+          <td class="nowrap"><span class="due soon">24/10/2026</span><span class="subline">des del 13/10</span></td>
+          <td class="hcell"><div class="hrs"><b>3 h</b><span class="muted">/ 8 h</span></div><div class="bar"><span style="width:38%"></span></div></td>
+          <td class="nowrap"><span>avui</span></td>
+        </tr>
+        <tr class="add"><td></td><td colspan="7"><button type="button" class="cellbtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix una tasca</button></td></tr>
+        <tr class="grp"><td colspan="8"><button type="button" class="grp-btn" aria-expanded="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><span>Més endavant</span><span class="count">3</span></button></td></tr>
+        <tr>
+          <td class="ck"><input type="checkbox" aria-label="Selecciona «Fer l&#x27;acta»"></td>
+          <td class="task"><a class="title" href="#">Fer l&#x27;acta</a><span class="subline">Campanya d&#x27;educació ambiental Montprova · <span class="fn">Coordinació</span></span><span class="metas"><span class="mi" title="Es repeteix"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l3 3-3 3M4 11V9a4 4 0 0 1 4-4h12M7 22l-3-3 3-3M20 13v2a4 4 0 0 1-4 4H4"/></svg><span>Cada 2 setmanes</span></span></span></td>
+          <td><span class="prio mid">Normal</span></td>
+          <td class="st"><button type="button" class="tag  pick is-open" aria-haspopup="menu" aria-expanded="true">Pendent<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="pop" role="menu" aria-label="Canvia l'estat"><button type="button" role="menuitemradio" aria-checked="true"><span class="tag">Pendent</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></button><button type="button" role="menuitemradio" aria-checked="false"><span class="tag info">En procés</span></button><button type="button" role="menuitemradio" aria-checked="false"><span class="tag ok">Acabada</span></button></div></td>
+          <td><span class="avatars"><span class="avatar sm" title="Marc Serra">MS</span></span></td>
+          <td class="nowrap"><span class="due">05/11/2026</span></td>
+          <td class="hcell"><span class="muted">—</span></td>
+          <td class="nowrap"><span>fa 9 dies</span></td>
+        </tr>
+        <tr>
+          <td class="ck"><input type="checkbox" aria-label="Selecciona «Arxivar la documentació»"></td>
+          <td class="task"><a class="title" href="#">Arxivar la documentació</a><span class="subline">Projecte pilot d&#x27;educació ambiental Pobla de Proves · <span class="fn">Gestió</span></span></td>
+          <td><span class="prio lo">Baixa</span></td>
+          <td class="st"><button type="button" class="tag  pick" aria-haspopup="menu">Pendent<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+          <td><span class="avatars"><span class="avatar sm" title="Jordi Puig">JP</span></span></td>
+          <td class="nowrap"><span class="due">30/11/2026</span></td>
+          <td class="hcell"><span class="muted">—</span></td>
+          <td class="nowrap"><span class="stale" title="Fa més de 15 dies que no es toca">fa 21 dies</span></td>
+        </tr>
+        <tr>
+          <td class="ck"><input type="checkbox" aria-label="Selecciona «Revisar la factura»"></td>
+          <td class="task"><a class="title" href="#">Revisar la factura</a><span class="subline">Recerca en xarxes de suport Vilanova de l&#x27;Exemple · <span class="fn">Gestió</span></span><span class="metas"><span class="mi" title="Checklist"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7l2 2 3-3M4 16l2 2 3-3M12 8h8M12 17h8"/></svg><span>0/2</span></span></span></td>
+          <td><span class="prio mid">Normal</span></td>
+          <td class="st"><button type="button" class="tag  pick" aria-haspopup="menu">Pendent<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+          <td><span class="avatars"><span class="avatar sm" title="Jordi Puig">JP</span><span class="avatar sm" title="Marc Serra">MS</span><span class="avatar sm" title="Laia Serra">LS</span></span></td>
+          <td class="nowrap"><span class="due">15/12/2026</span><span class="subline">des del 01/12</span></td>
+          <td class="hcell"><div class="hrs"><b>1,5 h</b><span class="muted">sense estimació</span></div></td>
+          <td class="nowrap"><span>fa 4 dies</span></td>
+        </tr>
+        <tr class="add"><td></td><td colspan="7"><button type="button" class="cellbtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix una tasca</button></td></tr>
+        <tr class="grp"><td colspan="8"><button type="button" class="grp-btn" aria-expanded="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg><span>Sense data</span><span class="count">21</span></button></td></tr>
+        <tr>
+          <td class="ck"><input type="checkbox" aria-label="Selecciona «Publicar la difusió»"></td>
+          <td class="task"><a class="title" href="#">Publicar la difusió</a><span class="subline">Projecte pilot d&#x27;agroecologia Pobla de Proves · <span class="fn">Comunicació</span></span><span class="metas"><span class="mi" title="Comentaris"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg><span>3</span></span></span></td>
+          <td><span class="prio mid">Normal</span></td>
+          <td class="st"><button type="button" class="tag  pick" aria-haspopup="menu">Pendent<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+          <td><span class="avatars"><span class="avatar sm" title="Aina Puig">AP</span><span class="avatar sm" title="Marc Serra">MS</span><span class="avatar sm" title="Laia Serra">LS</span></span></td>
+          <td class="nowrap"><button type="button" class="cellbtn muted">Afegeix data</button></td>
+          <td class="hcell"><span class="muted">—</span></td>
+          <td class="nowrap"><span>fa 11 dies</span></td>
+        </tr>
+        <tr>
+          <td class="ck"><input type="checkbox" aria-label="Selecciona «Revisar les hores»"></td>
+          <td class="task"><a class="title" href="#">Revisar les hores</a><span class="subline">Projecte pilot d&#x27;economia social</span></td>
+          <td><span class="prio mid">Normal</span></td>
+          <td class="st"><button type="button" class="tag  pick" aria-haspopup="menu">Pendent<svg class="i" style="width:14px;height:14px" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></td>
+          <td><span class="avatars"><span class="avatar sm" title="Pau Puig">PP</span><span class="avatar sm" title="Marc Serra">MS</span><span class="avatar sm" title="Laia Serra">LS</span></span></td>
+          <td class="nowrap"><button type="button" class="cellbtn muted">Afegeix data</button></td>
+          <td class="hcell"><div class="hrs"><b>4 h</b><span class="muted">sense estimació</span></div></td>
+          <td class="nowrap"><span>fa 2 dies</span></td>
+        </tr>
+        <tr class="more"><td></td><td colspan="7"><button type="button" class="btn btn-sm btn-ghost lane-more">Mostra’n 19 més</button></td></tr>
+        <tr class="add"><td></td><td colspan="7"><button type="button" class="cellbtn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Afegeix una tasca</button></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="card-foot"><span>30 tasques obertes · 11 mostrades</span><span>Ordenades per data límit</span></div>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

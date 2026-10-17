@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Saldo hores</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: report layout helpers (shared by all A-Informe-* pages) */
+.report-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; color: var(--a-muted); font-size: 13px; }
+.filter b { font-weight: 800; }
+.btn-link { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: var(--a-accent); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+/* collapsible group rows in report tables */
+table.table tr.group td:first-child { white-space: nowrap; }
+table.table tr.group .gt { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 0; font: inherit; font-weight: 800; color: var(--a-fg); cursor: pointer; }
+table.table tr.group .gt svg { width: 16px; height: 16px; color: var(--a-muted); }
+table.table tr.group .gt[aria-expanded="false"] svg { transform: rotate(-90deg); }
+table.table tr.group .count { font-weight: 600; color: var(--a-muted); margin-left: 4px; }
+table.table tr.more td { color: var(--a-muted); font-size: 13px; }
+table.table td.indent { padding-left: 40px; }
+table.table th.num, table.table td.num { text-align: right; }
+.hb { min-width: 180px; display: flex; flex-direction: column; gap: 5px; }
+.hb .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; white-space: nowrap; }
+.hb .top b { font-weight: 800; }
+.hb .top span { color: var(--a-muted); font-size: 13px; }
+.hb .top span.over { color: var(--a-over); font-weight: 700; }
+table.table td .of { display: block; color: var(--a-muted); font-size: 12.5px; font-weight: 600; }
+
+/* candidate for a.css: chart frame */
+.chart { width: 100%; height: auto; display: block; max-height: 260px; min-width: 680px; }
+.chart text { font: 12px var(--a-font); fill: var(--a-fg-2); }
+.chart .val { font-weight: 800; fill: var(--a-fg); }
+.tags { display: flex; flex-wrap: wrap; gap: 4px; }
+table.table tr.wkend td { color: #A6B3B5; font-size: 12.5px; padding-top: 3px; padding-bottom: 3px; }
+table.table tr.off td { background: var(--a-thead); }
+</style>
+</head>
+<body>
+<!-- Proposal A · Saldo hores. Static mockup; figures are real values from the anonymized demo database (projectes_v5_manual). -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="true"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="nav-sub">
+          <a class="nav-item" href="A-Informe-Projectes.html">Panell de projectes</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-grafic.html">Dedicació (gràfic)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-taula.html">Dedicació (taula)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-real.html">% Dedicació real</a>
+          <a class="nav-item" href="A-Informe-Previsio-dedicacio.html">Previsió dedicació</a>
+          <a class="nav-item" href="A-Informe-Prev-real.html">Prev./Real dedicació</a>
+          <a class="nav-item" href="A-Informe-Ingressos-despeses.html">Ingressos/Despeses</a>
+          <a class="nav-item" href="A-Informe-Preu-hora.html">Preu hora</a>
+          <a class="nav-item" href="A-Informe-Previsio-economica.html">Previsió econòmica</a>
+          <a class="nav-item" href="A-Informe-Estrategies.html">Estratègies</a>
+          <a class="nav-item" href="A-Informe-Intercooperacio.html">Intercooperació</a>
+          <a class="nav-item is-active" aria-current="page" href="A-Informe-Saldo-hores.html">Saldo hores</a>
+          <a class="nav-item" href="A-Informe-Hores-anuals.html">Hores anuals</a>
+          <a class="nav-item" href="A-Justificacions.html">Justificacions</a>
+          <a class="nav-item" href="A-Subvencions.html">Subvencions</a>
+        </div>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="#">Informes</a><span aria-hidden="true">/</span><span>Saldo hores</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Saldo hores</h1>
+        <div class="sub">Hores treballades d'una persona comparades amb la seva jornada teòrica, i el saldo que se'n deriva.</div>
+      </div>
+      <div class="actions"><button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exporta .ods</button></div>
+    </header>
+    <div class="toolbar">
+      <button type="button" class="filter"><span>Persona</span><b>Marc Serra</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="yearnav" style="display:inline-flex;align-items:center;gap:4px"><button type="button" class="btn btn-icon btn-sm" aria-label="Any anterior"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><b style="min-width:56px;text-align:center;font-size:15px">2025</b><button type="button" class="btn btn-icon btn-sm" aria-label="Any següent"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
+    </div>
+    <section class="kpis" aria-label="Resum">
+      <div class="kpi"><span class="label">Saldo a 31/12/2025</span><span class="value pos">+68,00&nbsp;h</span><span class="foot">hores fetes de més respecte de la jornada</span></div>
+      <div class="kpi"><span class="label">Hores treballades</span><span class="value">1.876,00&nbsp;h</span><span class="foot">registrades a «Hores dedicades»</span></div>
+      <div class="kpi"><span class="label">Hores teòriques</span><span class="value">1.808,00&nbsp;h</span><span class="foot">226 dies de jornada de 8&nbsp;h</span></div>
+      <div class="kpi"><span class="label">Festius i absències</span><span class="value">36 dies</span><span class="foot">festius, vacances i lliure elecció</span></div>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>Saldo acumulat</h2><span class="sub">a final de cada mes</span></div>
+      <div class="card-pad table-wrap"><svg class="chart" viewBox="0 0 1060 240" role="img" aria-label="Saldo d'hores acumulat a final de cada mes de 2025: gener +1,75 h; febrer +28,25 h; març +5,00 h; abril +3,25 h; maig 0,00 h; juny +1,75 h; juliol +6,75 h; agost +4,50 h; setembre +24,25 h; octubre +34,50 h; novembre +55,00 h; desembre +68,00 h">
+<line x1="56" x2="1040" y1="177.5" y2="177.5" stroke="#9AA9AB"/><text x="48" y="181.5" text-anchor="end">0 h</text>
+<line x1="56" x2="1040" y1="132.5" y2="132.5" stroke="#EDF1F2"/><text x="48" y="136.5" text-anchor="end">+20 h</text>
+<line x1="56" x2="1040" y1="87.5" y2="87.5" stroke="#EDF1F2"/><text x="48" y="91.5" text-anchor="end">+40 h</text>
+<line x1="56" x2="1040" y1="42.5" y2="42.5" stroke="#EDF1F2"/><text x="48" y="46.5" text-anchor="end">+60 h</text>
+<polygon points="56.0,177.5 56.0,173.6 145.5,113.9 234.9,166.2 324.4,170.2 413.8,177.5 503.3,173.6 592.7,162.3 682.2,167.4 771.6,122.9 861.1,99.9 950.5,53.8 1040.0,24.5 1040.0,177.5" fill="#E3F4F1"/>
+<polyline points="56.0,173.6 145.5,113.9 234.9,166.2 324.4,170.2 413.8,177.5 503.3,173.6 592.7,162.3 682.2,167.4 771.6,122.9 861.1,99.9 950.5,53.8 1040.0,24.5" fill="none" stroke="#0B7A6C" stroke-width="2.5"/>
+<circle cx="56.0" cy="173.6" r="4" fill="#0B7A6C"/><text class="val" x="56.0" y="163.6" text-anchor="middle">+1,8</text><text x="56.0" y="222" text-anchor="middle">gen</text>
+<circle cx="145.5" cy="113.9" r="4" fill="#0B7A6C"/><text class="val" x="145.5" y="103.9" text-anchor="middle">+28,2</text><text x="145.5" y="222" text-anchor="middle">febr</text>
+<circle cx="234.9" cy="166.2" r="4" fill="#0B7A6C"/><text class="val" x="234.9" y="156.2" text-anchor="middle">+5,0</text><text x="234.9" y="222" text-anchor="middle">març</text>
+<circle cx="324.4" cy="170.2" r="4" fill="#0B7A6C"/><text class="val" x="324.4" y="160.2" text-anchor="middle">+3,2</text><text x="324.4" y="222" text-anchor="middle">abr</text>
+<circle cx="413.8" cy="177.5" r="4" fill="#0B7A6C"/><text class="val" x="413.8" y="167.5" text-anchor="middle">0,0</text><text x="413.8" y="222" text-anchor="middle">maig</text>
+<circle cx="503.3" cy="173.6" r="4" fill="#0B7A6C"/><text class="val" x="503.3" y="163.6" text-anchor="middle">+1,8</text><text x="503.3" y="222" text-anchor="middle">juny</text>
+<circle cx="592.7" cy="162.3" r="4" fill="#0B7A6C"/><text class="val" x="592.7" y="152.3" text-anchor="middle">+6,8</text><text x="592.7" y="222" text-anchor="middle">jul</text>
+<circle cx="682.2" cy="167.4" r="4" fill="#0B7A6C"/><text class="val" x="682.2" y="157.4" text-anchor="middle">+4,5</text><text x="682.2" y="222" text-anchor="middle">ag</text>
+<circle cx="771.6" cy="122.9" r="4" fill="#0B7A6C"/><text class="val" x="771.6" y="112.9" text-anchor="middle">+24,2</text><text x="771.6" y="222" text-anchor="middle">set</text>
+<circle cx="861.1" cy="99.9" r="4" fill="#0B7A6C"/><text class="val" x="861.1" y="89.9" text-anchor="middle">+34,5</text><text x="861.1" y="222" text-anchor="middle">oct</text>
+<circle cx="950.5" cy="53.8" r="4" fill="#0B7A6C"/><text class="val" x="950.5" y="43.8" text-anchor="middle">+55,0</text><text x="950.5" y="222" text-anchor="middle">nov</text>
+<circle cx="1040.0" cy="24.5" r="4" fill="#0B7A6C"/><text class="val" x="1040.0" y="14.5" text-anchor="middle">+68,0</text><text x="1040.0" y="222" text-anchor="middle">des</text>
+</svg></div>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>Per mes</h2><span class="sub">clica un mes per veure'n els dies</span></div>
+      <div class="table-wrap"><table class="table compact">
+        <thead><tr><th>Mes</th><th class="num">Dies de jornada</th><th class="num">Hores teòriques</th><th class="num">Hores treballades</th><th class="num">Diferència</th><th class="num">Saldo acumulat</th><th>Festius i absències</th></tr></thead>
+        <tbody><tr><td><b>Gener</b></td><td class="num">19</td><td class="num">152,00&nbsp;h</td><td class="num">153,75&nbsp;h</td><td class="num pos">+1,75&nbsp;h</td><td class="num pos">+1,75&nbsp;h</td><td><div class="tags"><span class="tag info">2 Festiu Estatal</span><span class="tag accent">2 Lliure Elecció</span></div></td></tr><tr><td><b>Febrer</b></td><td class="num">20</td><td class="num">160,00&nbsp;h</td><td class="num">186,50&nbsp;h</td><td class="num pos">+26,50&nbsp;h</td><td class="num pos">+28,25&nbsp;h</td><td><div class="tags"></div></td></tr><tr><td><b>Març</b></td><td class="num">18</td><td class="num">144,00&nbsp;h</td><td class="num">120,75&nbsp;h</td><td class="num neg">−23,25&nbsp;h</td><td class="num pos">+5,00&nbsp;h</td><td><div class="tags"><span class="tag accent">3 Lliure Elecció</span></div></td></tr><tr><td><b>Abril</b></td><td class="num">18</td><td class="num">144,00&nbsp;h</td><td class="num">142,25&nbsp;h</td><td class="num neg">−1,75&nbsp;h</td><td class="num pos">+3,25&nbsp;h</td><td><div class="tags"><span class="tag accent">1 Lliure Elecció</span><span class="tag info">1 Festiu Estatal</span><span class="tag info">1 Festiu Catalunya</span><span class="tag accent">1 Vacances</span></div></td></tr><tr><td><b>Maig</b></td><td class="num">21</td><td class="num">168,00&nbsp;h</td><td class="num">164,75&nbsp;h</td><td class="num neg">−3,25&nbsp;h</td><td class="num zero">0,00&nbsp;h</td><td><div class="tags"><span class="tag info">1 Festiu Estatal</span></div></td></tr><tr><td><b>Juny</b></td><td class="num">20</td><td class="num">160,00&nbsp;h</td><td class="num">161,75&nbsp;h</td><td class="num pos">+1,75&nbsp;h</td><td class="num pos">+1,75&nbsp;h</td><td><div class="tags"><span class="tag info">1 Festiu Catalunya</span></div></td></tr><tr><td><b>Juliol</b></td><td class="num">23</td><td class="num">184,00&nbsp;h</td><td class="num">189,00&nbsp;h</td><td class="num pos">+5,00&nbsp;h</td><td class="num pos">+6,75&nbsp;h</td><td><div class="tags"></div></td></tr><tr><td><b>Agost</b></td><td class="num">6</td><td class="num">48,00&nbsp;h</td><td class="num">45,75&nbsp;h</td><td class="num neg">−2,25&nbsp;h</td><td class="num pos">+4,50&nbsp;h</td><td><div class="tags"><span class="tag accent">14 Vacances</span><span class="tag info">1 Festiu Estatal</span></div></td></tr><tr><td><b>Setembre</b></td><td class="num">19</td><td class="num">152,00&nbsp;h</td><td class="num">171,75&nbsp;h</td><td class="num pos">+19,75&nbsp;h</td><td class="num pos">+24,25&nbsp;h</td><td><div class="tags"><span class="tag info">2 Festiu Local</span><span class="tag info">1 Festiu Catalunya</span></div></td></tr><tr><td><b>Octubre</b></td><td class="num">22</td><td class="num">176,00&nbsp;h</td><td class="num">186,25&nbsp;h</td><td class="num pos">+10,25&nbsp;h</td><td class="num pos">+34,50&nbsp;h</td><td><div class="tags"><span class="tag accent">1 Vacances</span></div></td></tr><tr><td><b>Novembre</b></td><td class="num">20</td><td class="num">160,00&nbsp;h</td><td class="num">180,50&nbsp;h</td><td class="num pos">+20,50&nbsp;h</td><td class="num pos">+55,00&nbsp;h</td><td><div class="tags"><span class="tag info">1 Festiu Estatal</span></div></td></tr><tr class="is-selected"><td><b>Desembre</b></td><td class="num">20</td><td class="num">160,00&nbsp;h</td><td class="num">173,00&nbsp;h</td><td class="num pos">+13,00&nbsp;h</td><td class="num pos">+68,00&nbsp;h</td><td><div class="tags"><span class="tag info">2 Festiu Estatal</span><span class="tag info">1 Festiu Catalunya</span></div></td></tr></tbody>
+        <tfoot><tr><td style="white-space:nowrap">Total 2025</td><td class="num">226</td><td class="num">1.808,00&nbsp;h</td><td class="num">1.876,00&nbsp;h</td><td class="num pos">+68,00&nbsp;h</td><td class="num pos">+68,00&nbsp;h</td><td></td></tr></tfoot>
+      </table></div>
+    </section>
+    <section class="card">
+      <div class="card-head"><h2>Desembre 2025 dia a dia</h2><label class="check"><input type="checkbox" checked> Mostra caps de setmana</label></div>
+      <div class="table-wrap"><table class="table compact">
+        <thead><tr><th>Dia</th><th>Festiu / absència</th><th class="num">Hores teòriques</th><th class="num">Hores treballades</th><th class="num">Diferència</th><th class="num">Saldo acumulat</th></tr></thead>
+        <tbody><tr><td><b>dl 01/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">8,75&nbsp;h</td><td class="num pos">+0,75&nbsp;h</td><td class="num pos">+55,75&nbsp;h</td></tr><tr><td><b>dt 02/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">9,00&nbsp;h</td><td class="num pos">+1,00&nbsp;h</td><td class="num pos">+56,75&nbsp;h</td></tr><tr><td><b>dc 03/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">8,25&nbsp;h</td><td class="num pos">+0,25&nbsp;h</td><td class="num pos">+57,00&nbsp;h</td></tr><tr><td><b>dj 04/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">8,50&nbsp;h</td><td class="num pos">+0,50&nbsp;h</td><td class="num pos">+57,50&nbsp;h</td></tr><tr><td><b>dv 05/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">8,00&nbsp;h</td><td class="num zero">0,00&nbsp;h</td><td class="num pos">+57,50&nbsp;h</td></tr><tr class="wkend"><td>ds 06/12</td><td colspan="4">cap de setmana</td><td class="num">+57,50&nbsp;h</td></tr><tr class="wkend"><td>dg 07/12</td><td colspan="4">cap de setmana</td><td class="num">+57,50&nbsp;h</td></tr><tr class="off"><td><b>dl 08/12</b></td><td><span class="tag info">Festiu Estatal</span></td><td class="num">0,00&nbsp;h</td><td class="num">0,00&nbsp;h</td><td class="num zero">0,00&nbsp;h</td><td class="num pos">+57,50&nbsp;h</td></tr><tr><td><b>dt 09/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">8,75&nbsp;h</td><td class="num pos">+0,75&nbsp;h</td><td class="num pos">+58,25&nbsp;h</td></tr><tr><td><b>dc 10/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">8,50&nbsp;h</td><td class="num pos">+0,50&nbsp;h</td><td class="num pos">+58,75&nbsp;h</td></tr><tr><td><b>dj 11/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">9,00&nbsp;h</td><td class="num pos">+1,00&nbsp;h</td><td class="num pos">+59,75&nbsp;h</td></tr><tr><td><b>dv 12/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">7,25&nbsp;h</td><td class="num neg">−0,75&nbsp;h</td><td class="num pos">+59,00&nbsp;h</td></tr><tr class="wkend"><td>ds 13/12</td><td colspan="4">cap de setmana</td><td class="num">+59,00&nbsp;h</td></tr><tr class="wkend"><td>dg 14/12</td><td colspan="4">cap de setmana</td><td class="num">+59,00&nbsp;h</td></tr><tr><td><b>dl 15/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">9,50&nbsp;h</td><td class="num pos">+1,50&nbsp;h</td><td class="num pos">+60,50&nbsp;h</td></tr><tr><td><b>dt 16/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">9,00&nbsp;h</td><td class="num pos">+1,00&nbsp;h</td><td class="num pos">+61,50&nbsp;h</td></tr><tr><td><b>dc 17/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">9,75&nbsp;h</td><td class="num pos">+1,75&nbsp;h</td><td class="num pos">+63,25&nbsp;h</td></tr><tr><td><b>dj 18/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">9,75&nbsp;h</td><td class="num pos">+1,75&nbsp;h</td><td class="num pos">+65,00&nbsp;h</td></tr><tr><td><b>dv 19/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">8,75&nbsp;h</td><td class="num pos">+0,75&nbsp;h</td><td class="num pos">+65,75&nbsp;h</td></tr><tr class="wkend"><td>ds 20/12</td><td colspan="4">cap de setmana</td><td class="num">+65,75&nbsp;h</td></tr><tr class="wkend"><td>dg 21/12</td><td colspan="4">cap de setmana</td><td class="num">+65,75&nbsp;h</td></tr><tr><td><b>dl 22/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">8,50&nbsp;h</td><td class="num pos">+0,50&nbsp;h</td><td class="num pos">+66,25&nbsp;h</td></tr><tr><td><b>dt 23/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">10,75&nbsp;h</td><td class="num pos">+2,75&nbsp;h</td><td class="num pos">+69,00&nbsp;h</td></tr><tr><td><b>dc 24/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">5,50&nbsp;h</td><td class="num neg">−2,50&nbsp;h</td><td class="num pos">+66,50&nbsp;h</td></tr><tr class="off"><td><b>dj 25/12</b></td><td><span class="tag info">Festiu Estatal</span></td><td class="num">0,00&nbsp;h</td><td class="num">0,00&nbsp;h</td><td class="num zero">0,00&nbsp;h</td><td class="num pos">+66,50&nbsp;h</td></tr><tr class="off"><td><b>dv 26/12</b></td><td><span class="tag info">Festiu Catalunya</span></td><td class="num">0,00&nbsp;h</td><td class="num">0,00&nbsp;h</td><td class="num zero">0,00&nbsp;h</td><td class="num pos">+66,50&nbsp;h</td></tr><tr class="wkend"><td>ds 27/12</td><td colspan="4">cap de setmana</td><td class="num">+66,50&nbsp;h</td></tr><tr class="wkend"><td>dg 28/12</td><td colspan="4">cap de setmana</td><td class="num">+66,50&nbsp;h</td></tr><tr><td><b>dl 29/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">8,00&nbsp;h</td><td class="num zero">0,00&nbsp;h</td><td class="num pos">+66,50&nbsp;h</td></tr><tr><td><b>dt 30/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">10,75&nbsp;h</td><td class="num pos">+2,75&nbsp;h</td><td class="num pos">+69,25&nbsp;h</td></tr><tr><td><b>dc 31/12</b></td><td></td><td class="num">8,00&nbsp;h</td><td class="num">6,75&nbsp;h</td><td class="num neg">−1,25&nbsp;h</td><td class="num pos">+68,00&nbsp;h</td></tr></tbody>
+      </table></div>
+    </section>
+    <div class="notice info"><span>El saldo compara, dia a dia, les hores registrades amb la jornada teòrica (sense festius ni vacances). El balanç anual amb el màxim del conveni és a <a href="A-Informe-Hores-anuals.html">Hores anuals</a>.</span></div>
+  </main>
+</div>
+</body>
+</html>

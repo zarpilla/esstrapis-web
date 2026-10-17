@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Dedicació (taula)</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: report layout helpers (shared by all A-Informe-* pages) */
+.report-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; color: var(--a-muted); font-size: 13px; }
+.filter b { font-weight: 800; }
+.btn-link { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: var(--a-accent); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+/* collapsible group rows in report tables */
+table.table tr.group td:first-child { white-space: nowrap; }
+table.table tr.group .gt { display: inline-flex; align-items: center; gap: 6px; border: 0; background: none; padding: 0; font: inherit; font-weight: 800; color: var(--a-fg); cursor: pointer; }
+table.table tr.group .gt svg { width: 16px; height: 16px; color: var(--a-muted); }
+table.table tr.group .gt[aria-expanded="false"] svg { transform: rotate(-90deg); }
+table.table tr.group .count { font-weight: 600; color: var(--a-muted); margin-left: 4px; }
+table.table tr.more td { color: var(--a-muted); font-size: 13px; }
+table.table td.indent { padding-left: 40px; }
+table.table th.num, table.table td.num { text-align: right; }
+.hb { min-width: 180px; display: flex; flex-direction: column; gap: 5px; }
+.hb .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; white-space: nowrap; }
+.hb .top b { font-weight: 800; }
+.hb .top span { color: var(--a-muted); font-size: 13px; }
+.hb .top span.over { color: var(--a-over); font-weight: 700; }
+table.table td .of { display: block; color: var(--a-muted); font-size: 12.5px; font-weight: 600; }
+
+/* candidate for a.css: pivot-style table (sticky first column, month columns, row total) */
+.pivot { min-width: 1040px; }
+.pivot th, .pivot td { font-size: 13.5px; }
+.pivot th:first-child, .pivot td:first-child { position: sticky; left: 0; z-index: 1; background: var(--a-surface); border-right: 1px solid var(--a-line); }
+.pivot thead th:first-child, .pivot tr.group td:first-child, .pivot tfoot td:first-child { background: var(--a-thead); }
+.pivot .pn { display: block; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600; }
+.pivot td.tot, .pivot th.tot { border-left: 1px solid var(--a-line); background: var(--a-thead); }
+.pivot td.zero { color: #A6B3B5; font-weight: 400; }
+.saved { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+</style>
+</head>
+<body>
+<!-- Proposal A · Dedicació (taula). Static mockup; figures are real values from the anonymized demo database (projectes_v5_manual). -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="true"><span>Informes · 15</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="nav-sub">
+          <a class="nav-item" href="A-Informe-Projectes.html">Panell de projectes</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-grafic.html">Dedicació (gràfic)</a>
+          <a class="nav-item is-active" aria-current="page" href="A-Informe-Dedicacio-taula.html">Dedicació (taula)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-real.html">% Dedicació real</a>
+          <a class="nav-item" href="A-Informe-Previsio-dedicacio.html">Previsió dedicació</a>
+          <a class="nav-item" href="A-Informe-Prev-real.html">Prev./Real dedicació</a>
+          <a class="nav-item" href="A-Informe-Ingressos-despeses.html">Ingressos/Despeses</a>
+          <a class="nav-item" href="A-Informe-Preu-hora.html">Preu hora</a>
+          <a class="nav-item" href="A-Informe-Previsio-economica.html">Previsió econòmica</a>
+          <a class="nav-item" href="A-Informe-Estrategies.html">Estratègies</a>
+          <a class="nav-item" href="A-Informe-Intercooperacio.html">Intercooperació</a>
+          <a class="nav-item" href="A-Informe-Saldo-hores.html">Saldo hores</a>
+          <a class="nav-item" href="A-Informe-Hores-anuals.html">Hores anuals</a>
+          <a class="nav-item" href="A-Justificacions.html">Justificacions</a>
+          <a class="nav-item" href="A-Subvencions.html">Subvencions</a>
+        </div>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><a href="#">Informes</a><span aria-hidden="true">/</span><span>Dedicació (taula)</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Dedicació per projecte</h1>
+        <div class="sub">Hores reals de cada projecte mes a mes. Canvia les files per veure-les per persona, tipus de dedicació o funció.</div>
+      </div>
+      <div class="actions"><button type="button" class="btn btn-ghost"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0M14 4v4M8 10v4M16 16v4"/></svg>Configura la taula dinàmica</button><button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exporta .ods</button></div>
+    </header>
+    <div class="toolbar">
+      <button type="button" class="filter"><span>Any</span><b>2026</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Estat projecte</span><b>Actiu</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Persona</span><b>Totes</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <button type="button" class="filter"><span>Tipus dedicació</span><b>Tots</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <span class="spacer"></span>
+      <span class="muted">Files</span>
+      <div class="seg " role="group" aria-label="Files de la taula"><button type="button" class="is-on" aria-pressed="true">Projecte</button><button type="button">Persona</button><button type="button">Tipus dedicació</button><button type="button">Funció</button></div>
+    </div>
+    <section class="card">
+      <div class="card-head">
+        <h2>Hores per àmbit i projecte · 2026</h2>
+        <div class="saved"><span class="muted">Vista</span><div class="seg sm" role="group" aria-label="Vistes desades"><button type="button" class="is-on" aria-pressed="true">Per defecte</button><button type="button">projecte persona any</button><button type="button">Bona-2026</button></div></div>
+      </div>
+      <div class="table-wrap">
+        <table class="table compact pivot">
+          <thead><tr><th>Àmbit / projecte</th><th class="num">gen</th><th class="num">febr</th><th class="num">març</th><th class="num">abr</th><th class="num">maig</th><th class="num">juny</th><th class="num">jul</th><th class="num">ag</th><th class="num tot">Total</th></tr></thead>
+          <tbody>
+<tr class="group"><td><button type="button" class="gt" aria-expanded="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Lakue</button><span class="count">· 11</span></td><td class="num">643,75</td><td class="num">786,50</td><td class="num">759,42</td><td class="num">656,33</td><td class="num">577,17</td><td class="num">737,58</td><td class="num">236,00</td><td class="num">16,00</td><td class="num tot">4.412,75</td></tr>
+<tr><td class="indent" title="Jornades d&#x27;habitatge cooperatiu Vilanova de l&#x27;Exemple"><span class="pn">Jornades d&#x27;habitatge cooperatiu Vilanova de l&#x27;Exemple</span></td><td class="num">225,00</td><td class="num">312,25</td><td class="num">355,75</td><td class="num">283,16</td><td class="num">210,50</td><td class="num">231,33</td><td class="num">36,00</td><td class="num">14,00</td><td class="num tot">1.667,99</td></tr>
+<tr><td class="indent" title="Campanya d&#x27;habitatge cooperatiu Sant Simulat"><span class="pn">Campanya d&#x27;habitatge cooperatiu Sant Simulat</span></td><td class="num">153,00</td><td class="num">239,50</td><td class="num">165,42</td><td class="num">141,75</td><td class="num">89,50</td><td class="num">68,50</td><td class="num">26,50</td><td class="num zero">—</td><td class="num tot">884,17</td></tr>
+<tr><td class="indent" title="Acompanyament en cultura popular Bellmodel"><span class="pn">Acompanyament en cultura popular Bellmodel</span></td><td class="num">31,00</td><td class="num">69,50</td><td class="num">75,00</td><td class="num">99,42</td><td class="num">99,00</td><td class="num">73,50</td><td class="num">17,25</td><td class="num zero">—</td><td class="num tot">464,67</td></tr>
+<tr><td class="indent" title="Recerca en sobirania alimentària Riudemostra"><span class="pn">Recerca en sobirania alimentària Riudemostra</span></td><td class="num">44,50</td><td class="num">87,50</td><td class="num">68,50</td><td class="num">37,00</td><td class="num">78,67</td><td class="num">103,50</td><td class="num">31,50</td><td class="num zero">—</td><td class="num tot">451,17</td></tr>
+<tr><td class="indent" title="Projecte pilot de sobirania alimentària Castellexemple"><span class="pn">Projecte pilot de sobirania alimentària Castellexemple</span></td><td class="num">38,00</td><td class="num">44,25</td><td class="num">46,50</td><td class="num">55,00</td><td class="num">47,25</td><td class="num">113,00</td><td class="num">32,25</td><td class="num zero">—</td><td class="num tot">376,25</td></tr>
+<tr><td class="indent" title="Assessorament en habitatge cooperatiu Pobla de Proves"><span class="pn">Assessorament en habitatge cooperatiu Pobla de Proves</span></td><td class="num">152,25</td><td class="num">25,50</td><td class="num">45,25</td><td class="num">33,00</td><td class="num">46,50</td><td class="num">12,50</td><td class="num">9,25</td><td class="num zero">—</td><td class="num tot">324,25</td></tr>
+<tr><td class="indent" title="Campanya de mobilitat sostenible Vilafranca de Prova"><span class="pn">Campanya de mobilitat sostenible Vilafranca de Prova</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">2,50</td><td class="num">72,00</td><td class="num">23,50</td><td class="num zero">—</td><td class="num tot">98,00</td></tr>
+<tr><td class="indent" title="Dinamització d&#x27;habitatge cooperatiu Les Planes de Mentida"><span class="pn">Dinamització d&#x27;habitatge cooperatiu Les Planes de Mentida</span></td><td class="num zero">—</td><td class="num">8,00</td><td class="num">3,00</td><td class="num">7,00</td><td class="num">2,00</td><td class="num">24,50</td><td class="num">30,75</td><td class="num">2,00</td><td class="num tot">77,25</td></tr>
+<tr><td class="indent" title="Formació en participació ciutadana Sant Simulat"><span class="pn">Formació en participació ciutadana Sant Simulat</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">27,75</td><td class="num">18,00</td><td class="num zero">—</td><td class="num tot">45,75</td></tr>
+<tr><td class="indent" title="Diagnosi de participació ciutadana Rocafictícia"><span class="pn">Diagnosi de participació ciutadana Rocafictícia</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">7,75</td><td class="num">7,25</td><td class="num zero">—</td><td class="num tot">15,00</td></tr>
+<tr><td class="indent" title="Taller de mobilitat sostenible Sant Fictici de Mar"><span class="pn">Taller de mobilitat sostenible Sant Fictici de Mar</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">1,25</td><td class="num">3,25</td><td class="num">3,75</td><td class="num zero">—</td><td class="num tot">8,25</td></tr>
+<tr class="group"><td><button type="button" class="gt" aria-expanded="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Iltir</button><span class="count">· 16</span></td><td class="num">158,00</td><td class="num">160,08</td><td class="num">220,65</td><td class="num">370,05</td><td class="num">369,75</td><td class="num">453,67</td><td class="num">383,59</td><td class="num">1,00</td><td class="num tot">2.116,79</td></tr>
+<tr class="group"><td><button type="button" class="gt" aria-expanded="true"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Urtur (Consultories)</button><span class="count">· 11</span></td><td class="num">201,50</td><td class="num">218,50</td><td class="num">326,75</td><td class="num">456,75</td><td class="num">292,75</td><td class="num">312,50</td><td class="num">125,50</td><td class="num zero">—</td><td class="num tot">1.934,25</td></tr>
+<tr><td class="indent" title="Jornades de consum responsable Riudemostra"><span class="pn">Jornades de consum responsable Riudemostra</span></td><td class="num">111,50</td><td class="num">116,25</td><td class="num">117,25</td><td class="num">220,75</td><td class="num">78,25</td><td class="num">104,00</td><td class="num">49,50</td><td class="num zero">—</td><td class="num tot">797,50</td></tr>
+<tr><td class="indent" title="Assessorament en educació ambiental Santa Mostra"><span class="pn">Assessorament en educació ambiental Santa Mostra</span></td><td class="num">54,00</td><td class="num">75,75</td><td class="num">140,50</td><td class="num">177,25</td><td class="num">152,00</td><td class="num">127,00</td><td class="num">61,75</td><td class="num zero">—</td><td class="num tot">788,25</td></tr>
+<tr><td class="indent" title="Jornades de sobirania alimentària Masdemo"><span class="pn">Jornades de sobirania alimentària Masdemo</span></td><td class="num zero">—</td><td class="num">2,00</td><td class="num">13,50</td><td class="num">17,00</td><td class="num">24,25</td><td class="num">63,50</td><td class="num">12,00</td><td class="num zero">—</td><td class="num tot">132,25</td></tr>
+<tr><td class="indent" title="Pla de cooperació internacional Prats de Mostra"><span class="pn">Pla de cooperació internacional Prats de Mostra</span></td><td class="num">9,50</td><td class="num">14,00</td><td class="num">43,00</td><td class="num">6,75</td><td class="num">1,00</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num tot">74,25</td></tr>
+<tr><td class="indent" title="Recerca en habitatge cooperatiu Masdemo"><span class="pn">Recerca en habitatge cooperatiu Masdemo</span></td><td class="num">14,00</td><td class="num zero">—</td><td class="num">2,00</td><td class="num">23,00</td><td class="num">31,50</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num tot">70,50</td></tr>
+<tr><td class="indent" title="Estudi sobre xarxes de suport La Vall Imaginària"><span class="pn">Estudi sobre xarxes de suport La Vall Imaginària</span></td><td class="num">9,50</td><td class="num">3,50</td><td class="num">9,00</td><td class="num">5,50</td><td class="num">0,50</td><td class="num">10,25</td><td class="num zero">—</td><td class="num zero">—</td><td class="num tot">38,25</td></tr>
+<tr><td class="indent" title="Formació en finances ètiques Montprova"><span class="pn">Formació en finances ètiques Montprova</span></td><td class="num">1,50</td><td class="num">2,50</td><td class="num">1,50</td><td class="num">2,00</td><td class="num">2,00</td><td class="num">3,75</td><td class="num zero">—</td><td class="num zero">—</td><td class="num tot">13,25</td></tr>
+<tr><td class="indent" title="Estudi sobre economia social La Vall Imaginària"><span class="pn">Estudi sobre economia social La Vall Imaginària</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">3,25</td><td class="num">4,00</td><td class="num zero">—</td><td class="num zero">—</td><td class="num tot">7,25</td></tr>
+<tr><td class="indent" title="Dinamització d&#x27;igualtat de gènere Torredemo"><span class="pn">Dinamització d&#x27;igualtat de gènere Torredemo</span></td><td class="num">1,50</td><td class="num">4,50</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num tot">6,00</td></tr>
+<tr><td class="indent" title="Formació en participació ciutadana La Vall Imaginària"><span class="pn">Formació en participació ciutadana La Vall Imaginària</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">4,50</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num tot">4,50</td></tr>
+<tr><td class="indent" title="Estudi sobre gestió de residus Montprova"><span class="pn">Estudi sobre gestió de residus Montprova</span></td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num zero">—</td><td class="num">2,25</td><td class="num zero">—</td><td class="num tot">2,25</td></tr>
+<tr class="group"><td><button type="button" class="gt" aria-expanded="false"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Balkar</button><span class="count">· 8</span></td><td class="num">28,00</td><td class="num">41,75</td><td class="num">98,00</td><td class="num">119,50</td><td class="num">155,42</td><td class="num">168,67</td><td class="num">155,75</td><td class="num zero">—</td><td class="num tot">767,09</td></tr>
+          </tbody>
+          <tfoot><tr><td>Total · 46 projectes</td><td class="num">1.031,25</td><td class="num">1.206,83</td><td class="num">1.404,82</td><td class="num">1.602,63</td><td class="num">1.395,09</td><td class="num">1.672,42</td><td class="num">900,84</td><td class="num">17,00</td><td class="num tot">9.230,88</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="card-foot"><span>Hores reals registrades a projectes en estat Actiu. Iltir i Balkar plegats: clica l'àmbit per desplegar-lo.</span><span>Valors en hores</span></div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

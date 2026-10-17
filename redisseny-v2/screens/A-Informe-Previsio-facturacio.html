@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Informe Previsió facturació</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+  /* candidate for a.css (same as A-Tresoreria): row actions, truncation, kpi colours, inline-SVG chart */
+  .row-actions { display: flex; gap: 6px; justify-content: flex-end; align-items: center; white-space: nowrap; }
+  table.table .trunc { max-width: 380px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nowrap { white-space: nowrap; }
+  .kpi .value.over { color: var(--a-over); }
+  .chart { width: 100%; height: auto; display: block; color: var(--a-muted); }
+  .chart .ax { font: 600 11px var(--a-font); fill: var(--a-muted); }
+  .chart .grid { stroke: var(--a-line-soft); }
+  .chart .zero-l { stroke: var(--a-fg-2); stroke-width: 1.2; }
+  .chart .today { stroke: var(--a-fg); stroke-width: 1.5; stroke-dasharray: 3 3; }
+  .chart .bar-hit:hover { filter: brightness(.9); }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--a-muted); font-size: 13px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+  .chip-t { height: 32px; padding: 0 12px; border: 1px solid var(--a-input); border-radius: 999px; background: var(--a-surface); font: inherit; font-size: 13px; font-weight: 600; color: var(--a-fg-2); cursor: pointer; }
+  .chip-t.is-on { background: var(--a-accent-soft); border-color: var(--a-accent); color: var(--a-accent-hover); font-weight: 800; }
+  .legend i.plan { background: var(--a-accent); opacity: .45; outline: 1px dashed var(--a-accent); }
+</style>
+</head>
+<body>
+<!-- Proposal A · Previsió de facturació (new report; route proposal /informes/previsio-facturacio).
+     Source: phase incomes (project_phases.incomes) with no emitted invoice, no received income and not paid,
+     of non-mother projects; date = "Previsió fac." (date_estimate_document), falling back to the payment date.
+     Data: projectes_v5_manual (anonymized), state Actiu, income types other than grants, 0 € lines left out,
+     today 17/10/2026. The anonymized copy has no emitted invoices after July 2026, hence the empty
+     "facturat" bars for Aug–Oct. -->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Llistat.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal">
+      <div class="nav-group">
+        <span class="nav-label">Projectes</span>
+        <a class="nav-item" href="A-Llistat.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projectes</a>
+        <a class="nav-item" href="A-Contactes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3"/></svg>Contactes</a>
+        <a class="nav-item" href="A-Hores.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg>Hores dedicades</a>
+        <a class="nav-item" href="A-Jornades.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2"/></svg>Registre jornades</a>
+        <a class="nav-item" href="A-Persones.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5"/></svg>Persones</a>
+        <a class="nav-item" href="A-Tasques.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zM8 8v6M12 8v3M16 8v8"/></svg>Tasques</a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Diners</span>
+        <a class="nav-item" href="A-Ingressos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Ingressos</a>
+        <a class="nav-item" href="A-Despeses.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3M7 8l5-5 5 5M4 21h16"/></svg>Despeses</a>
+        <a class="nav-item" href="A-Bestretes.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v14H3zM3 10h18M16 15h2"/></svg>Bestretes</a>
+        <a class="nav-item" href="A-IVA.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/></svg>IVA</a>
+        <a class="nav-item" href="A-Tresoreria.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"/></svg>Tresoreria</a>
+        <a class="nav-item" href="A-Pressupostos.html"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></svg>Pressupostos</a>
+      </div>
+      <div class="nav-group">
+        <button type="button" class="nav-toggle" aria-expanded="true"><span>Informes · 16</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
+        <div class="nav-sub">
+          <a class="nav-item" href="A-Informe-Projectes.html">Panell de projectes</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-grafic.html">Dedicació (gràfic)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-taula.html">Dedicació (taula)</a>
+          <a class="nav-item" href="A-Informe-Dedicacio-real.html">% Dedicació real</a>
+          <a class="nav-item" href="A-Informe-Previsio-dedicacio.html">Previsió dedicació</a>
+          <a class="nav-item" href="A-Informe-Prev-real.html">Prev./Real dedicació</a>
+          <a class="nav-item" href="A-Informe-Ingressos-despeses.html">Ingressos/Despeses</a>
+          <a class="nav-item" href="A-Informe-Preu-hora.html">Preu hora</a>
+          <a class="nav-item" href="A-Informe-Previsio-economica.html">Previsió econòmica</a>
+          <a class="nav-item is-active" href="A-Informe-Previsio-facturacio.html" aria-current="page">Previsió facturació</a>
+          <a class="nav-item" href="A-Informe-Estrategies.html">Estratègies</a>
+          <a class="nav-item" href="A-Informe-Intercooperacio.html">Intercooperació</a>
+          <a class="nav-item" href="A-Informe-Saldo-hores.html">Saldo hores</a>
+          <a class="nav-item" href="A-Informe-Hores-anuals.html">Hores anuals</a>
+          <a class="nav-item" href="A-Justificacions.html">Justificacions</a>
+          <a class="nav-item" href="A-Subvencions.html">Subvencions</a>
+        </div>
+      </div>
+    </nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <nav class="crumbs" aria-label="Ruta"><span>Informes</span><span aria-hidden="true">/</span><span>Previsió facturació</span></nav>
+    <header class="page-head">
+      <div>
+        <h1>Previsió de facturació</h1>
+        <div class="sub">Ingressos previstos als projectes que encara no tenen factura · avui 17/10/2026</div>
+      </div>
+      <div class="actions">
+        <button type="button" class="btn"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Exporta</button>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Filtres">
+      <div class="seg" role="group" aria-label="Horitzó"><button type="button" aria-pressed="false">Mes en curs</button><button type="button" class="is-on" aria-pressed="true">3 mesos</button><button type="button" aria-pressed="false">6 mesos</button><button type="button" aria-pressed="false">12 mesos</button></div>
+      <button type="button" class="filter"><span>Responsable</span><b>Totes</b><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:14px;height:14px"><path d="M6 9l6 6 6-6"/></svg></button>
+    </section>
+    <section class="toolbar" aria-label="Estats de projecte" style="gap:6px">
+      <span class="muted" style="font-weight:700;font-size:13px;margin-right:4px">Projectes</span>
+      <button type="button" class="chip-t is-on" aria-pressed="true">Actiu</button><button type="button" class="chip-t" aria-pressed="false">Tancat</button><button type="button" class="chip-t" aria-pressed="false">Sol·licitat</button><button type="button" class="chip-t" aria-pressed="false">Prospecció</button><button type="button" class="chip-t" aria-pressed="false">Denegat</button><button type="button" class="chip-t" aria-pressed="false">No presentat</button><button type="button" class="chip-t" aria-pressed="false">Renunciat</button>
+    </section>
+
+    <section class="kpis" aria-label="Resum">
+      <div class="kpi"><span class="label">Endarrerit</span><span class="value over">77.061,00 €</span><span class="foot">18 projectes · 47 línies amb data passada sense factura; la més antiga, del 31/03/2022</span></div>
+      <div class="kpi"><span class="label">Resta d'octubre</span><span class="value">20.010,00 €</span><span class="foot">2 projectes, previst el 31/10</span></div>
+      <div class="kpi"><span class="label">Novembre i desembre</span><span class="value">111.941,47 €</span><span class="foot">35.069,70 € al novembre · 76.871,77 € al desembre</span></div>
+      <div class="kpi"><span class="label">Sense data</span><span class="value">74.170,74 €</span><span class="foot">4 línies de 3 projectes sense cap data prevista</span></div>
+    </section>
+
+    <div class="notice" role="status"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 18H2zM12 10v5M12 18h.01"/></svg><span><b>Projectes tancats amb ingressos sense factura:</b> 143 projectes tancats tenen 544 línies previstes (1.219.232 €) sense factura ni cobrament. O falta enllaçar la factura o cal esborrar la previsió.</span><a href="#">Revisa-les</a></div>
+
+    <div class="cols">
+      <section class="card wide" aria-label="Facturació per mes">
+        <div class="card-head"><h2>Facturat i previst per mes</h2><span class="legend"><span><i style="background:var(--a-accent)"></i>facturat</span><span><i style="background:var(--a-over)"></i>previst i no facturat</span><span><i class="plan"></i>previst</span></span></div>
+        <div class="card-pad">
+        <svg class="chart" viewBox="0 0 720 234" role="img" aria-labelledby="chart-t">
+          <title id="chart-t">Base imposable per mes, de maig del 2026 a abril del 2027. Endarrerit sense facturar: 77.061,00 €, sobretot juliol (31.886,33 €). Previst: 20.010,00 € a l'octubre, 35.069,70 € al novembre, 76.871,77 € al desembre i 8.700,00 € al febrer.</title>
+          <line x1="44" x2="720" y1="196.0" y2="196.0" class="zero-l"/><text x="38" y="200.0" text-anchor="end" class="ax">0k</text>
+          <line x1="44" x2="720" y1="150.5" y2="150.5" class="grid"/><text x="38" y="154.5" text-anchor="end" class="ax">20k</text>
+          <line x1="44" x2="720" y1="105.0" y2="105.0" class="grid"/><text x="38" y="109.0" text-anchor="end" class="ax">40k</text>
+          <line x1="44" x2="720" y1="59.5" y2="59.5" class="grid"/><text x="38" y="63.5" text-anchor="end" class="ax">60k</text>
+          <line x1="44" x2="720" y1="14.0" y2="14.0" class="grid"/><text x="38" y="18.0" text-anchor="end" class="ax">80k</text>
+          <rect class="bar-hit" x="53.9" y="152.7" width="32.2" height="43.3" rx="3" fill="var(--a-over)"><title>abans · previst i no facturat: 19.053,00 €</title></rect>
+          <text x="70.0" y="218" text-anchor="middle" class="ax">abans</text>
+          <rect class="bar-hit" x="105.9" y="190.3" width="32.2" height="5.7" rx="3" fill="var(--a-accent)"><title>mai · facturat: 2.503,00 €</title></rect>
+          <rect class="bar-hit" x="105.9" y="173.6" width="32.2" height="14.8" rx="3" fill="var(--a-over)"><title>mai · previst i no facturat: 7.363,68 €</title></rect>
+          <text x="122.0" y="218" text-anchor="middle" class="ax">mai</text>
+          <text x="122.0" y="230" text-anchor="middle" class="ax">2026</text>
+          <rect class="bar-hit" x="157.9" y="156.5" width="32.2" height="39.5" rx="3" fill="var(--a-accent)"><title>jun · facturat: 17.366,00 €</title></rect>
+          <rect class="bar-hit" x="157.9" y="139.7" width="32.2" height="14.8" rx="3" fill="var(--a-over)"><title>jun · previst i no facturat: 7.386,30 €</title></rect>
+          <text x="174.0" y="218" text-anchor="middle" class="ax">jun</text>
+          <rect class="bar-hit" x="209.9" y="182.0" width="32.2" height="14.0" rx="3" fill="var(--a-accent)"><title>jul · facturat: 6.158,00 €</title></rect>
+          <rect class="bar-hit" x="209.9" y="109.4" width="32.2" height="70.5" rx="3" fill="var(--a-over)"><title>jul · previst i no facturat: 31.886,33 €</title></rect>
+          <text x="226.0" y="218" text-anchor="middle" class="ax">jul</text>
+          <rect class="bar-hit" x="261.9" y="189.5" width="32.2" height="6.5" rx="3" fill="var(--a-over)"><title>ago · previst i no facturat: 2.847,08 €</title></rect>
+          <text x="278.0" y="218" text-anchor="middle" class="ax">ago</text>
+          <rect class="bar-hit" x="313.9" y="183.7" width="32.2" height="12.3" rx="3" fill="var(--a-over)"><title>set · previst i no facturat: 5.394,35 €</title></rect>
+          <text x="330.0" y="218" text-anchor="middle" class="ax">set</text>
+          <rect class="bar-hit" x="365.9" y="188.9" width="32.2" height="7.1" rx="3" fill="var(--a-over)"><title>oct · previst i no facturat: 3.130,26 €</title></rect>
+          <rect class="bar-hit" x="365.9" y="143.4" width="32.2" height="43.5" rx="3" fill="var(--a-accent)" opacity="0.45" stroke="var(--a-accent)" stroke-dasharray="4 3"><title>oct · previst: 20.010,00 €</title></rect>
+          <text x="382.0" y="218" text-anchor="middle" class="ax" style="fill:var(--a-fg);font-weight:800">oct</text>
+          <rect class="bar-hit" x="417.9" y="116.2" width="32.2" height="79.8" rx="3" fill="var(--a-accent)" opacity="0.45" stroke="var(--a-accent)" stroke-dasharray="4 3"><title>nov · previst: 35.069,70 €</title></rect>
+          <text x="434.0" y="218" text-anchor="middle" class="ax">nov</text>
+          <rect class="bar-hit" x="469.9" y="21.1" width="32.2" height="174.9" rx="3" fill="var(--a-accent)" opacity="0.45" stroke="var(--a-accent)" stroke-dasharray="4 3"><title>des · previst: 76.871,77 €</title></rect>
+          <text x="486.0" y="218" text-anchor="middle" class="ax">des</text>
+          <text x="538.0" y="218" text-anchor="middle" class="ax">gen</text>
+          <text x="538.0" y="230" text-anchor="middle" class="ax">2027</text>
+          <rect class="bar-hit" x="573.9" y="176.2" width="32.2" height="19.8" rx="3" fill="var(--a-accent)" opacity="0.45" stroke="var(--a-accent)" stroke-dasharray="4 3"><title>feb · previst: 8.700,00 €</title></rect>
+          <text x="590.0" y="218" text-anchor="middle" class="ax">feb</text>
+          <text x="642.0" y="218" text-anchor="middle" class="ax">mar</text>
+          <text x="694.0" y="218" text-anchor="middle" class="ax">abr</text>
+          <text x="226.0" y="103.4" text-anchor="middle" class="ax" style="fill:var(--a-fg-2)">31,9k sense facturar</text>
+          <text x="486.0" y="15.1" text-anchor="middle" class="ax" style="fill:var(--a-fg-2)">76,9k</text>
+          <line x1="382.8" x2="382.8" y1="6" y2="200" class="today"/><text x="387.8" y="14" class="ax" style="fill:var(--a-fg);font-weight:800">avui</text>
+        </svg>
+        </div>
+        <div class="card-foot"><span>Base imposable. Cada barra passada compara el que s'ha facturat amb el que hi havia previst aquell mes i encara no té factura.</span><a href="#">Veure com a taula</a></div>
+      </section>
+      <section class="card narrow" aria-label="Endarrerit per responsable" style="overflow:hidden">
+        <div class="card-head"><h2>Endarrerit per responsable</h2><span class="sub">10 persones</span></div>
+        <div class="table-wrap">
+          <table class="table compact">
+            <thead><tr><th>Responsable</th><th class="num">Projectes</th><th class="num">Base</th></tr></thead>
+            <tbody>
+            <tr><td><span class="avatar sm" aria-hidden="true">CP</span> Clara Puig</td><td class="num">3</td><td class="num">15.437,98 €</td></tr>
+            <tr><td><span class="avatar sm" aria-hidden="true">PP</span> Pau Puig</td><td class="num">1</td><td class="num">15.312,00 €</td></tr>
+            <tr><td><span class="avatar sm" aria-hidden="true">JS</span> Jordi Serra</td><td class="num">2</td><td class="num">11.732,47 €</td></tr>
+            <tr><td><span class="avatar sm" aria-hidden="true">LP</span> Laia Puig</td><td class="num">2</td><td class="num">11.612,33 €</td></tr>
+            <tr><td><span class="avatar sm" aria-hidden="true">MS</span> Marta Serra</td><td class="num">3</td><td class="num">9.225,44 €</td></tr>
+            <tr><td><span class="avatar sm" aria-hidden="true">JP</span> Jordi Puig</td><td class="num">2</td><td class="num">8.613,00 €</td></tr>
+            <tr><td><span class="avatar sm" aria-hidden="true">AP</span> Aina Puig</td><td class="num">1</td><td class="num">2.283,75 €</td></tr>
+            <tr><td><span class="avatar sm" aria-hidden="true">MS</span> Marc Serra</td><td class="num">2</td><td class="num">1.538,16 €</td></tr>
+            <tr><td><span class="avatar sm" aria-hidden="true">NP</span> Núria Puig</td><td class="num">1</td><td class="num">1.305,00 €</td></tr>
+            <tr><td><span class="avatar sm" aria-hidden="true">LS</span> Laia Serra</td><td class="num">1</td><td class="num">0,87 €</td></tr>
+            </tbody>
+            <tfoot><tr><td>Total</td><td class="num">18</td><td class="num">77.061,00 €</td></tr></tfoot>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section class="card" aria-label="Què cal facturar">
+      <div class="card-head"><h2>Què cal facturar</h2>
+        <div class="toolbar"><div class="seg sm" role="group" aria-label="Agrupa"><button type="button" class="is-on" aria-pressed="true">Per projecte</button><button type="button" aria-pressed="false">Per client</button><button type="button" aria-pressed="false">Línia a línia</button></div><label class="search"><span class="sr-only">Cerca</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg><input class="input" type="search" placeholder="Cerca projecte, client o concepte"></label></div>
+      </div>
+      <div class="table-wrap">
+        <table class="table" style="min-width:980px">
+          <thead><tr><th>Projecte · client</th><th>Responsable</th><th class="sorted" aria-sort="ascending">Previsió fac. ↑</th><th class="num">Base</th><th class="num">Total amb IVA</th><th><span class="sr-only">Accions</span></th></tr></thead>
+          <tbody>
+          <tr class="group"><td colspan="3"><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-expanded="true" aria-label="Amaga Endarrerit" style="margin:-4px 4px -4px -8px;vertical-align:middle"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>Endarrerit <span class="muted" style="font-weight:600">· 18 projectes · 47 línies</span></td><td class="num">77.061,00 €</td><td class="num">92.450,90 €</td><td></td></tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Formació en emprenedoria col·lectiva</a><span class="subline trunc">Ateneu L&#x27;Era · 5 líniaes · 4 línies sense «Previsió fac.»: data de cobrament</span></td>
+            <td class="nowrap">Laia Puig</td>
+            <td class="nowrap">31/03/2022<span class="subline">fins al 31/12/2025</span><span class="subline"><span class="tag bad">fa 4 anys</span></span></td>
+            <td class="num">8.765,25 €</td>
+            <td class="num">10.605,95 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Formació en emprenedoria col·lectiva" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Formació en participació ciutadana La Vall Imaginària</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 10 líniaes</span></td>
+            <td class="nowrap">Aina Puig</td>
+            <td class="nowrap">28/02/2025<span class="subline">fins al 31/07/2026</span><span class="subline"><span class="tag bad">fa 1 any</span></span></td>
+            <td class="num">2.283,75 €</td>
+            <td class="num">2.763,34 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Formació en participació ciutadana La Vall Imaginària" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Recerca en consum responsable Bellmodel</a><span class="subline trunc">Ateneu Ca l&#x27;Exemple · 3 líniaes</span></td>
+            <td class="nowrap">Jordi Puig</td>
+            <td class="nowrap">01/11/2025<span class="subline"><span class="tag bad">fa 11 mesos</span></span></td>
+            <td class="num">6.525,00 €</td>
+            <td class="num">7.895,25 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Recerca en consum responsable Bellmodel" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Assessorament en habitatge cooperatiu Pobla de Proves</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia</span></td>
+            <td class="nowrap">Clara Puig</td>
+            <td class="nowrap">31/03/2026<span class="subline"><span class="tag bad">fa 6 mesos</span></span></td>
+            <td class="num">2.610,00 €</td>
+            <td class="num">3.158,10 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Assessorament en habitatge cooperatiu Pobla de Proves" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Dinamització de comerç de proximitat Sant Fictici de Mar</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 7 líniaes</span></td>
+            <td class="nowrap">Jordi Serra</td>
+            <td class="nowrap">06/05/2026<span class="subline">fins al 30/09/2026</span><span class="subline"><span class="tag bad">fa 5 mesos</span></span></td>
+            <td class="num">9.992,47 €</td>
+            <td class="num">12.090,89 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Dinamització de comerç de proximitat Sant Fictici de Mar" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Assessorament en comerç de proximitat Castellexemple</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 6 líniaes</span></td>
+            <td class="nowrap">Clara Puig</td>
+            <td class="nowrap">30/05/2026<span class="subline">fins al 01/10/2026</span><span class="subline"><span class="tag bad">fa 4 mesos</span></span></td>
+            <td class="num">9.052,18 €</td>
+            <td class="num">10.953,14 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Assessorament en comerç de proximitat Castellexemple" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Campanya de sobirania alimentària Vilafranca de Prova</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia · IVA 0%</span></td>
+            <td class="nowrap">Clara Puig</td>
+            <td class="nowrap">30/06/2026<span class="subline"><span class="tag bad">fa 3 mesos</span></span></td>
+            <td class="num">3.775,80 €</td>
+            <td class="num">3.775,80 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Campanya de sobirania alimentària Vilafranca de Prova" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Dinamització d&#x27;habitatge cooperatiu Les Planes de Mentida</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia · import residual</span></td>
+            <td class="nowrap">Laia Serra</td>
+            <td class="nowrap">01/07/2026<span class="subline"><span class="tag bad">fa 3 mesos</span></span></td>
+            <td class="num">0,87 €</td>
+            <td class="num">1,05 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Dinamització d&#x27;habitatge cooperatiu Les Planes de Mentida" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Assessorament en mobilitat sostenible Prats de Mostra</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia</span></td>
+            <td class="nowrap">Marc Serra</td>
+            <td class="nowrap">01/07/2026<span class="subline"><span class="tag bad">fa 3 mesos</span></span></td>
+            <td class="num">4.350,00 €</td>
+            <td class="num">5.263,50 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Assessorament en mobilitat sostenible Prats de Mostra" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Recerca en mobilitat sostenible Riudemostra</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 2 líniaes</span></td>
+            <td class="nowrap">Marta Serra</td>
+            <td class="nowrap">15/07/2026<span class="subline"><span class="tag bad">fa 3 mesos</span></span></td>
+            <td class="num">3.196,38 €</td>
+            <td class="num">3.867,62 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Recerca en mobilitat sostenible Riudemostra" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Projecte pilot de mobilitat sostenible Castellexemple</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 3 líniaes</span></td>
+            <td class="nowrap">Marta Serra</td>
+            <td class="nowrap">15/07/2026<span class="subline"><span class="tag bad">fa 3 mesos</span></span></td>
+            <td class="num">4.503,08 €</td>
+            <td class="num">5.448,73 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Projecte pilot de mobilitat sostenible Castellexemple" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Dinamització de participació ciutadana Sant Fictici de Mar</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia</span></td>
+            <td class="nowrap">Pau Puig</td>
+            <td class="nowrap">15/07/2026<span class="subline"><span class="tag bad">fa 3 mesos</span></span></td>
+            <td class="num">15.312,00 €</td>
+            <td class="num">18.527,52 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Dinamització de participació ciutadana Sant Fictici de Mar" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Estudi sobre economia social La Vall Imaginària</a><span class="subline trunc">Ajuntament de Santa Mostra · 1 línia</span></td>
+            <td class="nowrap">Núria Puig</td>
+            <td class="nowrap">30/07/2026<span class="subline"><span class="tag warn">fa 2 mesos</span></span></td>
+            <td class="num">1.305,00 €</td>
+            <td class="num">1.579,05 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Estudi sobre economia social La Vall Imaginària" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Recerca en xarxes de suport Vilanova de l&#x27;Exemple</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia</span></td>
+            <td class="nowrap">Jordi Puig</td>
+            <td class="nowrap">30/07/2026<span class="subline"><span class="tag warn">fa 2 mesos</span></span></td>
+            <td class="num">2.088,00 €</td>
+            <td class="num">2.526,48 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Recerca en xarxes de suport Vilanova de l&#x27;Exemple" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Jornades de sobirania alimentària Masdemo</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia</span></td>
+            <td class="nowrap">Laia Puig</td>
+            <td class="nowrap">01/08/2026<span class="subline"><span class="tag warn">fa 2 mesos</span></span></td>
+            <td class="num">2.847,08 €</td>
+            <td class="num">3.444,97 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Jornades de sobirania alimentària Masdemo" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Campanya de comerç de proximitat La Vall Imaginària</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia</span></td>
+            <td class="nowrap">Jordi Serra</td>
+            <td class="nowrap">14/09/2026<span class="subline"><span class="tag warn">fa 33 dies</span></span></td>
+            <td class="num">1.740,00 €</td>
+            <td class="num">2.105,40 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Campanya de comerç de proximitat La Vall Imaginària" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Diagnosi d&#x27;igualtat de gènere Les Planes de Mentida</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia · abonament previst</span></td>
+            <td class="nowrap">Marc Serra</td>
+            <td class="nowrap">30/09/2026<span class="subline"><span class="tag warn">fa 17 dies</span></span></td>
+            <td class="num neg">−2.811,84 €</td>
+            <td class="num neg">−3.402,33 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Diagnosi d&#x27;igualtat de gènere Les Planes de Mentida" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Taller de comerç de proximitat Torredemo</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia</span></td>
+            <td class="nowrap">Marta Serra</td>
+            <td class="nowrap">01/10/2026<span class="subline"><span class="tag warn">fa 16 dies</span></span></td>
+            <td class="num">1.525,98 €</td>
+            <td class="num">1.846,44 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Taller de comerç de proximitat Torredemo" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr class="group"><td colspan="3"><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-expanded="true" aria-label="Amaga Octubre 2026 · mes en curs" style="margin:-4px 4px -4px -8px;vertical-align:middle"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>Octubre 2026 · mes en curs <span class="muted" style="font-weight:600">· 2 projectes</span></td><td class="num">20.010,00 €</td><td class="num">24.212,10 €</td><td></td></tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Estudi sobre cures comunitàries La Vall Imaginària</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia</span></td>
+            <td class="nowrap">Pau Puig</td>
+            <td class="nowrap">31/10/2026</td>
+            <td class="num">10.440,00 €</td>
+            <td class="num">12.632,40 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Estudi sobre cures comunitàries La Vall Imaginària" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Pla d&#x27;igualtat de gènere Pobla de Proves</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia</span></td>
+            <td class="nowrap">Pau Puig</td>
+            <td class="nowrap">31/10/2026</td>
+            <td class="num">9.570,00 €</td>
+            <td class="num">11.579,70 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Pla d&#x27;igualtat de gènere Pobla de Proves" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr class="group"><td colspan="3"><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-expanded="true" aria-label="Amaga Novembre 2026" style="margin:-4px 4px -4px -8px;vertical-align:middle"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>Novembre 2026 <span class="muted" style="font-weight:600">· 4 projectes</span></td><td class="num">35.069,70 €</td><td class="num">42.434,34 €</td><td></td></tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Recerca en consum responsable Bellmodel</a><span class="subline trunc">Ateneu Ca l&#x27;Exemple · 1 línia</span></td>
+            <td class="nowrap">Jordi Puig</td>
+            <td class="nowrap">01/11/2026</td>
+            <td class="num">15.660,00 €</td>
+            <td class="num">18.948,60 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Recerca en consum responsable Bellmodel" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Assessorament en igualtat de gènere Prats de Mostra</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia</span></td>
+            <td class="nowrap">Núria Puig</td>
+            <td class="nowrap">01/11/2026</td>
+            <td class="num">4.350,00 €</td>
+            <td class="num">5.263,50 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Assessorament en igualtat de gènere Prats de Mostra" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Acompanyament en igualtat de gènere Vilanova de l&#x27;Exemple</a><span class="subline trunc">Associació La Teranyina · 1 línia</span></td>
+            <td class="nowrap">Marc Serra</td>
+            <td class="nowrap">01/11/2026</td>
+            <td class="num">2.610,00 €</td>
+            <td class="num">3.158,10 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Acompanyament en igualtat de gènere Vilanova de l&#x27;Exemple" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr>
+            <td><a class="title trunc" href="A-Fitxa-Pressupost.html">Jornades de mobilitat sostenible Masdemo</a><span class="subline trunc"><span class="muted">sense client a la previsió</span> · 1 línia</span></td>
+            <td class="nowrap">Neus Serra</td>
+            <td class="nowrap">15/11/2026</td>
+            <td class="num">12.449,70 €</td>
+            <td class="num">15.064,14 €</td>
+            <td><div class="row-actions"><button type="button" class="btn btn-sm">Factura</button><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-label="Canvia la data prevista de Jornades de mobilitat sostenible Masdemo" title="Canvia la data prevista"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18v15H3zM3 10h18M8 3v4M16 3v4"/></svg></button></div></td>
+          </tr>
+          <tr class="group"><td colspan="3"><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-expanded="false" aria-label="Mostra Desembre 2026" style="margin:-4px 4px -4px -8px;vertical-align:middle"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>Desembre 2026 <span class="muted" style="font-weight:600">· 11 projectes</span></td><td class="num">76.871,77 €</td><td class="num">93.014,85 €</td><td></td></tr>
+          <tr class="group"><td colspan="3"><button type="button" class="btn btn-sm btn-ghost btn-icon" aria-expanded="false" aria-label="Mostra Sense data prevista" style="margin:-4px 4px -4px -8px;vertical-align:middle"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>Sense data prevista <span class="muted" style="font-weight:600">· 3 projectes</span></td><td class="num">74.170,74 €</td><td class="num">89.746,60 €</td><td></td></tr>
+          </tbody>
+          <tfoot><tr><td colspan="3">Total fins al 31/12/2026, endarrerit inclòs</td><td class="num">209.012,47 €</td><td class="num">252.112,19 €</td><td></td></tr></tfoot>
+        </table>
+      </div>
+      <div class="card-foot"><span>«Factura» obre una factura nova amb les línies previstes del projecte i les hi enllaça. Les línies a 0 € no es mostren.</span><a href="#">Mostra més enllà del desembre</a></div>
+    </section>
+  </main>
+</div>
+</body>
+</html>
