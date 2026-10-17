@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="260" viewBox="0 0 600 260" role="img" aria-labelledby="title desc">
+  <title id="title">Resilience Earth</title>
+  <desc id="desc">Logo placeholder for Resilience Earth</desc>
+  <rect width="600" height="260" fill="#f7f7f7"/>
+  <rect x="8" y="8" width="584" height="244" rx="14" fill="#ffffff" stroke="#dfdfdf"/>
+  <text x="300" y="150" font-family="Source Sans Pro, Arial, sans-serif" font-size="42" font-weight="700" text-anchor="middle" fill="#252122">Resilience Earth</text>
+</svg>
