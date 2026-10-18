@@ -114,7 +114,7 @@ a{color:#2952CC}a:hover{color:#1E3E9E}
       <div style="display: flex; flex-direction: column; gap: 6px">
         <span style="display: inline-flex; align-self: flex-start; padding: 2px 8px; border-radius: 4px; background: #E6F4EA; color: #1F6F3F; font-weight: 600; font-size: 12px">Actiu</span>
         <h2 style="margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3">Assessorament en educació ambiental Santa Mostra</h2>
-        <span style="color: #5A6070">Urtur (Consultories) · Laia Puig</span>
+        <span style="color: #5A6070">Consultoria · Laia Puig</span>
       </div>
       <dl style="margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 16px">
         <dt style="color: #5A6070">Dates</dt><dd style="margin: 0; text-align: right">1 nov. 2024 – 31 oct. 2027</dd>
@@ -157,20 +157,20 @@ const fmt = (n, d) => { const neg = n < 0; let [i, f] = Math.abs(n).toFixed(d).s
 const tone = (n) => (n < 0 ? '#B42318' : n > 0 ? '#1F6F3F' : '#5A6070');
 const num = (n, pad) => 'padding: 0 ' + pad + 'px; text-align: right; color: ' + tone(n);
 const data = [
-  ['Formació en emprenedoria col·lectiva', 'Laia Puig', 'Iltir', 2442.5, 624.4, -15354.84, 9952.03],
-  ['Pla de finances ètiques Pobla de Proves', 'Marc Serra', 'Iltir', 2212.4, 3574.3, 70973.75, 172074.67],
-  ['Assessorament en educació ambiental Santa Mostra', 'Laia Puig', 'Urtur', 1901.3, 2954.5, 44418.25, 71671.53],
-  ["Jornades d'habitatge cooperatiu Vilanova de l'Exemple", 'Marc Serra', 'Lakue', 1668.0, 2164.8, -35244.68, -44389.53],
-  ['Jornades de consum responsable Riudemostra', 'Laia Puig', 'Urtur', 1299.9, 3631.2, 81623.77, 45064.88],
-  ["Campanya d'habitatge cooperatiu Sant Simulat", 'Pau Puig', 'Lakue', 884.2, 0, -18066.25, -544.55],
-  ['Acompanyament en cultura popular Bellmodel', 'Laia Serra', 'Lakue', 464.7, 0, -8516.32, 0],
-  ['Recerca en sobirania alimentària Riudemostra', 'Marc Serra', 'Lakue', 451.2, 0, -6969.77, 0],
-  ['Projecte pilot de sobirania alimentària Castellexemple', 'Marc Serra', 'Lakue', 376.3, 0, -6487.61, 0],
-  ['Recerca en consum responsable Bellmodel', 'Jordi Puig', 'Balkar', 372.0, 335.4, -6807.54, 15617.22],
-  ['Assessorament en habitatge cooperatiu Pobla de Proves', 'Clara Puig', 'Lakue', 324.3, 464.1, -20566.75, -21276.44],
-  ["Dinamització d'igualtat de gènere Torredemo", 'Clara Puig', 'Urtur', 287.8, 145.8, 5434.70, 19080.94],
-  ['Formació en habitatge cooperatiu La Vall Imaginària', 'Núria Puig', 'Balkar', 260.8, 326.2, 9503.65, -2079.95],
-  ["Campanya d'agroecologia Montprova", 'Núria Puig', 'Urtur', 237.0, 220.0, 1069.26, 1215.63]
+  ['Formació en emprenedoria col·lectiva', 'Laia Puig', 'Cultura i territori', 2442.5, 624.4, -15354.84, 9952.03],
+  ['Pla de finances ètiques Pobla de Proves', 'Marc Serra', 'Cultura i territori', 2212.4, 3574.3, 70973.75, 172074.67],
+  ['Assessorament en educació ambiental Santa Mostra', 'Laia Puig', 'Consultoria', 1901.3, 2954.5, 44418.25, 71671.53],
+  ["Jornades d'habitatge cooperatiu Vilanova de l'Exemple", 'Marc Serra', 'Transició ecològica', 1668.0, 2164.8, -35244.68, -44389.53],
+  ['Jornades de consum responsable Riudemostra', 'Laia Puig', 'Consultoria', 1299.9, 3631.2, 81623.77, 45064.88],
+  ["Campanya d'habitatge cooperatiu Sant Simulat", 'Pau Puig', 'Transició ecològica', 884.2, 0, -18066.25, -544.55],
+  ['Acompanyament en cultura popular Bellmodel', 'Laia Serra', 'Transició ecològica', 464.7, 0, -8516.32, 0],
+  ['Recerca en sobirania alimentària Riudemostra', 'Marc Serra', 'Transició ecològica', 451.2, 0, -6969.77, 0],
+  ['Projecte pilot de sobirania alimentària Castellexemple', 'Marc Serra', 'Transició ecològica', 376.3, 0, -6487.61, 0],
+  ['Recerca en consum responsable Bellmodel', 'Jordi Puig', 'Habitatge cooperatiu', 372.0, 335.4, -6807.54, 15617.22],
+  ['Assessorament en habitatge cooperatiu Pobla de Proves', 'Clara Puig', 'Transició ecològica', 324.3, 464.1, -20566.75, -21276.44],
+  ["Dinamització d'igualtat de gènere Torredemo", 'Clara Puig', 'Consultoria', 287.8, 145.8, 5434.70, 19080.94],
+  ['Formació en habitatge cooperatiu La Vall Imaginària', 'Núria Puig', 'Habitatge cooperatiu', 260.8, 326.2, 9503.65, -2079.95],
+  ["Campanya d'agroecologia Montprova", 'Núria Puig', 'Consultoria', 237.0, 220.0, 1069.26, 1215.63]
 ];
 const rows = data.map(([name, lead, scope, h, eh, ex, prev], i) => {
   const p = eh ? Math.round((h / eh) * 100) : null;

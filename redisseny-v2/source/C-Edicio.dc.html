@@ -131,9 +131,9 @@ renderVals() {
 const pill = (on) => 'position: relative; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 20px; cursor: pointer; font-weight: 600; ' + (on ? 'background: #1F6B4F; color: #FFFFFF; border: 1.5px solid #1F6B4F' : 'background: #FFFFFF; color: #1E2321; border: 1.5px solid #E4E0D6');
 const states = ['Prospecció', 'Sol·licitat', 'Actiu', 'Tancat', 'Denegat', 'No presentat', 'Renunciat']
   .map((name) => ({ name, on: name === 'Tancat', style: pill(name === 'Tancat') }));
-const colors = { Balkar: '#2E8A5C', Urtur: '#8A4FB8', Iltir: '#2F6FB0', Lakue: '#C2601F' };
-const scopes = ['Balkar', 'Urtur', 'Iltir', 'Lakue'].map((name) => ({ name, on: name === 'Lakue', style: pill(name === 'Lakue'),
-  dot: 'width: 10px; height: 10px; border-radius: 50%; background: ' + colors[name] + (name === 'Lakue' ? '; box-shadow: 0 0 0 2px #FFFFFF' : '') }));
+const colors = { 'Habitatge cooperatiu': '#2E8A5C', 'Consultoria': '#8A4FB8', 'Cultura i territori': '#2F6FB0', 'Transició ecològica': '#C2601F' };
+const scopes = ['Habitatge cooperatiu', 'Consultoria', 'Cultura i territori', 'Transició ecològica'].map((name) => ({ name, on: name === 'Transició ecològica', style: pill(name === 'Transició ecològica'),
+  dot: 'width: 10px; height: 10px; border-radius: 50%; background: ' + colors[name] + (name === 'Transició ecològica' ? '; box-shadow: 0 0 0 2px #FFFFFF' : '') }));
 const dedication = [
   ['H1', 'Facturable i implementació'], ['H2', 'Gestió i estructura'], ['H3', 'Aliances, prospecció i capacitats']
 ].map(([code, name]) => ({ code, name, on: code === 'H3',

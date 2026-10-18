@@ -103,21 +103,21 @@ const rail = [
   railItem('Diners', 'M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18'),
   railItem('Informes', 'M4 20V4M4 20h16M8 16v-4M12 16V8M16 16v-6')
 ];
-const scopeColor = { Iltir: '#2F6FB0', Urtur: '#8A4FB8', Lakue: '#C2601F', Balkar: '#2E8A5C' };
+const scopeColor = { 'Cultura i territori': '#2F6FB0', 'Consultoria': '#8A4FB8', 'Transició ecològica': '#C2601F', 'Habitatge cooperatiu': '#2E8A5C' };
 const dot = (s) => 'width: 10px; height: 10px; border-radius: 50%; background: ' + scopeColor[s];
-const scopes = ['Balkar', 'Urtur', 'Iltir', 'Lakue'].map((name) => ({ name, dot: dot(name) }));
+const scopes = ['Habitatge cooperatiu', 'Consultoria', 'Cultura i territori', 'Transició ecològica'].map((name) => ({ name, dot: dot(name) }));
 const fmt = (n, d) => { const neg = n < 0; let [i, f] = Math.abs(n).toFixed(d).split('.'); i = i.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); return (neg ? '−' : '+') + i + (d ? ',' + f : ''); };
 const fmtH = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 const data = [
-  ['Formació en emprenedoria col·lectiva', 'Laia Puig', 'Iltir', 2442.5, 624.4, -15354.84, '12/2030'],
-  ['Pla de finances ètiques Pobla de Proves', 'Marc Serra', 'Iltir', 2212.4, 3574.3, 70973.75, '11/2028'],
-  ['Assessorament en educació ambiental Santa Mostra', 'Laia Puig', 'Urtur', 1901.3, 2954.5, 44418.25, '10/2027'],
-  ["Jornades d'habitatge cooperatiu Vilanova de l'Exemple", 'Marc Serra', 'Lakue', 1668.0, 2164.8, -35244.68, '12/2026'],
-  ['Jornades de consum responsable Riudemostra', 'Laia Puig', 'Urtur', 1299.9, 3631.2, 81623.77, '12/2026'],
-  ["Campanya d'habitatge cooperatiu Sant Simulat", 'Pau Puig', 'Lakue', 884.2, 0, -18066.25, '12/2026'],
-  ['Acompanyament en cultura popular Bellmodel', 'Laia Serra', 'Lakue', 464.7, 0, -8516.32, '12/2026'],
-  ['Recerca en sobirania alimentària Riudemostra', 'Marc Serra', 'Lakue', 451.2, 0, -6969.77, '12/2030'],
-  ['Recerca en consum responsable Bellmodel', 'Jordi Puig', 'Balkar', 372.0, 335.4, -6807.54, '12/2026']
+  ['Formació en emprenedoria col·lectiva', 'Laia Puig', 'Cultura i territori', 2442.5, 624.4, -15354.84, '12/2030'],
+  ['Pla de finances ètiques Pobla de Proves', 'Marc Serra', 'Cultura i territori', 2212.4, 3574.3, 70973.75, '11/2028'],
+  ['Assessorament en educació ambiental Santa Mostra', 'Laia Puig', 'Consultoria', 1901.3, 2954.5, 44418.25, '10/2027'],
+  ["Jornades d'habitatge cooperatiu Vilanova de l'Exemple", 'Marc Serra', 'Transició ecològica', 1668.0, 2164.8, -35244.68, '12/2026'],
+  ['Jornades de consum responsable Riudemostra', 'Laia Puig', 'Consultoria', 1299.9, 3631.2, 81623.77, '12/2026'],
+  ["Campanya d'habitatge cooperatiu Sant Simulat", 'Pau Puig', 'Transició ecològica', 884.2, 0, -18066.25, '12/2026'],
+  ['Acompanyament en cultura popular Bellmodel', 'Laia Serra', 'Transició ecològica', 464.7, 0, -8516.32, '12/2026'],
+  ['Recerca en sobirania alimentària Riudemostra', 'Marc Serra', 'Transició ecològica', 451.2, 0, -6969.77, '12/2030'],
+  ['Recerca en consum responsable Bellmodel', 'Jordi Puig', 'Habitatge cooperatiu', 372.0, 335.4, -6807.54, '12/2026']
 ];
 const cards = data.map(([name, lead, scope, h, eh, res, end]) => {
   const p = eh ? Math.round((h / eh) * 100) : null;

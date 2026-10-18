@@ -81,10 +81,10 @@ a{color:#0B7A6C}a:hover{color:#075E53}
       </label>
       <div role="group" aria-label="Àmbit" style="display: flex; flex-wrap: wrap; background: #E9EEEF; border-radius: 9px; padding: 3px; gap: 2px">
         <button type="button" aria-pressed="true" style="height: 34px; padding: 0 12px; border: 0; border-radius: 7px; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0,0,0,0.08); font: inherit; font-weight: 700; color: #1A2426; cursor: pointer">Tots</button>
-        <button type="button" aria-pressed="false" style="height: 34px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font: inherit; font-weight: 600; color: #3E4E51; cursor: pointer">Balkar</button>
-        <button type="button" aria-pressed="false" style="height: 34px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font: inherit; font-weight: 600; color: #3E4E51; cursor: pointer">Urtur</button>
-        <button type="button" aria-pressed="false" style="height: 34px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font: inherit; font-weight: 600; color: #3E4E51; cursor: pointer">Iltir</button>
-        <button type="button" aria-pressed="false" style="height: 34px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font: inherit; font-weight: 600; color: #3E4E51; cursor: pointer">Lakue</button>
+        <button type="button" aria-pressed="false" style="height: 34px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font: inherit; font-weight: 600; color: #3E4E51; cursor: pointer">Habitatge cooperatiu</button>
+        <button type="button" aria-pressed="false" style="height: 34px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font: inherit; font-weight: 600; color: #3E4E51; cursor: pointer">Consultoria</button>
+        <button type="button" aria-pressed="false" style="height: 34px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font: inherit; font-weight: 600; color: #3E4E51; cursor: pointer">Cultura i territori</button>
+        <button type="button" aria-pressed="false" style="height: 34px; padding: 0 12px; border: 0; border-radius: 7px; background: transparent; font: inherit; font-weight: 600; color: #3E4E51; cursor: pointer">Transició ecològica</button>
       </div>
     </section>
 
@@ -171,18 +171,18 @@ const fmt = (n, d) => { const neg = n < 0; let [i, f] = Math.abs(n).toFixed(d).s
 const money = (n) => fmt(n, 2) + ' €';
 const cell = (n) => 'padding: 10px 12px; text-align: right; white-space: nowrap; font-weight: 700; color: ' + (n < 0 ? '#B03A1C' : n > 0 ? '#146C4F' : '#56676A');
 const data = [
-  ['Formació en emprenedoria col·lectiva', "Ateneu L'Era", 'Laia Puig', 'Iltir', 2442.5, 624.4, -15354.84, 9952.03, '31/12/2030'],
-  ['Pla de finances ètiques Pobla de Proves', 'Sense clienta', 'Marc Serra', 'Iltir', 2212.4, 3574.3, 70973.75, 172074.67, '01/11/2028'],
-  ['Assessorament en educació ambiental Santa Mostra', 'Sense clienta', 'Laia Puig', 'Urtur', 1901.3, 2954.5, 44418.25, 71671.53, '31/10/2027'],
-  ["Jornades d'habitatge cooperatiu Vilanova de l'Exemple", 'Sense clienta', 'Marc Serra', 'Lakue', 1668.0, 2164.8, -35244.68, -44389.53, '31/12/2026'],
-  ['Jornades de consum responsable Riudemostra', 'Sense clienta', 'Laia Puig', 'Urtur', 1299.9, 3631.2, 81623.77, 45064.88, '31/12/2026'],
-  ["Campanya d'habitatge cooperatiu Sant Simulat", 'Sense clienta', 'Pau Puig', 'Lakue', 884.2, 0, -18066.25, -544.55, '31/12/2026'],
-  ['Acompanyament en cultura popular Bellmodel', 'Sense clienta', 'Laia Serra', 'Lakue', 464.7, 0, -8516.32, 0, '31/12/2026'],
-  ['Recerca en sobirania alimentària Riudemostra', 'Sense clienta', 'Marc Serra', 'Lakue', 451.2, 0, -6969.77, 0, '31/12/2030'],
-  ['Recerca en consum responsable Bellmodel', "Ateneu Ca l'Exemple", 'Jordi Puig', 'Balkar', 372.0, 335.4, -6807.54, 15617.22, '31/12/2026'],
-  ['Assessorament en habitatge cooperatiu Pobla de Proves', 'Sense clienta', 'Clara Puig', 'Lakue', 324.3, 464.1, -20566.75, -21276.44, '31/12/2026'],
-  ["Dinamització d'igualtat de gènere Torredemo", 'Sense clienta', 'Clara Puig', 'Urtur', 287.8, 145.8, 5434.70, 19080.94, '31/12/2027'],
-  ['Formació en habitatge cooperatiu La Vall Imaginària', 'Sense clienta', 'Núria Puig', 'Balkar', 260.8, 326.2, 9503.65, -2079.95, '31/12/2026']
+  ['Formació en emprenedoria col·lectiva', "Ateneu L'Era", 'Laia Puig', 'Cultura i territori', 2442.5, 624.4, -15354.84, 9952.03, '31/12/2030'],
+  ['Pla de finances ètiques Pobla de Proves', 'Sense clienta', 'Marc Serra', 'Cultura i territori', 2212.4, 3574.3, 70973.75, 172074.67, '01/11/2028'],
+  ['Assessorament en educació ambiental Santa Mostra', 'Sense clienta', 'Laia Puig', 'Consultoria', 1901.3, 2954.5, 44418.25, 71671.53, '31/10/2027'],
+  ["Jornades d'habitatge cooperatiu Vilanova de l'Exemple", 'Sense clienta', 'Marc Serra', 'Transició ecològica', 1668.0, 2164.8, -35244.68, -44389.53, '31/12/2026'],
+  ['Jornades de consum responsable Riudemostra', 'Sense clienta', 'Laia Puig', 'Consultoria', 1299.9, 3631.2, 81623.77, 45064.88, '31/12/2026'],
+  ["Campanya d'habitatge cooperatiu Sant Simulat", 'Sense clienta', 'Pau Puig', 'Transició ecològica', 884.2, 0, -18066.25, -544.55, '31/12/2026'],
+  ['Acompanyament en cultura popular Bellmodel', 'Sense clienta', 'Laia Serra', 'Transició ecològica', 464.7, 0, -8516.32, 0, '31/12/2026'],
+  ['Recerca en sobirania alimentària Riudemostra', 'Sense clienta', 'Marc Serra', 'Transició ecològica', 451.2, 0, -6969.77, 0, '31/12/2030'],
+  ['Recerca en consum responsable Bellmodel', "Ateneu Ca l'Exemple", 'Jordi Puig', 'Habitatge cooperatiu', 372.0, 335.4, -6807.54, 15617.22, '31/12/2026'],
+  ['Assessorament en habitatge cooperatiu Pobla de Proves', 'Sense clienta', 'Clara Puig', 'Transició ecològica', 324.3, 464.1, -20566.75, -21276.44, '31/12/2026'],
+  ["Dinamització d'igualtat de gènere Torredemo", 'Sense clienta', 'Clara Puig', 'Consultoria', 287.8, 145.8, 5434.70, 19080.94, '31/12/2027'],
+  ['Formació en habitatge cooperatiu La Vall Imaginària', 'Sense clienta', 'Núria Puig', 'Habitatge cooperatiu', 260.8, 326.2, 9503.65, -2079.95, '31/12/2026']
 ];
 const rows = data.map(([name, client, lead, scope, h, eh, ex, prev, end]) => {
   const pct = eh ? Math.min(100, (h / eh) * 100) : 0;

@@ -1,9 +1,9 @@
 # Captures d'ESSTRAPIS (redisseny A)
 
-Captures reals de l'aplicació (branca `redesign-a`, 17/10/2026) sobre la còpia **anonimitzada** `projectes_v5_manual`: totes les persones, entitats, NIF, adreces i imports són inventats (control de fuites `manual/capture/check-leaks.sh`: net). La data del navegador es va situar al 17/06/2026, on les dades de demostració són completes (excepte *Previsió facturació*, amb la data real).
+Captures reals de l'aplicació (branca `redesign-a`, 18/10/2026) sobre la còpia **anonimitzada** `projectes_v5_manual`: totes les persones, entitats, NIF, adreces i imports són inventats (també els àmbits, tipus de projecte, tipus d'activitat i codis d'estratègia; control de fuites `manual/capture/check-leaks.sh`: net). Script: `projectes-front/manual/capture/esstrapis-web.mjs`. La data del navegador es va situar al 17/06/2026, on les dades de demostració són completes (excepte *Previsió facturació*, amb la data real).
 
 - Escriptori: 1440×900 a 2x (2880×1800). Mòbil (`70-74`): 390×844 a 3x. Mode fosc: `80-84`.
-- Sense metadades. Logística no hi és: no hi ha cap còpia anonimitzada amb comandes.
+- Sense metadades. Logística (`90-…`): còpia anonimitzada `projectes_v5_manual_logistica`, setembre de 2026.
 
 | Fitxer | Pantalla |
 |---|---|
@@ -69,3 +69,4 @@ Captures reals de l'aplicació (branca `redesign-a`, 17/10/2026) sobre la còpia
 | `82-fosc-tresoreria.png` | Fosc tresoreria |
 | `83-fosc-tasques.png` | Fosc tasques |
 | `84-fosc-hores.png` | Fosc hores |
+| `90-logistica-comandes-dia.png` | Logística: comandes per dia |
