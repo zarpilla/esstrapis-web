@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="ca">
   <head>
     <title>ESSTrapis, gestió per a l'Economia Social i Solidària</title>
     <meta charset="utf-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1, user-scalable=no"
+      content="width=device-width, initial-scale=1"
+    />
+    <meta
+      name="description"
+      content="Programari de gestió per a cooperatives, associacions i altres entitats de l'Economia Social i Solidària: projectes, hores, diners, subvencions i logística en un sol lloc."
     />
     <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/home.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
   </head>
   <body class="homepage is-preload">
@@ -20,122 +25,176 @@
             <img src="images/esstrapis-dark.svg" class="logo" alt="ESSTrapis" />
           </a>
         </h1>
-		<header class="w-50 mt-3 mb-3">
-            <h2>Programari de gestió per a cooperatives, associacions i altres
-              entitats de l'Economia Social i Solidària.</h2>
-            <!-- <p>
-              Programari de gestió per a cooperatives, associacions i altres
-              entitats de l'Economia Social i Solidària.
-            </p> -->
-          </header>
+        <header class="w-50 mt-3 mb-3">
+          <h2>Programari de gestió per a cooperatives, associacions i altres
+            entitats de l'Economia Social i Solidària.</h2>
+        </header>
+        <p class="lead">
+          Projectes, hores i diners en un sol lloc, per saber en tot moment si
+          cada projecte va com es va pressupostar.
+        </p>
+        <div class="hero-actions">
+          <a href="#que-fa" class="button">Què fa ESSTrapis</a>
+          <a href="#com-es" class="button ghost" data-gallery="02-projectes">Mira com és</a>
+        </div>
+      </section>
 
-
-        <!-- Banner -->
-        <!-- <section id="banner">
-          <header class="w-50">
-            <h2>Gestió per a l'ESS</h2>
-            <p>
-              Programari de gestió per a cooperatives, associacions i altres
-              entitats de l'Economia Social i Solidària.
-            </p>
-          </header>
-        </section> -->
-
-        <!-- Main -->
-        <section id="main">
-          <div class="container">
-            <div class="row">
-              <div class="col-12">
-                <!-- Portfolio -->
-                <section>
-                  <header class="major">
-                    <h2>Què fa ESSTrapis?</h2>
-                  </header>
-                  <div class="row">
-                    <div class="col-4 col-6-medium col-12-small">
-                      <section class="box">
-                        <!-- <a href="#" class="image featured"><img src="images/pic02.jpg" alt="" /></a> -->
-                        <header>
-                          <h3>Gestió de projectes</h3>
-                        </header>
-                        <p>
-                          Fes seguiment de l’estat de tots els projectes,
-                          controla qui hi dedica temps i en quin moment, i
-                          visualitza en tot moment el seu estat financer.
-                        </p>
-                      </section>
-                    </div>
-                    <div class="col-4 col-6-medium col-12-small">
-                      <section class="box">
-                        <!-- <a href="#" class="image featured"><img src="images/pic03.jpg" alt="" /></a> -->
-                        <header>
-                          <h3>Gestió financera</h3>
-                        </header>
-                        <p>
-                          Controla les finances de la cooperativa amb una visió
-                          clara de la facturació, els ingressos, les despeses,
-                          les bestretes, les dietes i els tiquets, amb seguiment
-                          de tresoreria i adaptat a VERIFACTU. També permet
-                          enviar factures electròniques a l'Administració
-                          pública a través de FACe.
-                        </p>
-                      </section>
-                    </div>
-                    <div class="col-4 col-6-medium col-12-small">
-                      <section class="box">
-                        <!-- <a href="#" class="image featured"><img src="images/pic04.jpg" alt="" /></a> -->
-                        <header>
-                          <h3>Gestió del temps</h3>
-                        </header>
-                        <p>
-                          Gestiona la dedicació horària a cada projecte i porta
-                          un registre clar de les hores treballades per persona,
-                          tasca i projecte.
-                        </p>
-                      </section>
-                    </div>
-                    <div class="col-4 col-6-medium col-12-small">
-                      <section class="box">
-                        <!-- <a href="#" class="image featured"><img src="images/pic05.jpg" alt="" /></a> -->
-                        <header>
-                          <h3>Gestió de tasques</h3>
-                        </header>
-                        <p>
-                          Consulta quines tasques té cada projecte i cada
-                          persona, i visualitza de manera clara en quin estat es
-                          troba cadascuna.
-                        </p>
-                      </section>
-                    </div>
-                    <div class="col-4 col-6-medium col-12-small">
-                      <section class="box">
-                        <!-- <a href="#" class="image featured"><img src="images/pic06.jpg" alt="" /></a> -->
-                        <header>
-                          <h3>Gestió de subvencions</h3>
-                        </header>
-                        <p>
-                          Controla l’estat econòmic de les subvencions i
-                          gestiona les justificacions amb seguiment de despeses,
-                          imports concedits i imports pendents.
-                        </p>
-                      </section>
-                    </div>
-                    <div class="col-4 col-6-medium col-12-small">
-                      <section class="box">
-                        <!-- <a href="#" class="image featured"><img src="images/pic07.jpg" alt="" /></a> -->
-                        <header>
-                          <h3>Anàlisi de dades</h3>
-                        </header>
-                        <p>
-                          Analitza la informació amb taules dinàmiques i
-                          gràfiques, o exporta les dades fàcilment en format CSV
-                          o mitjançant API.
-                        </p>
-                      </section>
-                    </div>
+      <!-- Main -->
+      <section id="main">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <!-- Què fa ESSTrapis -->
+              <section id="que-fa">
+                <header class="major">
+                  <h2>Què fa ESSTrapis?</h2>
+                </header>
+                <p class="intro">
+                  Tot gira al voltant del <strong>projecte</strong>: què s'hi
+                  havia previst ingressar, gastar i dedicar-hi, i què s'hi ha
+                  ingressat, gastat i dedicat de debò.
+                </p>
+                <div class="row areas">
+                  <div class="col-4 col-6-medium col-12-small">
+                    <section class="box area">
+                      <div class="area-icon"><i class="fas fa-folder-open"></i></div>
+                      <h3>Projectes i tasques</h3>
+                      <p>
+                        Segueix l'estat de tots els projectes i el seu resultat
+                        econòmic, previst i real.
+                      </p>
+                      <ul>
+                        <li>Pressupost per fases: ingressos, despeses i hores</li>
+                        <li>Planificació amb diagrama de Gantt</li>
+                        <li>Tasques en tauler, llista o calendari</li>
+                        <li>Projectes mare i fills, contactes i documents</li>
+                      </ul>
+                      <a class="see" href="#com-es" data-gallery="projectes">Veure captures</a>
+                    </section>
                   </div>
-                </section>
-              </div>
+                  <div class="col-4 col-6-medium col-12-small">
+                    <section class="box area">
+                      <div class="area-icon"><i class="fas fa-clock"></i></div>
+                      <h3>Temps</h3>
+                      <p>
+                        Cada persona imputa les hores que dedica a cada projecte
+                        i tasca, i se'n coneix el cost real.
+                      </p>
+                      <ul>
+                        <li>Hores per persona, projecte i tasca</li>
+                        <li>Registre de jornada (fitxatge)</li>
+                        <li>Saldo d'hores i hores anuals</li>
+                        <li>Des de l'ordinador o el mòbil</li>
+                      </ul>
+                      <a class="see" href="#com-es" data-gallery="temps">Veure captures</a>
+                    </section>
+                  </div>
+                  <div class="col-4 col-6-medium col-12-small">
+                    <section class="box area">
+                      <div class="area-icon"><i class="fas fa-euro-sign"></i></div>
+                      <h3>Diners</h3>
+                      <p>
+                        Factures, despeses i tresoreria lligades als projectes,
+                        amb una visió clara de la situació econòmica.
+                      </p>
+                      <ul>
+                        <li>Factures emeses i rebudes, pressupostos</li>
+                        <li>Adaptat a Verifactu; factura electrònica a FACe</li>
+                        <li>Bestretes, dietes, tiquets i IVA</li>
+                        <li>Tresoreria i previsió mes a mes</li>
+                      </ul>
+                      <a class="see" href="#com-es" data-gallery="diners">Veure captures</a>
+                    </section>
+                  </div>
+                  <div class="col-4 col-6-medium col-12-small">
+                    <section class="box area">
+                      <div class="area-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                      <h3>Subvencions</h3>
+                      <p>
+                        Controla l'estat econòmic de cada subvenció i prepara'n
+                        la justificació.
+                      </p>
+                      <ul>
+                        <li>Imports concedits, cobrats i pendents</li>
+                        <li>Despeses i hores imputades a cada subvenció</li>
+                        <li>Justificacions per any i per projecte</li>
+                      </ul>
+                      <a class="see" href="#com-es" data-gallery="subvencions">Veure captures</a>
+                    </section>
+                  </div>
+                  <div class="col-4 col-6-medium col-12-small">
+                    <section class="box area">
+                      <div class="area-icon"><i class="fas fa-chart-bar"></i></div>
+                      <h3>Informes i dades</h3>
+                      <p>
+                        Analitza la informació amb informes, gràfiques i taules
+                        dinàmiques.
+                      </p>
+                      <ul>
+                        <li>Panell de projectes i previsió econòmica</li>
+                        <li>Dedicació prevista i real, preu hora</li>
+                        <li>Estratègies i intercooperació</li>
+                        <li>Exportació en CSV, API i connexió amb Contasol</li>
+                      </ul>
+                      <a class="see" href="#com-es" data-gallery="informes">Veure captures</a>
+                    </section>
+                  </div>
+                  <div class="col-4 col-6-medium col-12-small">
+                    <section class="box area">
+                      <div class="area-icon"><i class="fas fa-truck"></i></div>
+                      <h3>Logística</h3>
+                      <p>
+                        Per a les entitats que distribueixen: de la comanda del
+                        proveïdor fins a l'entrega i la facturació.
+                      </p>
+                      <ul>
+                        <li>Comandes, etiquetes i lectura de QR</li>
+                        <li>Rutes, punts d'entrega i de consum</li>
+                        <li>Incidències i estadístiques</li>
+                        <li>Facturació de les comandes</li>
+                      </ul>
+                      <a class="see" href="#com-es" data-gallery="logistica">Veure captures</a>
+                    </section>
+                  </div>
+                </div>
+
+                <ul class="extras">
+                  <li><i class="fas fa-users"></i>Cada persona veu el que li toca segons els seus permisos</li>
+                  <li><i class="fas fa-mobile-alt"></i>Funciona al mòbil</li>
+                  <li><i class="fas fa-moon"></i>Mode clar i fosc</li>
+                  <li><i class="fas fa-seedling"></i>Fet per i per a l'ESS</li>
+                </ul>
+              </section>
+            </div>
+            <div class="col-12">
+              <!-- Com és -->
+              <section id="com-es">
+                <header class="major">
+                  <h2>Com és ESSTrapis</h2>
+                </header>
+                <div class="gallery">
+                  <a href="images/galeria/04-projecte-resum.webp" data-gallery="04-projecte-resum">
+                    <img src="images/galeria/04-projecte-resum-mini.webp" alt="" loading="lazy" />
+                    <span>Resum d'un projecte</span>
+                  </a>
+                  <a href="images/galeria/09-projecte-planificacio.webp" data-gallery="09-projecte-planificacio">
+                    <img src="images/galeria/09-projecte-planificacio-mini.webp" alt="" loading="lazy" />
+                    <span>Planificació</span>
+                  </a>
+                  <a href="images/galeria/14-hores-calendari.webp" data-gallery="14-hores-calendari">
+                    <img src="images/galeria/14-hores-calendari-mini.webp" alt="" loading="lazy" />
+                    <span>Hores dedicades</span>
+                  </a>
+                  <a href="images/galeria/30-tresoreria.webp" data-gallery="30-tresoreria">
+                    <img src="images/galeria/30-tresoreria-mini.webp" alt="" loading="lazy" />
+                    <span>Tresoreria</span>
+                  </a>
+                </div>
+                <p class="gallery-more">
+                  <a href="#com-es" class="button alt" data-gallery="02-projectes">Veure totes les captures</a>
+                </p>
+              </section>
+            </div>
               <div class="col-12">
                 <!-- Qui fa servir ESSTrapis -->
                 <section>
@@ -265,9 +324,24 @@
 
     </div>
 
+    <!-- Visor de captures -->
+    <dialog id="viewer" class="viewer" aria-label="Captures d'ESSTrapis">
+      <div class="viewer-top">
+        <div class="viewer-tabs"></div>
+        <button type="button" class="viewer-close" aria-label="Tanca"><i class="fas fa-times"></i></button>
+      </div>
+      <figure>
+        <img src="" alt="" />
+        <figcaption><strong></strong><small></small></figcaption>
+      </figure>
+      <button type="button" class="viewer-nav viewer-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+      <button type="button" class="viewer-nav viewer-next" aria-label="Següent"><i class="fas fa-chevron-right"></i></button>
+    </dialog>
+
     <!-- Scripts -->
     <script src="assets/js/browser.min.js"></script>
     <script src="assets/js/breakpoints.min.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/galeria.js"></script>
   </body>
 </html>
