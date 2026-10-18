@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Inici</title>
+<link rel="stylesheet" href="../assets/a.css">
+<style>
+/* candidate for a.css: star toggle, pinned tiles, menu catalog */
+.star { width: 28px; height: 28px; border: 0; border-radius: 6px; background: transparent; color: #A6B3B5; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex: none; padding: 0; }
+.star:hover { background: var(--a-chip); color: var(--a-fg-2); }
+.star svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; }
+.star[aria-pressed="true"] { color: #D99A0B; }
+.star[aria-pressed="true"] svg { fill: currentColor; }
+.star:focus-visible { outline: 3px solid var(--a-focus); }
+
+/* sidebar: a star after the pinned entries, not clickable (pins change on Inici) */
+.nav-sub .nav-row .nav-item { padding-left: 38px; }
+.pin-mark { margin-left: auto; display: inline-flex; color: #D99A0B; }
+.pin-mark svg { width: 14px; height: 14px; fill: currentColor; stroke: currentColor; stroke-width: 1.8; stroke-linejoin: round; }
+
+.home-head .sub { font-size: 15px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; padding: 16px; }
+.tile { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 14px 14px 14px 16px; border: 1px solid var(--a-line); border-radius: var(--a-radius-lg); background: var(--a-surface); color: var(--a-fg); text-decoration: none; min-height: 112px; transition: border-color .12s, box-shadow .12s; }
+.tile:hover { border-color: var(--a-accent); box-shadow: var(--a-shadow); color: var(--a-fg); }
+.tile .ico { width: 36px; height: 36px; border-radius: 9px; background: var(--a-accent-soft); color: var(--a-accent); display: inline-flex; align-items: center; justify-content: center; }
+.tile .ico svg.i { width: 20px; height: 20px; }
+.tile b { font-size: 15px; font-weight: 800; line-height: 1.25; }
+.tile small { color: var(--a-muted); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.tile .meta { margin-top: auto; display: flex; flex-wrap: wrap; gap: 4px; }
+.tile-link { color: inherit; text-decoration: none; }
+.tile-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.tile-link:focus-visible { outline: none; }
+.tile:focus-within { outline: 3px solid var(--a-focus); }
+.tile .star { position: absolute; top: 8px; right: 8px; z-index: 1; }
+.editing .tile-link::after { display: none; }
+.tile .move { display: none; z-index: 1; position: absolute; bottom: 8px; right: 8px; gap: 2px; }
+.tile .move button { width: 26px; height: 26px; border: 1px solid var(--a-line); border-radius: 6px; background: var(--a-surface); color: var(--a-fg-2); font: inherit; cursor: pointer; }
+.editing .tile { cursor: grab; border-style: dashed; }
+.editing .tile .move { display: inline-flex; }
+.tile.dragging { opacity: .4; }
+.tile.drop-before { box-shadow: -4px 0 0 var(--a-accent); }
+.tile-add { align-items: center; justify-content: center; text-align: center; border-style: dashed; color: var(--a-muted); background: transparent; font-weight: 700; cursor: pointer; font: inherit; }
+.tile-add:hover { color: var(--a-accent); }
+
+.catalog { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px 24px; padding: 16px 18px 20px; }
+.catalog section h3 { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--a-muted); padding: 8px 6px 6px; }
+.catalog ul { list-style: none; margin: 0; padding: 0; }
+.catalog li { display: flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 4px 0 6px; border-radius: var(--a-radius); }
+.catalog li:hover { background: var(--a-thead); }
+.catalog li a { flex: 1; min-width: 0; color: var(--a-fg-2); font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 8px; }
+.catalog li a svg.i { color: var(--a-muted); width: 16px; height: 16px; }
+.catalog li.is-hidden { display: none; }
+.catalog section.is-hidden { display: none; }
+
+.prefs { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+.prefs .check { font-weight: 600; }
+.saved { color: var(--a-muted); font-size: 13px; display: inline-flex; align-items: center; gap: 6px; }
+.saved[hidden] { display: none; }
+.saved::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--a-pos); }
+.notes { color: var(--a-fg-2); }
+.notes summary { cursor: pointer; font-weight: 800; padding: 14px 18px; }
+.notes ul { margin: 0; padding: 0 18px 16px 38px; display: flex; flex-direction: column; gap: 6px; }
+</style>
+</head>
+<body>
+<!--
+  Proposal: a home page after login (today the app always opens /projectes).
+  It shows the menu entries the person has pinned with a star, in their own order.
+  Pins and the landing choice are stored on the user (GET/PUT /users/me/home); this mockup keeps them in localStorage (key "mockup.inici.laia").
+  The sidebar and the "Tot el menú" list are built from the same data as src/service/menu.js
+  (filtered by permission: Laia has projects, hours and admin, so no logistics groups).
+-->
+<div class="app">
+  <aside class="sidebar">
+    <a class="logo" href="A-Inici.html"><b>ESS</b><span>TRAPIS</span></a>
+    <nav class="nav" aria-label="Menú principal" id="sidenav"></nav>
+    <div class="user"><span class="avatar">LP</span><span><b>Laia Puig</b><small>Administració</small></span></div>
+  </aside>
+
+  <main class="main">
+    <header class="page-head home-head">
+      <div>
+        <h1>Bon dia, Laia</h1>
+        <div class="sub">Dissabte, 18 d'octubre de 2026</div>
+      </div>
+      <div class="actions">
+        <span class="saved" id="saved" hidden>Desat</span>
+        <button type="button" class="btn" id="edit" aria-pressed="false">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4"/></svg>Ordena els accessos
+        </button>
+      </div>
+    </header>
+
+    <section class="card" aria-labelledby="pins-title">
+      <div class="card-head">
+        <h2 id="pins-title">Els meus accessos</h2>
+        <span class="sub" id="pins-count"></span>
+      </div>
+      <div class="tiles" id="tiles"></div>
+    </section>
+
+    <section class="card" aria-labelledby="all-title" id="all">
+      <div class="card-head">
+        <div>
+          <h2 id="all-title">Tot el menú</h2>
+          <div class="sub">Marca amb <span aria-hidden="true">★</span> el que vulguis tenir a l'inici. Al menú lateral, l'estrella només mostra què hi tens.</div>
+        </div>
+        <label class="search"><span class="sr-only">Cerca al menú</span>
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM20 20l-4-4"/></svg>
+          <input class="input" type="search" id="q" placeholder="Cerca al menú…">
+        </label>
+      </div>
+      <div class="catalog" id="catalog"></div>
+      <div class="card-foot prefs">
+        <span><b>En entrar, obre</b></span>
+        <label class="check"><input type="radio" name="landing" value="home"> L'inici</label>
+        <label class="check"><input type="radio" name="landing" value="/projectes"> Projectes (com ara)</label>
+        <label class="check"><input type="radio" name="landing" value="first"> El primer accés fixat</label>
+        <button type="button" class="btn btn-sm btn-ghost" id="reset" style="margin-left:auto">Restableix els accessos</button>
+      </div>
+    </section>
+
+    <details class="card notes">
+      <summary>Notes de la proposta</summary>
+      <ul>
+        <li>Nova ruta <code>/inici</code>, primera entrada del menú. Després del login s'hi va per defecte (o on triï cada usuària).</li>
+        <li>Es desa a la usuària (camp privat <code>home</code>, <code>GET/PUT /users/me/home</code>): <code>{ pins: ["/tasks", …], landing: "home" }</code>. Els mateixos accessos en qualsevol navegador o ordinador; el navegador en guarda una còpia per decidir la pàgina en entrar.</li>
+        <li>Sense res desat, es proposen 4 accessos segons els permisos (projectes, hores, tasques, ingressos; a logística, comandes i incidències).</li>
+        <li>Si una entrada fixada deixa d'estar permesa, no es mostra (però no s'esborra).</li>
+        <li>Les xifres de les targetes (tasques vençudes, factures pendents…) són opcionals: només per a les entrades que ja tenen un recompte (com el de Tasques al menú).</li>
+      </ul>
+    </details>
+  </main>
+</div>
+
+<script>
+const STORE = "mockup.inici.laia";
+const ICONS = {
+  home: "M3 11l9-7 9 7M5 10v10h5v-6h4v6h5V10",
+  folder: "M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z",
+  contact: "M5 4h14v16H5zM12 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM8.5 17c.7-1.5 2-2.3 3.5-2.3s2.8.8 3.5 2.3",
+  cal: "M3 6h18v15H3zM3 10h18M8 3v4M16 3v4",
+  clock: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2",
+  people: "M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18 14.5c2 .7 3.2 2.6 3.5 5.5",
+  board: "M4 4h16v16H4zM8 8v6M12 8v3M16 8v8",
+  down: "M12 3v12M7 10l5 5 5-5M4 21h16",
+  up: "M12 15V3M7 8l5-5 5 5M4 21h16",
+  wallet: "M3 6h18v14H3zM3 10h18M16 15h2",
+  pct: "M19 5L5 19M7 9.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zM17 19.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z",
+  bank: "M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18",
+  doc: "M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5",
+  chart: "M4 20V10M10 20V4M16 20v-7M22 20H2",
+  gear: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1",
+  key: "M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5",
+  check: "M6 3h9l4 4v14H6zM9 14l2 2 4-4",
+  table: "M3 4h18v16H3zM3 10h18M3 15h18M9 4v16",
+  swap: "M7 4v16M3 8l4-4 4 4M17 20V4M13 16l4 4 4-4",
+  list: "M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01",
+  ticket: "M3 8a2 2 0 0 0 0 4v4h18v-4a2 2 0 0 1 0-4V4H3zM14 4v12"
+};
+// same groups and entries as src/service/menu.js, filtered for Laia's permissions
+const MENU = [
+  { group: "Projectes", items: [
+    { to: "/projectes", label: "Projectes", icon: "folder", screen: "A-Llistat.html", meta: [["42 en curs"]] },
+    { to: "/contacts", label: "Contactes", icon: "contact", screen: "A-Contactes.html" },
+    { to: "/dedicacio", label: "Hores dedicades", icon: "cal", screen: "A-Hores.html", meta: [["12,5 h aquesta setmana"]] },
+    { to: "/registre-jornades", label: "Registre jornades", icon: "clock", screen: "A-Jornades.html", meta: [["Avui sense fitxar", "warn"]] },
+    { to: "/working-day", label: "Persones", icon: "people", screen: "A-Persones.html" },
+    { to: "/tasks", label: "Tasques", icon: "board", screen: "A-Tasques.html", meta: [["3 vençudes", "bad"], ["2 noves", "info"]] }
+  ]},
+  { group: "Diners", items: [
+    { to: "/emitted-invoices", label: "Ingressos", icon: "down", screen: "A-Ingressos.html", meta: [["5 per cobrar", "warn"]] },
+    { to: "/received-invoices", label: "Despeses", icon: "up", screen: "A-Despeses.html", meta: [["2 per pagar"]] },
+    { to: "/salary", label: "Bestretes", icon: "wallet", screen: "A-Bestretes.html" },
+    { to: "/vat", label: "IVA", icon: "pct", screen: "A-IVA.html" },
+    { to: "/tresoreria", label: "Tresoreria", icon: "bank", screen: "A-Tresoreria.html" },
+    { to: "/quotes", label: "Pressupostos", icon: "doc", screen: "A-Pressupostos.html" }
+  ]},
+  { group: "Informes", sub: true, items: [
+    { to: "/stats-projectes", label: "Panell de projectes", icon: "chart", screen: "A-Informe-Projectes.html" },
+    { to: "/stats-dedicacio", label: "Dedicació", icon: "chart", screen: "A-Informe-Dedicacio-grafic.html" },
+    { to: "/stats-real-gantt", label: "% Dedicació real", icon: "chart", screen: "A-Informe-Dedicacio-real.html" },
+    { to: "/stats-previsio-gantt", label: "Previsió dedicació", icon: "chart", screen: "A-Informe-Previsio-dedicacio.html" },
+    { to: "/stats-economic-detail", label: "Ingressos/Despeses", icon: "chart", screen: "A-Informe-Ingressos-despeses.html" },
+    { to: "/price-hour", label: "Preu hora", icon: "chart", screen: "A-Informe-Preu-hora.html" },
+    { to: "/forecast", label: "Previsió econòmica", icon: "chart", screen: "A-Informe-Previsio-economica.html" },
+    { to: "/invoicing-forecast", label: "Previsió facturació", icon: "chart", screen: "A-Informe-Previsio-facturacio.html" },
+    { to: "/stats-estrategies", label: "Estratègies", icon: "chart", screen: "A-Informe-Estrategies.html" },
+    { to: "/stats-intercoop", label: "Intercooperació", icon: "chart", screen: "A-Informe-Intercooperacio.html" },
+    { to: "/dedicacio-saldo", label: "Saldo hores", icon: "chart", screen: "A-Informe-Saldo-hores.html" },
+    { to: "/dedicacio-summary", label: "Hores anuals", icon: "chart", screen: "A-Informe-Hores-anuals.html" },
+    { to: "/justifications", label: "Justificacions", icon: "chart", screen: "A-Justificacions.html" },
+    { to: "/grants", label: "Subvencions", icon: "chart", screen: "A-Subvencions.html" }
+  ]},
+  { group: "Administració", items: [
+    { to: "/admin/me", label: "Configuració general", icon: "gear", screen: "A-Admin-Configuracio.html" },
+    { to: "/admin/users", label: "Usuàries", icon: "key", screen: "A-Admin-Usuaris.html" },
+    { to: "/admin/verifactu", label: "Verifactu i FACe", icon: "check", screen: "A-Admin-Verifactu.html" },
+    { to: "/admin/project-scope", label: "Taules auxiliars", icon: "table", screen: "A-Admin-Taules.html" }
+  ]},
+  { group: "Altres", sub: true, items: [
+    { to: "/changelog", label: "Registre de canvis", icon: "list", screen: "#" },
+    { to: "/import-export", label: "Importar/Exportar", icon: "swap", screen: "#" },
+    { to: "/contasol", label: "Contasol", icon: "doc", screen: "#" },
+    { to: "/verifactu", label: "Verifactu", icon: "check", screen: "#" },
+    { to: "tickets", label: "Tiquets", icon: "ticket", screen: "#" }
+  ]}
+];
+const BY_TO = {};
+MENU.forEach(g => g.items.forEach(it => { it.group = g.group; BY_TO[it.to] = it; }));
+const DEFAULT = { pins: ["/projectes", "/dedicacio", "/tasks", "/emitted-invoices"], landing: "home" };
+
+const svg = (name, cls = "i") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[name]}"/></svg>`;
+const STAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.9z"/></svg>';
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+function load() {
+  try {
+    const raw = JSON.parse(localStorage.getItem(STORE));
+    if (raw && Array.isArray(raw.pins)) return { pins: raw.pins.filter(p => BY_TO[p]), landing: raw.landing || "home" };
+  } catch (e) { /* storage blocked: use the defaults */ }
+  return { pins: DEFAULT.pins.slice(), landing: DEFAULT.landing };
+}
+let state = load();
+let savedTimer;
+function save() {
+  try {
+    localStorage.setItem(STORE, JSON.stringify(state));
+    const s = document.getElementById("saved");
+    s.hidden = false; clearTimeout(savedTimer); savedTimer = setTimeout(() => { s.hidden = true; }, 1800);
+  } catch (e) { /* not saved; the page still works for this visit */ }
+}
+const isPinned = to => state.pins.includes(to);
+function toggle(to) {
+  state.pins = isPinned(to) ? state.pins.filter(p => p !== to) : state.pins.concat(to);
+  save(); render();
+}
+function move(to, delta) {
+  const i = state.pins.indexOf(to), j = i + delta;
+  if (i < 0 || j < 0 || j >= state.pins.length) return;
+  [state.pins[i], state.pins[j]] = [state.pins[j], state.pins[i]];
+  save(); render();
+  document.querySelector(`.tile[data-to="${to}"] .move button[data-d="${delta}"]`)?.focus();
+}
+const starBtn = it => `<button type="button" class="star" data-star="${it.to}" aria-pressed="${isPinned(it.to)}" aria-label="${isPinned(it.to) ? "Treu de l'inici" : "Fixa a l'inici"}: ${esc(it.label)}" title="${isPinned(it.to) ? "Treu de l'inici" : "Fixa a l'inici"}">${STAR}</button>`;
+
+function renderSide() {
+  const nav = document.getElementById("sidenav");
+  let html = `<div class="nav-group"><a class="nav-item is-active" aria-current="page" href="A-Inici.html">${svg("home")}Inici</a></div>`;
+  MENU.forEach(g => {
+    // the side menu only shows the pins; they change on this page
+    const rows = g.items.map(it => `<div class="nav-row"><a class="nav-item" href="${it.screen}">${g.sub ? "" : svg(it.icon)}${esc(it.label)}${isPinned(it.to) ? `<span class="pin-mark" title="Fixat a l'inici">${STAR}<span class="sr-only">(fixat a l'inici)</span></span>` : ""}</a></div>`).join("");
+    html += g.sub
+      ? `<div class="nav-group"><button type="button" class="nav-toggle" aria-expanded="false" data-toggle><span>${g.group} · ${g.items.length}</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-sub" hidden>${rows}</div></div>`
+      : `<div class="nav-group"><span class="nav-label">${g.group}</span>${rows}</div>`;
+  });
+  const open = [...nav.querySelectorAll("[data-toggle]")].map(b => b.getAttribute("aria-expanded") === "true");
+  nav.innerHTML = html;
+  nav.querySelectorAll("[data-toggle]").forEach((b, i) => { if (open[i]) setOpen(b, true); });
+}
+function setOpen(btn, on) {
+  btn.setAttribute("aria-expanded", on);
+  btn.nextElementSibling.hidden = !on;
+  btn.querySelector("path").setAttribute("d", on ? "M6 15l6-6 6 6" : "M6 9l6 6 6-6");
+}
+
+function renderTiles() {
+  const box = document.getElementById("tiles");
+  const pins = state.pins.map(p => BY_TO[p]).filter(Boolean);
+  document.getElementById("pins-count").textContent = pins.length ? `${pins.length} fixats` : "";
+  box.innerHTML = pins.map((it, i) => `
+    <div class="tile" data-to="${it.to}">
+      <span class="ico">${svg(it.icon)}</span>
+      <a class="tile-link" href="${it.screen}"><small>${it.group}</small><br><b>${esc(it.label)}</b></a>
+      ${it.meta ? `<span class="meta">${it.meta.map(([t, k]) => `<span class="tag ${k || ""}">${esc(t)}</span>`).join("")}</span>` : ""}
+      ${starBtn(it)}
+      <span class="move"><button type="button" data-d="-1" aria-label="Mou ${esc(it.label)} enrere" ${i === 0 ? "disabled" : ""}>←</button><button type="button" data-d="1" aria-label="Mou ${esc(it.label)} endavant" ${i === pins.length - 1 ? "disabled" : ""}>→</button></span>
+    </div>`).join("") + `
+    <button type="button" class="tile tile-add" id="add">${pins.length ? "+ Afegeix un accés" : "Encara no tens cap accés fixat.<br>Marca'n amb ★ a «Tot el menú»."}</button>`;
+  box.querySelectorAll(".tile[data-to]").forEach(t => t.draggable = editing);
+}
+
+function renderCatalog() {
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  document.getElementById("catalog").innerHTML = MENU.map(g => {
+    const items = g.items.map(it => {
+      const hit = !q || it.label.toLowerCase().includes(q) || g.group.toLowerCase().includes(q);
+      return `<li class="${hit ? "" : "is-hidden"}"><a href="${it.screen}">${svg(it.icon)}${esc(it.label)}</a>${starBtn(it)}</li>`;
+    });
+    const any = items.some(s => !s.includes("is-hidden"));
+    return `<section class="${any ? "" : "is-hidden"}"><h3>${g.group}</h3><ul>${items.join("")}</ul></section>`;
+  }).join("");
+}
+
+function render() { renderSide(); renderTiles(); renderCatalog(); }
+
+let editing = false;
+document.getElementById("edit").addEventListener("click", e => {
+  editing = !editing;
+  e.currentTarget.setAttribute("aria-pressed", editing);
+  e.currentTarget.lastChild.textContent = editing ? "Fet" : "Ordena els accessos";
+  e.currentTarget.classList.toggle("btn-primary", editing);
+  document.getElementById("tiles").classList.toggle("editing", editing);
+  renderTiles();
+});
+
+document.addEventListener("click", e => {
+  const star = e.target.closest("[data-star]");
+  if (star) { e.preventDefault(); toggle(star.dataset.star); return; }
+  const mv = e.target.closest(".move button");
+  if (mv) { e.preventDefault(); move(mv.closest(".tile").dataset.to, +mv.dataset.d); return; }
+  const tg = e.target.closest("[data-toggle]");
+  if (tg) { setOpen(tg, tg.getAttribute("aria-expanded") !== "true"); return; }
+  if (e.target.closest("#add")) { document.getElementById("all").scrollIntoView({ behavior: "smooth" }); document.getElementById("q").focus({ preventScroll: true }); return; }
+  if (editing && e.target.closest(".tile-link")) e.preventDefault();
+});
+
+// drag to reorder while editing
+let dragTo = null;
+const tiles = document.getElementById("tiles");
+tiles.addEventListener("dragstart", e => { const t = e.target.closest(".tile[data-to]"); if (!t) return; dragTo = t.dataset.to; t.classList.add("dragging"); e.dataTransfer.effectAllowed = "move"; });
+tiles.addEventListener("dragover", e => {
+  if (!dragTo) return; e.preventDefault();
+  tiles.querySelectorAll(".drop-before").forEach(x => x.classList.remove("drop-before"));
+  e.target.closest(".tile[data-to]")?.classList.add("drop-before");
+});
+tiles.addEventListener("drop", e => {
+  e.preventDefault();
+  const over = e.target.closest(".tile[data-to]");
+  if (dragTo && over && over.dataset.to !== dragTo) {
+    const pins = state.pins.filter(p => p !== dragTo);
+    pins.splice(pins.indexOf(over.dataset.to), 0, dragTo);
+    state.pins = pins; save();
+  }
+  dragTo = null; renderTiles();
+});
+tiles.addEventListener("dragend", () => { dragTo = null; renderTiles(); });
+
+document.getElementById("q").addEventListener("input", renderCatalog);
+document.querySelectorAll('input[name="landing"]').forEach(r => {
+  r.checked = r.value === state.landing;
+  r.addEventListener("change", () => { state.landing = r.value; save(); });
+});
+document.getElementById("reset").addEventListener("click", () => {
+  state.pins = DEFAULT.pins.slice(); save(); render();
+});
+
+render();
+</script>
+</body>
+</html>
