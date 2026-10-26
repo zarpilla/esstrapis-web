@@ -65,7 +65,7 @@ print(f"var ANYS = {anys};")
 print(f"""		{{ titol: "Entitats", text: "que fan servir ESSTrapis", valors: {ent}, total: "ultim" }},
 		{{ titol: "Projectes", text: "gestionats", valors: {fila('projects')} }},
 		{{ titol: "Hores", text: "dedicades i registrades", valors: {fila('hours')} }},
-		{{ titol: "Factures emeses", text: "a clients i finançadors", valors: {fila('emitted_invoices')} }},
-		{{ titol: "Factures rebudes", text: "de proveïdors", valors: {fila('received_invoices')} }},
+		{{ titol: "Factures emeses", text: "a clientes i finançadores", valors: {fila('emitted_invoices')} }},
+		{{ titol: "Factures rebudes", text: "de proveïdores", valors: {fila('received_invoices')} }},
 		{{ titol: "Canvis a l'aplicació", text: "novetats, millores i correccions", valors: {[cl.get(str(y), 0) for y in anys]} }}""")
 EOF

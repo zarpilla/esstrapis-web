@@ -9,8 +9,8 @@
 		{ titol: "Entitats", text: "que fan servir ESSTrapis", valors: [3, 4, 5, 9, 11, 14], total: "ultim" },
 		{ titol: "Projectes", text: "gestionats", valors: [148, 176, 144, 192, 259, 242] },
 		{ titol: "Hores", text: "dedicades i registrades", valors: [17069, 23342, 30577, 52757, 59931, 50400] },
-		{ titol: "Factures emeses", text: "a clients i finançadors", valors: [1, 178, 296, 405, 615, 534] },
-		{ titol: "Factures rebudes", text: "de proveïdors", valors: [3, 333, 766, 1089, 1239, 983] },
+		{ titol: "Factures emeses", text: "a clientes i finançadores", valors: [1, 178, 296, 405, 615, 534] },
+		{ titol: "Factures rebudes", text: "de proveïdores", valors: [3, 333, 766, 1089, 1239, 983] },
 		{ titol: "Canvis a l'aplicació", text: "novetats, millores i correccions", valors: [16, 36, 19, 40, 45, 238] }
 	];
 
