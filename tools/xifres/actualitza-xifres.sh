@@ -5,8 +5,7 @@
 #
 # 1. Executa xifres.sql a cada tenant del VPS (tenants.conf; sense demo ni
 #    ladili_test) amb les credencials de envs/<tenant>.env. Només llegeix.
-# 2. Compta els commits per any (sense merges) del front (projectes-front) i del
-#    back antic (zarpilla/projectes, v3; se'n baixa només l'historial).
+# 2. Compta les entrades del registre de canvis (projectes-front/src/service/changelog.js).
 # 3. Escriu a la sortida les línies ANYS i DADES per enganxar a xifres.js,
 #    i deixa el detall per tenant a tools/xifres/sortida/ (ignorat per git).
 set -euo pipefail
@@ -31,15 +30,16 @@ done
 rm -f /tmp/esstrapis-xifres.sql
 EOF
 
-# Commits per any: front + back antic (v3). El back v5 (projectes-back) no compta.
-git -C "$FRONT" fetch -q origin
-if [ -d "$OUT/v3.git" ]; then git -C "$OUT/v3.git" fetch -q origin '+refs/heads/*:refs/heads/*'
-else git clone -q --bare --filter=blob:none https://github.com/zarpilla/projectes.git "$OUT/v3.git"; fi
-{ git -C "$FRONT" log origin/main --no-merges --format=%ad --date=format:%Y
-  git -C "$OUT/v3.git" log --all --no-merges --format=%ad --date=format:%Y
-} | sort | uniq -c | awk 'BEGIN{printf "{"} {printf "%s\"%s\": %s", (NR>1?", ":""), $2, $1} END{print "}"}' > "$OUT/commits.json"
+# Registre de canvis: entrades per any (totes: novetats, millores i correccions)
+cp "$FRONT/src/service/changelog.js" "$OUT/changelog.mjs"
+node -e '
+import(process.argv[1]).then(({ CHANGELOG }) => {
+  const r = {}
+  for (const e of CHANGELOG) { const y = e.date.slice(0, 4); r[y] = (r[y] || 0) + e.items.length }
+  console.log(JSON.stringify(r))
+})' "$OUT/changelog.mjs" > "$OUT/changelog.json"
 
-python3 - "$OUT/per-tenant.tsv" "$OUT/commits.json" "$ANY_INICI" "$ANY_FINAL" <<'EOF'
+python3 - "$OUT/per-tenant.tsv" "$OUT/changelog.json" "$ANY_INICI" "$ANY_FINAL" <<'EOF'
 import sys, json, collections
 tsv, cl, a0, a1 = sys.argv[1], json.load(open(sys.argv[2])), int(sys.argv[3]), int(sys.argv[4])
 anys = list(range(a0, a1 + 1))
@@ -67,5 +67,5 @@ print(f"""		{{ titol: "Entitats", text: "que fan servir ESSTrapis", valors: {ent
 		{{ titol: "Hores", text: "dedicades i registrades", valors: {fila('hours')} }},
 		{{ titol: "Factures emeses", text: "a clientes i finançadores", valors: {fila('emitted_invoices')} }},
 		{{ titol: "Factures rebudes", text: "de proveïdores", valors: {fila('received_invoices')} }},
-		{{ titol: "Canvis al codi", text: "commits a l'aplicació", valors: {[cl.get(str(y), 0) for y in anys]} }}""")
+		{{ titol: "Canvis a l'aplicació", text: "novetats, millores i correccions", valors: {[cl.get(str(y), 0) for y in anys]} }}""")
 EOF
