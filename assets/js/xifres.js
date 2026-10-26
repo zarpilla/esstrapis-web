@@ -1,6 +1,6 @@
 // «ESSTrapis en xifres»: evolució per any de totes les entitats (sense demo ni
 // còpies de prova). Per actualitzar-ho, canvia només DADES i FINS_A.
-// Font: recomptes a les bases de dades dels tenants + registre de canvis de l'app.
+// Font: recomptes a les bases de dades dels tenants + commits del front i del back antic (zarpilla/projectes).
 (function () {
 	var ANYS = [2021, 2022, 2023, 2024, 2025, 2026];
 	var FINS_A = "fins a octubre de 2026"; // l'últim any encara no s'ha acabat
@@ -11,7 +11,7 @@
 		{ titol: "Hores", text: "dedicades i registrades", valors: [17069, 23342, 30577, 52757, 59931, 50400] },
 		{ titol: "Factures emeses", text: "a clientes i finançadores", valors: [1, 178, 296, 405, 615, 534] },
 		{ titol: "Factures rebudes", text: "de proveïdores", valors: [3, 333, 766, 1089, 1239, 983] },
-		{ titol: "Canvis a l'aplicació", text: "novetats, millores i correccions", valors: [16, 36, 19, 40, 45, 238] }
+		{ titol: "Canvis al codi", text: "commits a l'aplicació", valors: [176, 343, 104, 251, 195, 921] }
 	];
 
 	var num = function (n) { return n.toLocaleString("ca-ES"); };
