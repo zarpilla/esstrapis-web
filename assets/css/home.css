@@ -465,3 +465,26 @@
 	.xifra-total { font-size: 1.7em; }
 	.barres { height: 100px; }
 }
+
+/* Fet per webcoop */
+
+.fet-per {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.6em;
+	margin: 2.5em 0 0 0;
+	font-size: 0.85em;
+	color: var(--color-muted);
+}
+
+.fet-per a {
+	border: 0;
+	line-height: 0;
+	opacity: 0.85;
+	transition: opacity 0.2s ease;
+}
+
+.fet-per a:hover { opacity: 1; }
+
+.fet-per img { height: 18px; width: auto; }
