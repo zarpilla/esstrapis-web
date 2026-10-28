@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ca">
+  <head>
+    <title>Verifactu, FACe i factura electrònica B2B · ESSTrapis</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Tres obligacions diferents que sovint es confonen: Verifactu, la factura electrònica a l'Administració (FACe) i la factura electrònica obligatòria entre empreses de la llei Crea y Crece."
+    />
+    <!-- De moment no l'enllacem enlloc ni volem que surti als cercadors -->
+    <meta name="robots" content="noindex" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/factura-electronica.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+  </head>
+  <body class="fe">
+    <header class="fe-top">
+      <a href="index.html"><img src="images/esstrapis-dark.svg" alt="ESSTrapis" class="fe-logo" /></a>
+    </header>
+
+    <main class="fe-main">
+      <section class="fe-hero">
+        <p class="fe-kicker">Facturació</p>
+        <h1>Verifactu, FACe i factura electrònica entre empreses</h1>
+        <p class="fe-lead">
+          Són <strong>tres coses diferents</strong>, amb lleis, calendaris i
+          destinataris diferents. No se substitueixen: una mateixa factura pot
+          haver de complir-ne dues alhora.
+        </p>
+        <p class="fe-updated">Actualitzat el 28 d'octubre de 2026</p>
+      </section>
+
+      <!-- En una frase -->
+      <section class="fe-cards">
+        <article class="fe-card c1">
+          <span class="fe-tag">1</span>
+          <h2>Verifactu</h2>
+          <p class="fe-one">
+            Com ha de ser el <strong>programa</strong> amb què fas les factures.
+          </p>
+          <p>
+            Cada factura queda registrada, encadenada amb l'anterior i amb un
+            codi QR, perquè no es pugui modificar ni esborrar. Afecta
+            <strong>totes</strong> les factures: a particulars, a empreses i a
+            l'Administració.
+          </p>
+        </article>
+        <article class="fe-card c2">
+          <span class="fe-tag">2</span>
+          <h2>FACe / e-FACT</h2>
+          <p class="fe-one">
+            Com envies una factura a una <strong>administració pública</strong>.
+          </p>
+          <p>
+            En lloc d'un PDF, un fitxer Facturae signat que es presenta a un
+            punt d'entrada (FACe a l'Estat, e-FACT a Catalunya). Existeix des
+            del 2015.
+          </p>
+        </article>
+        <article class="fe-card c3">
+          <span class="fe-tag">3</span>
+          <h2>Factura electrònica B2B</h2>
+          <p class="fe-one">
+            Com envies una factura a una altra <strong>empresa o
+            professional</strong>.
+          </p>
+          <p>
+            Llei Crea y Crece: totes les factures entre empreses seran
+            electròniques i estructurades, i caldrà informar de quan es
+            paguen. Objectiu: lluitar contra la morositat.
+          </p>
+        </article>
+      </section>
+
+      <!-- Taula comparativa -->
+      <section class="fe-section">
+        <h2>Cara a cara</h2>
+        <div class="fe-table-wrap">
+          <table class="fe-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th class="c1">Verifactu</th>
+                <th class="c2">FACe / e-FACT</th>
+                <th class="c3">Factura electrònica B2B</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Què regula</th>
+                <td>El programari de facturació</td>
+                <td>Les factures a l'Administració</td>
+                <td>Les factures entre empreses i professionals</td>
+              </tr>
+              <tr>
+                <th>Per a què</th>
+                <td>Lluitar contra el frau: factures que no es poden alterar</td>
+                <td>Que l'Administració rebi i tramiti les factures en digital</td>
+                <td>Lluitar contra la morositat: saber quan es paga cada factura</td>
+              </tr>
+              <tr>
+                <th>Norma</th>
+                <td>Llei 11/2021 antifrau i Reial decret 1007/2023</td>
+                <td>Llei 25/2013</td>
+                <td>Llei 18/2022 (Crea y Crece), Reial decret 238/2026 i Ordre HAC/1028/2026</td>
+              </tr>
+              <tr>
+                <th>A quines factures</th>
+                <td>A totes (excepte qui fa les factures a mà)</td>
+                <td>Només a les que van a una administració</td>
+                <td>Només a les que van a una empresa o professional (no a particulars)</td>
+              </tr>
+              <tr>
+                <th>Què s'envia i a qui</th>
+                <td>Un registre de cada factura a Hisenda (mode VERI*FACTU), o guardat al programa</td>
+                <td>La factura (fitxer Facturae signat) al punt d'entrada de l'administració</td>
+                <td>La factura a la clienta per una plataforma, amb còpia a Hisenda; la clienta en retorna l'estat de pagament</td>
+              </tr>
+              <tr>
+                <th>Format</th>
+                <td>La factura no canvia de format: hi apareix un QR i «VERI*FACTU»</td>
+                <td>Facturae 3.2, signada</td>
+                <td>Estàndard europeu EN 16931: UBL, CII, EDIFACT o Facturae</td>
+              </tr>
+              <tr>
+                <th>Quan</th>
+                <td>
+                  Per llei: <strong>1/1/2027</strong> (societats, cooperatives i
+                  entitats) i <strong>1/7/2027</strong> (autònomes).<br />
+                  <span class="fe-warn">Hisenda ha anunciat que ho ajornarà a
+                  l'octubre del 2028, però encara no és al BOE.</span>
+                </td>
+                <td>Ja és vigent, des del <strong>15/1/2015</strong></td>
+                <td>
+                  <strong>6/10/2027</strong> si factures més de 8 M€ l'any;
+                  <strong>6/10/2028</strong> la resta
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Calendari -->
+      <section class="fe-section">
+        <h2>Calendari</h2>
+        <ol class="fe-timeline">
+          <li class="c2">
+            <span class="fe-date">15/1/2015</span>
+            <span>Factura electrònica obligatòria a l'Administració (FACe / e-FACT)</span>
+          </li>
+          <li class="c3">
+            <span class="fe-date">6/10/2026</span>
+            <span>Entra en vigor l'ordre de la plataforma pública: comença el compte enrere B2B</span>
+          </li>
+          <li class="c1 tentative">
+            <span class="fe-date">1/1/2027</span>
+            <span>Verifactu per a societats, cooperatives i entitats <em>(data legal vigent; s'ha anunciat que s'ajornarà)</em></span>
+          </li>
+          <li class="c1 tentative">
+            <span class="fe-date">1/7/2027</span>
+            <span>Verifactu per a autònomes <em>(data legal vigent; s'ha anunciat que s'ajornarà)</em></span>
+          </li>
+          <li class="c3">
+            <span class="fe-date">6/10/2027</span>
+            <span>Factura electrònica B2B per a qui factura més de 8 M€</span>
+          </li>
+          <li class="c3">
+            <span class="fe-date">6/10/2028</span>
+            <span>Factura electrònica B2B per a tothom més</span>
+          </li>
+          <li class="c1 tentative">
+            <span class="fe-date">Octubre 2028</span>
+            <span>Nova data anunciada per a Verifactu, alineada amb la B2B <em>(pendent de publicar)</em></span>
+          </li>
+          <li class="c3">
+            <span class="fe-date">6/10/2029</span>
+            <span>Les persones físiques (autònomes) han d'informar de l'estat de pagament</span>
+          </li>
+        </ol>
+      </section>
+
+      <!-- Detall -->
+      <section class="fe-section fe-detail c1">
+        <h2><span class="fe-tag">1</span> Verifactu</h2>
+        <ul>
+          <li>
+            No és una manera d'enviar factures: és un requisit per al
+            <strong>programa</strong> de facturació. El programa ha de
+            registrar cada factura (i cada anul·lació) de manera encadenada i
+            inalterable.
+          </li>
+          <li>
+            Dues maneres de complir-lo: <strong>VERI*FACTU</strong>, el
+            programa envia cada registre a Hisenda en el moment, o <strong>no
+            VERI*FACTU</strong>, el programa guarda els registres signats i els
+            lliura si Hisenda els demana. La primera és la més senzilla.
+          </li>
+          <li>
+            Cada factura porta un <strong>codi QR</strong> que la clienta pot
+            escanejar per comprovar-la a Hisenda.
+          </li>
+          <li>
+            Hi estan obligades les empreses, entitats i autònomes que fan
+            factures amb un programa. No hi entren qui ja porta el
+            <strong>SII</strong> ni el País Basc i Navarra (TicketBAI).
+          </li>
+          <li>
+            Les dates legals vigents són l'1/1/2027 i l'1/7/2027. El 5
+            d'octubre de 2026 Hisenda va anunciar que ho ajornarà a l'octubre
+            del 2028 per fer-ho coincidir amb la factura electrònica B2B, però
+            fins que no surti publicat al BOE, les dates del 2027 continuen
+            sent les bones.
+          </li>
+        </ul>
+      </section>
+
+      <section class="fe-section fe-detail c2">
+        <h2><span class="fe-tag">2</span> Factura electrònica a l'Administració (FACe / e-FACT)</h2>
+        <ul>
+          <li>
+            Quan factures a un ajuntament, a la Generalitat, a un ministeri o a
+            qualsevol ens públic, la factura no s'envia per correu: es
+            presenta en format <strong>Facturae</strong>, signada amb
+            certificat digital, al seu <strong>punt d'entrada</strong>:
+            <strong>FACe</strong> (Estat i moltes administracions) o
+            <strong>e-FACT</strong> (administracions catalanes).
+          </li>
+          <li>
+            Cal indicar els <strong>codis DIR3</strong> de l'administració:
+            oficina comptable, òrgan gestor i unitat tramitadora. Te'ls ha de
+            donar qui t'encarrega la feina.
+          </li>
+          <li>
+            Per llei hi estan obligades les SA, les SL, les UTE i algunes
+            altres figures. Les <strong>cooperatives, associacions i
+            autònomes</strong> no hi estan obligades per llei (criteri de la
+            IGAE, 2018), però poden fer-la servir, i moltes administracions la
+            demanen igualment als contractes.
+          </li>
+          <li>
+            Cada administració pot eximir de fer-la les factures de fins a
+            <strong>5.000 €</strong>.
+          </li>
+          <li>
+            La factura B2B no canvia això: les factures a l'Administració
+            continuen anant per FACe / e-FACT.
+          </li>
+        </ul>
+      </section>
+
+      <section class="fe-section fe-detail c3">
+        <h2><span class="fe-tag">3</span> Factura electrònica entre empreses (Crea y Crece)</h2>
+        <ul>
+          <li>
+            Totes les factures entre <strong>empreses i professionals</strong>
+            establertes a l'Estat hauran de ser electròniques i
+            <strong>estructurades</strong>. Un PDF per correu
+            <strong>deixarà de ser una factura vàlida</strong>.
+          </li>
+          <li>
+            Formats acceptats: l'estàndard europeu EN 16931 en UBL, CII,
+            EDIFACT o Facturae.
+          </li>
+          <li>
+            S'envien per una <strong>plataforma</strong>: una de privada (que
+            ha d'enviar còpia a Hisenda) o la <strong>Solució Pública de
+            Facturació Electrònica</strong> de l'AEAT, gratuïta, en format UBL.
+            Les plataformes s'han de connectar entre elles.
+          </li>
+          <li>
+            Qui rep la factura ha d'informar en 4 dies hàbils si
+            l'<strong>accepta o la rebutja</strong> i <strong>quan la
+            paga</strong>. És la part nova: serveix perquè Hisenda vegi qui
+            paga tard.
+          </li>
+          <li>
+            No afecta les factures a particulars ni els tiquets (factures
+            simplificades).
+          </li>
+          <li>
+            Dates, comptades des del 6/10/2026: <strong>6/10/2027</strong> si
+            factures més de 8 M€; <strong>6/10/2028</strong> la resta. Les
+            autònomes han d'informar dels pagaments a partir del 6/10/2029.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Com encaixen -->
+      <section class="fe-section">
+        <h2>Com encaixen: una factura, segons a qui va</h2>
+        <div class="fe-cases">
+          <div class="fe-case">
+            <h3>A un particular</h3>
+            <p><span class="pill c1">Verifactu</span></p>
+            <p class="fe-small">PDF o paper com sempre, amb el QR.</p>
+          </div>
+          <div class="fe-case">
+            <h3>A una administració</h3>
+            <p><span class="pill c1">Verifactu</span> <span class="pill c2">FACe / e-FACT</span></p>
+            <p class="fe-small">Facturae signada al punt d'entrada, amb el registre Verifactu.</p>
+          </div>
+          <div class="fe-case">
+            <h3>A una empresa o entitat</h3>
+            <p><span class="pill c1">Verifactu</span> <span class="pill c3">B2B</span></p>
+            <p class="fe-small">Factura estructurada per una plataforma, amb el registre Verifactu.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Preguntes -->
+      <section class="fe-section">
+        <h2>Preguntes que surten sempre</h2>
+        <details>
+          <summary>Si ja envio factures a FACe, ja compleixo Verifactu?</summary>
+          <p>
+            No. FACe és com s'envia la factura a l'Administració; Verifactu és
+            com el programa registra totes les factures. Calen totes dues.
+          </p>
+        </details>
+        <details>
+          <summary>Amb la factura electrònica B2B, ja no caldrà Verifactu?</summary>
+          <p>
+            No, de moment són obligacions separades. Hisenda vol fer coincidir
+            les dates (octubre del 2028), però no ha dit que una substitueixi
+            l'altra.
+          </p>
+        </details>
+        <details>
+          <summary>Som una associació o una cooperativa petita. Ens afecta?</summary>
+          <p>
+            Sí, si feu factures. Verifactu afecta qualsevol entitat que factura
+            amb un programa. La B2B, a qualsevol factura a una altra empresa o
+            entitat, a partir de l'octubre del 2028. FACe, només si factureu a
+            l'Administració i us ho demanen.
+          </p>
+        </details>
+        <details>
+          <summary>Puc continuar enviant les factures en PDF?</summary>
+          <p>
+            A particulars, sí. A l'Administració, depèn (fins a 5.000 € moltes
+            ho accepten). A empreses i entitats, fins que no us arribi la data
+            de la B2B.
+          </p>
+        </details>
+        <details>
+          <summary>Necessito certificat digital?</summary>
+          <p>
+            Per signar les factures Facturae a FACe / e-FACT, sí. Per
+            Verifactu, el programa s'identifica davant d'Hisenda amb el
+            certificat de l'entitat o d'una representant.
+          </p>
+        </details>
+      </section>
+
+      <!-- ESSTrapis -->
+      <section class="fe-section fe-esstrapis">
+        <h2>I ESSTrapis?</h2>
+        <ul>
+          <li><strong>Verifactu</strong>: les factures emeses ja es poden enviar a Hisenda en mode VERI*FACTU, amb el QR a la factura.</li>
+          <li><strong>FACe</strong>: les factures a l'Administració s'envien a FACe en Facturae signada des de la mateixa factura, i se'n segueix l'estat.</li>
+          <li><strong>B2B</strong>: hi treballarem quan la plataforma pública d'Hisenda estigui disponible, amb temps abans de l'octubre del 2028.</li>
+        </ul>
+        <p>Dubtes? Escriu-nos a <a href="mailto:hola@esstrapis.org">hola@esstrapis.org</a>.</p>
+      </section>
+
+      <section class="fe-section fe-sources">
+        <h2>Fonts</h2>
+        <ul>
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2023-24840" target="_blank" rel="noopener">Reial decret 1007/2023 (Verifactu)</a></li>
+          <li><a href="https://www.boe.es/buscar/act.php?id=BOE-A-2013-13722" target="_blank" rel="noopener">Llei 25/2013 (factura electrònica a l'Administració)</a></li>
+          <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-7295" target="_blank" rel="noopener">Reial decret 238/2026 (factura electrònica B2B)</a></li>
+          <li><a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2026-20587" target="_blank" rel="noopener">Ordre HAC/1028/2026 (solució pública de facturació electrònica)</a></li>
+          <li><a href="https://sede.agenciatributaria.gob.es/Sede/todas-noticias/2026/octubre/7/solucion-publica-facturacion-electronica.html" target="_blank" rel="noopener">AEAT: Solució Pública de Facturació Electrònica i dates</a></li>
+        </ul>
+        <p class="fe-small">
+          Aquesta pàgina és informativa i no és assessorament legal. Les dates
+          de Verifactu poden canviar si es publica l'ajornament anunciat.
+        </p>
+      </section>
+    </main>
+
+    <footer class="fe-footer">
+      <a href="index.html">esstrapis.org</a> · Fet per
+      <a href="https://webcoop.cat" target="_blank" rel="noopener"><img src="images/webcoop.svg" alt="webcoop" width="94" height="14" /></a>
+    </footer>
+  </body>
+</html>
